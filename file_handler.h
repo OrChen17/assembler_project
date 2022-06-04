@@ -1,0 +1,1 @@
+int assemble_file(FILE *input_file);
