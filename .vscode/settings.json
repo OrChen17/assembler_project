@@ -2,6 +2,7 @@
     "files.associations": {
         "helper.h": "c",
         "file_handler.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "stdio.h": "c"
     }
 }

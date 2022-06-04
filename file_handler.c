@@ -1,8 +1,8 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <file_handler.h>
 #include <helper.h>
+#include <string.h>
+#include <file_handler.h>
 
 int is_empty_line(char *line) {
     for (int i = 0; i < strlen(line); i++) {
@@ -43,10 +43,12 @@ int parse_line(char *line) {
         return 0;
     }
     if (is_guiding_line(line)) {
-        return parse_guiding_line(line);
+        // return parse_guiding_line(line);
+        return 1;
     }
     else {
-        return parse_data_line(line);
+        // return parse_data_line(line);
+        return 1;
     }
 
 }
