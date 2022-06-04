@@ -12,17 +12,17 @@ char* machine_code_cell_to_string(MachineCodeCell *cell) {
     return result;
 }
 
-char *trim_whitespace(char *str) {
-    char *end;
-    // Trim leading space
-    while(isspace(*str)) str++;
-    if(*str == 0) {
-        return str;
-    }
-    // Trim trailing space
-    end = str + strlen(str) - 1;
-    while (end > str && isspace(*end)) end--;
-    end[1] = '\0';
+// char *trim_whitespace(char *str) {
+//     char *end;
+//     // Trim leading space
+//     while(isspace(*str)) str++;
+//     if(*str == 0) {
+//         return str;
+//     }
+//     // Trim trailing space
+//     end = str + strlen(str) - 1;
+//     while (end > str && isspace(*end)) end--;
+//     end[1] = '\0';
 
-    return str;
-}
+//     return str;
+// }

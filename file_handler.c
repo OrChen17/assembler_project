@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <file_handler.h>
-#include "helper.h"
+#include <helper.h>
 
 int is_empty_line(char *line) {
     for (int i = 0; i < strlen(line); i++) {
@@ -11,6 +11,7 @@ int is_empty_line(char *line) {
         }
     }
     return 1;
+}
 
 int is_guiding_line(char *line) {
     char *token = strtok(line, " ");
@@ -20,7 +21,7 @@ int is_guiding_line(char *line) {
         || strcmp(token, ".extern") == 0) {
         return 1;
     }
-    if token == NULL {
+    if (token == NULL) {
         return 0;
     }
     token = strtok(NULL, " ");
@@ -34,14 +35,14 @@ int is_guiding_line(char *line) {
 }
 
 int parse_line(char *line) {
-    if is_empty_line(line) {
+    if (is_empty_line(line)) {
         return 0;
     }
     if (line[0] == ';') {
         // comment line
         return 0;
     }
-    if is_guiding_line(line) {
+    if (is_guiding_line(line)) {
         return parse_guiding_line(line);
     }
     else {
@@ -55,4 +56,5 @@ int assemble_file(FILE *input_file) {
     while (fgets(line, 83, input_file)) {
         parse_line(line);     
     }
+    return 1;
 }
