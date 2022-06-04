@@ -4,7 +4,7 @@
 #include <file_handler.h>
 
 int process_file(char *filename) {
-    printf("%s\n", filename);
+    printf("Got File: %s\n", filename);
     filename = strcat(filename, ".as");
     FILE *input_file = fopen(filename, "r");
     if (input_file == NULL) {
@@ -12,7 +12,10 @@ int process_file(char *filename) {
         exit(1);
     }
     assemble_file(input_file);
+    return 1;
 }
+
+
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
