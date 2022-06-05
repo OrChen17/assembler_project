@@ -5,12 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "program": "${workspaceRoot}/assembler",
-            "name": "C Run and Debug",
-            "request": "launch",
+            "name": "gcc build and debug active file",
             "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/assembler",
+            "args": [
+                "example"
+            ],
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "args": ["example"]
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Make",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

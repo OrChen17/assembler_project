@@ -12,6 +12,53 @@ char* machine_code_cell_to_string(MachineCodeCell *cell) {
     return result;
 }
 
+void slice_str(const char * str, char * buffer, int start, int end)
+{
+    int j = 0;
+    for ( int i = start; i <= end; ++i ) {
+        buffer[j++] = str[i];
+    }
+    buffer[j] = 0;
+}
+
+// char* machine_code_to_b32(MachineCodeCell *cell) {
+    
+    // char b32[] = {
+    //     '!',
+    //     '@',
+    //     '#',
+    //     '$',
+    //     '%',
+    //     '^',
+    //     '&',
+    //     '*',
+    //     '<',
+    //     '>',
+    //     'a',
+    //     'b',
+    //     'c',
+    //     'd',
+    //     'e',
+    //     'f',
+    //     'g',
+    //     'h',
+    //     'i',
+    //     'j',
+    //     'k',
+    //     'l',
+    //     'm',
+    //     'n',
+    //     'o',
+    //     'p',
+    //     'q',
+    //     'r',
+    //     's',
+    //     't',
+    //     'u',
+    //     'v',
+    // };
+
+// }
 // char *trim_whitespace(char *str) {
 //     char *end;
 //     // Trim leading space

@@ -3,6 +3,7 @@
 #include <string.h> 
 #include <file_handler.h>
 
+
 int process_file(char *filename) {
     printf("Got File: %s\n", filename);
     filename = strcat(filename, ".as");
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]) {
         printf("No files detected, please specify file names\n");
         exit(1);
     }
-    for (int i = 1; i<= argc; i++) {
+    for (int i = 1; i< argc; i++) {
         process_file(argv[i]);
     }
 }

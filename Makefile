@@ -1,8 +1,8 @@
 CXX = gcc
-CXXFLAGS = -Wall -ansi -pedantic -std=c99
+CXXFLAGS = -g -Wall -ansi -pedantic -std=c99
 LDFLAGS =  
 
-SRC = assembler.c file_handler.c helper.c
+SRC = assembler.c file_handler.c helper.c command_parser.c instruction_parser.c
 OBJ = $(SRC:.c=.o)
 EXEC = assembler
 

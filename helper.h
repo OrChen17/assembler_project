@@ -1,6 +1,7 @@
 #ifndef HELPER
 #define HELPER
 
+
 #define CELL_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c"
 #define CELL_TO_BINARY(opcode, s_addr, d_addr, enc_type)  \
   (opcode & 0x08 ? '1' : '0'), \
@@ -14,40 +15,6 @@
   (enc_type & 0x02 ? '1' : '0'), \
   (enc_type & 0x01 ? '1' : '0')
 
-char b32[] = {
-    '!',
-    '@',
-    '#',
-    '$',
-    '%',
-    '^',
-    '&',
-    '*',
-    '<',
-    '>',
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-};
 
 #define OPCODE_MOV 0
 #define OPCODE_CMP 1
