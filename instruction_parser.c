@@ -59,10 +59,6 @@ int parse_opcode(MachineCodeCell *cell, DataInstruction *instruction) {
 }
 
 short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, char* operand) {
-    if (strlen(operand) == 0) {
-        printf("Invalid empty operand\n");
-        exit(1);
-    }
     if (operand == NULL) {
         return ADDR_MODE_IMMEDIATE;
     }
@@ -100,5 +96,7 @@ void parse_instruction(DataInstruction *instruction) {
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
     printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address);
+    // TODO: Add address cells
+    // TODO: add machine code and data list
 
 }

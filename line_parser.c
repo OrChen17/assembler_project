@@ -43,8 +43,10 @@ DataInstruction* parse_data_instruction(char *line) {
 
             strncpy(operand_2, token + i + 1, strlen(token) - i);
             if (strlen(operand_2) == 0) {
-                operand_2 = NULL;
+                printf("Invalid empty operand\n");
+                exit(1);
             }
+
             instruction->operand_2 = trim_whitespace(operand_2);
             return instruction;
         }
@@ -59,7 +61,7 @@ DataInstruction* parse_data_instruction(char *line) {
         
     }
     // no ","
-    if (strlen(token) == 0) {
+    if (strlen(trim_whitespace(token)) == 0) {
         instruction->operand_1 = NULL;
     }
     else {
