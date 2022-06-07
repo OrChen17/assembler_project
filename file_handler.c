@@ -53,6 +53,7 @@ char* parse_line(char *line) {
     }
     if (is_guiding_line(line)) {
         // return parse_data_line(line);
+        return NULL;
     }
     else {
         return parse_data_line(line);

@@ -15,6 +15,13 @@ void validate_number(char *token) {
     }
 }
 
+int is_ascii(char c) {
+    if (c < 0 || c > 127) {
+        return 0;
+    }
+    return 1;
+}
+
 void validate_ascii_string(char *token) {
     int i;
     if (token[0] != '"') {
@@ -22,7 +29,7 @@ void validate_ascii_string(char *token) {
         exit(1);
     }
     for (i = 1; i < strlen(token) - 1; i++) {
-        if (!isascii(token[i])) {
+        if (!is_ascii(token[i])) {
             printf("Invalid ascii string: %s\n", token);
             exit(1);
         }

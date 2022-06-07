@@ -90,12 +90,15 @@ short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, c
     return ADDR_MODE_DIRECT;
 }
 
-void parse_instruction(DataInstruction *instruction, MachineCodeCell *cell) {
+void parse_instruction(DataInstruction *instruction) {
+    MachineCodeCell *cell = malloc(sizeof(MachineCodeCell));
+
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
     // TODO validate correct number of operands
+
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
-    printf("Cell is: %d %d %d\n", cell->opcode, cell->source_address, cell->dest_address);
+    printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address);
 
 }

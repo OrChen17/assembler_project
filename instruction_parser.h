@@ -2,5 +2,5 @@
 #define INSTRUCTION_PARSER
 #include <helper.h>
 
-void parse_instruction(DataInstruction *instruction, MachineCodeCell *cell);
+void parse_instruction(DataInstruction *instruction);
 #endif

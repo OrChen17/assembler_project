@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <line_parser.h>
+#include <instruction_parser.h>
 
 int long IC = 100;
 
@@ -75,10 +76,7 @@ char * parse_data_line(char *line) {
     printf("Opcode: %s|\n", instruction->opcode);
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
-    // TODO: validate instruction
-    MachineCodeCell *cell = malloc(sizeof(MachineCodeCell));
-    cell = parse_instruction(instruction);
-    cell->encoding_type = ENCODING_TYPE_A;
+    parse_instruction(instruction);
     // printf("opcode: %d\n", cell->opcode);
     // return machine_code_cell_to_string(cell);
     return line;
