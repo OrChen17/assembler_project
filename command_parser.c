@@ -87,10 +87,9 @@ char * parse_data_line(char *line) {
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
     // TODO: validate instruction
-    // MachineCodeCell *cell = malloc(sizeof(MachineCodeCell));
-    // cell->encoding_type = ENCODING_TYPE_A;
-    // parse_opcode(cell, line);
-    // parse_addr_modes(cell, line);
+    MachineCodeCell *cell = malloc(sizeof(MachineCodeCell));
+    cell = parse_instruction(instruction);
+    cell->encoding_type = ENCODING_TYPE_A;
     // printf("opcode: %d\n", cell->opcode);
     // return machine_code_cell_to_string(cell);
     return line;

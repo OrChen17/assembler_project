@@ -49,6 +49,12 @@ typedef struct machine_code_cell {
     unsigned encoding_type:2;
 } MachineCodeCell;
 
+typedef struct data_instruction {
+    char* label;
+    char* opcode;
+    char* operand_1;
+    char* operand_2;
+} DataInstruction;
 
 typedef struct data_cell {
     unsigned data:8;
