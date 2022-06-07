@@ -98,7 +98,7 @@ void parse_addr_modes(MachineCodeCell *cell, char *line) {
     if (token[0] == '#') {
         validate_number(token);
         cell->source_address = ADDR_MODE_IMMEDIATE;
-    }
+    } 
 
     token = strtok(NULL, ",");
     if (token == NULL) {

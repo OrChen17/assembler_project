@@ -56,5 +56,5 @@ typedef struct data_cell {
 } DataCell;
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
-
+char *trim_whitespace(char *str);
 #endif

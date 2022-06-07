@@ -20,24 +20,23 @@ void validate_number(char *token) {
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
+    instruction->label = NULL;
+    instruction->operand_1 = NULL;
+    instruction->operand_2 = NULL;
     char *token = strtok(line, " ");
     if (token == NULL) {
-        instruction->opcode = line;
+        instruction->opcode = trim_whitespace(line);
         return instruction;
     }
     if (token[strlen(token) - 1] == ':') {
-        char label[80];
+        char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
-        instruction->label = label;
+        instruction->label = trim_whitespace(label);
         token = strtok(NULL, " ");
     }
 
-    //TODO: Tabs?
-    instruction->opcode = token;
-    if (token == NULL) {
-        return instruction;
-    }
-    token = strtok(NULL, " ");
+    instruction->opcode = trim_whitespace(token);
+    token = strtok(NULL, "");
     if (token == NULL) {
         return instruction;
     }
@@ -47,20 +46,35 @@ DataInstruction* parse_data_instruction(char *line) {
     for (int i = 0; i < strlen(token); i++) {
         if (token[i] == ',' && is_string == 0) {
             strncpy(operand_1, token, i);
-            instruction->operand_1 = operand_1;
-            strncpy(operand_2, token + i, strlen(token) - i);
-            instruction->operand_2 = operand_2;
+            if (strlen(operand_1) == 0) {
+                operand_1 = NULL;
+            }
+            instruction->operand_1 = trim_whitespace(operand_1);
+
+            strncpy(operand_2, token + i + 1, strlen(token) - i);
+            if (strlen(operand_2) == 0) {
+                operand_2 = NULL;
+            }
+            instruction->operand_2 = trim_whitespace(operand_2);
             return instruction;
         }
-        if (token == "\"" && is_string == 0) {
+        if (token[i] == '"' && is_string == 0) {
             is_string = 1;
         }
-        if (token == "\"" && is_string == 1) {
-            is_string = 0;
+        else{
+            if (token[i] == '"' && is_string == 1) {
+               is_string = 0;
+            }
         }
+        
     }
     // no ","
-    instruction->operand_1 = token;
+    if (strlen(token) == 0) {
+        instruction->operand_1 = NULL;
+    }
+    else {
+        instruction->operand_1 = trim_whitespace(token);
+    }
     instruction->operand_2 = NULL;
     return instruction;
 }
