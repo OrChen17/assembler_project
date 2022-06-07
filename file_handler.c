@@ -3,7 +3,7 @@
 #include <helper.h>
 #include <string.h>
 #include <file_handler.h>
-#include <command_parser.h>
+#include <line_parser.h>
 #include <ctype.h>
 
 int is_empty_line(char *line) {
@@ -16,8 +16,10 @@ int is_empty_line(char *line) {
 }
 
 int is_guiding_line(char *line_pointer) {
-    char *line[83];
+    // copy to protect original line
+    char *line = malloc(sizeof(char) * strlen(line_pointer));
     strcpy(line, line_pointer);
+
     char *token = strtok(line, " ");
     if (token == NULL) {
         return 0;

@@ -1,70 +1,56 @@
 #include <helper.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int parse_opcode(MachineCodeCell *cell, DataInstruction *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
-        cell->opcode = OPCODE_ADD;
-        return 1;
+        return OPCODE_ADD;
     }
     if (strcmp(instruction->opcode, "cmp") == 0) {
-        cell->opcode = OPCODE_CMP;
-        return 1;
+        return OPCODE_CMP;
     }
     if (strcmp(instruction->opcode, "sub") == 0) {
-        cell->opcode = OPCODE_SUB;
-        return 1;
+        return OPCODE_SUB;
     }
     if (strcmp(instruction->opcode, "mov") == 0) {
-        cell->opcode = OPCODE_MOV;
-        return 1;
+        return OPCODE_MOV;
     }
     if (strcmp(instruction->opcode, "not") == 0) {
-        cell->opcode = OPCODE_NOT;
-        return 1;
+        return OPCODE_NOT;
     }
     if (strcmp(instruction->opcode, "clr") == 0) {
-        cell->opcode = OPCODE_CLR;
-        return 1;
+        return OPCODE_CLR;
     }
     if (strcmp(instruction->opcode, "lea") == 0) {
-        cell->opcode = OPCODE_LEA;
-        return 1;
+        return OPCODE_LEA;
     }
     if (strcmp(instruction->opcode, "inc") == 0) {
-        cell->opcode = OPCODE_INC;
-        return 1;
+        return OPCODE_INC;
     }
     if (strcmp(instruction->opcode, "dec") == 0) {
-        cell->opcode = OPCODE_DEC;
-        return 1;
+        return OPCODE_DEC;
     }
     if (strcmp(instruction->opcode, "jmp") == 0) {
-        cell->opcode = OPCODE_JMP;
-        return 1;
+        return OPCODE_JMP;
     }
     if (strcmp(instruction->opcode, "bne") == 0) {
-        cell->opcode = OPCODE_BNE;
-        return 1;
+        return OPCODE_BNE;
     }
     if (strcmp(instruction->opcode, "get") == 0) {
-        cell->opcode = OPCODE_GET;
-        return 1;
+        return OPCODE_GET;
     }
     if (strcmp(instruction->opcode, "prn") == 0) {
-        cell->opcode = OPCODE_PRN;
-        return 1;
+        return OPCODE_PRN;
     }
     if (strcmp(instruction->opcode, "jsr") == 0) {
-        cell->opcode = OPCODE_JSR;
-        return 1;
+        return OPCODE_JSR;
     }
     if (strcmp(instruction->opcode, "rts") == 0) {
-        cell->opcode = OPCODE_RTS;
-        return 1;
+        return OPCODE_RTS;
     }
     if (strcmp(instruction->opcode, "hlt") == 0) {
-        cell->opcode = OPCODE_HLT;
-        return 1;
+        return OPCODE_HLT;
     }
     else {
         printf("Invalid opcode: %s\n", instruction->opcode);
@@ -72,51 +58,44 @@ int parse_opcode(MachineCodeCell *cell, DataInstruction *instruction) {
     }
 }
 
-void parse_addr_modes(MachineCodeCell *cell, DataInstruction *instruction, char* operand, unsigned address:2) {
-    // todo: check for more whitespace
-    if (instruction->operand_1 == NULL) {
-        cell->source_address = ADDR_MODE_IMMEDIATE;
-        return;
+short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, char* operand) {
+    if (strlen(operand) == 0) {
+        printf("Invalid empty operand\n");
+        exit(1);
     }
-     if (instruction->operand_2 == NULL) {
-        cell->dest_address = ADDR_MODE_IMMEDIATE;
-        return;
+    if (operand == NULL) {
+        return ADDR_MODE_IMMEDIATE;
     }
-
-    if (instruction->operand_1[0] == '#') {
-        validate_number(instruction->operand_1);
-        cell->source_address = ADDR_MODE_IMMEDIATE;
+    if (operand[0] == '#') {
+        validate_number(operand);
+        return ADDR_MODE_IMMEDIATE;
     }
-    if (instruction->operand_2[0] == '#') {
-        validate_number(instruction->operand_2);
-        cell->source_address = ADDR_MODE_IMMEDIATE;
+    if (operand[0] == '"') {
+        validate_ascii_string(operand);
+        return ADDR_MODE_IMMEDIATE;
     }
-
-    if (strcmp(instruction->operand_1, "r0") == 0 || 
-        strcmp(instruction->operand_1, "r1") == 0 || 
-        strcmp(instruction->operand_1, "r2") == 0 || 
-        strcmp(instruction->operand_1, "r3") == 0 || 
-        strcmp(instruction->operand_1, "r4") == 0 || 
-        strcmp(instruction->operand_1, "r5") == 0 || 
-        strcmp(instruction->operand_1, "r6") == 0 || 
-        strcmp(instruction->operand_1, "r7") == 0) {
-        cell->source_address = ADDR_MODE_REGISTER;
+    if (strcmp(operand, "r0") == 0 || 
+        strcmp(operand, "r1") == 0 || 
+        strcmp(operand, "r2") == 0 || 
+        strcmp(operand, "r3") == 0 || 
+        strcmp(operand, "r4") == 0 || 
+        strcmp(operand, "r5") == 0 || 
+        strcmp(operand, "r6") == 0 || 
+        strcmp(operand, "r7") == 0) {
+        return ADDR_MODE_REGISTER;
     }
-    if (strcmp(instruction->operand_2, "r0") == 0 || 
-        strcmp(instruction->operand_2, "r1") == 0 || 
-        strcmp(instruction->operand_2, "r2") == 0 || 
-        strcmp(instruction->operand_2, "r3") == 0 || 
-        strcmp(instruction->operand_2, "r4") == 0 || 
-        strcmp(instruction->operand_2, "r5") == 0 || 
-        strcmp(instruction->operand_2, "r6") == 0 || 
-        strcmp(instruction->operand_2, "r7") == 0) {
-        cell->dest_address = ADDR_MODE_REGISTER;
+    if (strstr(operand, ".") != NULL) {
+        return ADDR_MODE_DIRECT_PARAM;
     }
-    
-
+    return ADDR_MODE_DIRECT;
 }
 
 void parse_instruction(DataInstruction *instruction, MachineCodeCell *cell) {
-    parse_opcode(cell, line);
-    parse_addr_modes(cell, line);
+    cell->encoding_type = ENCODING_TYPE_A;
+    cell->opcode = parse_opcode(cell, instruction);
+    // TODO validate correct number of operands
+    cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
+    cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
+    printf("Cell is: %d %d %d\n", cell->opcode, cell->source_address, cell->dest_address);
+
 }

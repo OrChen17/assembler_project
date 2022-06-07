@@ -4,7 +4,8 @@
         "file_handler.h": "c",
         "stdlib.h": "c",
         "stdio.h": "c",
-        "command_parser.h": "c"
+        "command_parser.h": "c",
+        "line_parser.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

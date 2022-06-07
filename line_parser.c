@@ -2,20 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <command_parser.h>
+#include <line_parser.h>
 
 int long IC = 100;
-
-
-void validate_number(char *token) {
-    int i;
-    for (i = 1; i < strlen(token); i++) {
-        if (!isdigit(token[i]) || (i == 1 && (token[i] == '+' && token[i] == '-'))) {
-            printf("Invalid number: %s\n", token);
-            exit(1);
-        }
-    }
-}
 
 
 DataInstruction* parse_data_instruction(char *line) {
