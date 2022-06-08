@@ -4,9 +4,7 @@
 #include <stdio.h>
 #include <line_parser.h>
 #include <instruction_parser.h>
-
-int long IC = 100;
-
+#include <ctype.h>
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
@@ -22,6 +20,7 @@ DataInstruction* parse_data_instruction(char *line) {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
         instruction->label = trim_whitespace(label);
+        validate_label(instruction->label);
         token = strtok(NULL, " ");
     }
 
@@ -32,9 +31,8 @@ DataInstruction* parse_data_instruction(char *line) {
     }
     char* operand_1 = malloc(sizeof(char) * strlen(token));
     char* operand_2 = malloc(sizeof(char) * strlen(token));
-    int is_string = 0;
     for (int i = 0; i < strlen(token); i++) {
-        if (token[i] == ',' && is_string == 0) {
+        if (token[i] == ',') {
             strncpy(operand_1, token, i);
             if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
@@ -50,15 +48,6 @@ DataInstruction* parse_data_instruction(char *line) {
             instruction->operand_2 = trim_whitespace(operand_2);
             return instruction;
         }
-        if (token[i] == '"' && is_string == 0) {
-            is_string = 1;
-        }
-        else{
-            if (token[i] == '"' && is_string == 1) {
-               is_string = 0;
-            }
-        }
-        
     }
     // no ","
     if (strlen(trim_whitespace(token)) == 0) {
@@ -72,7 +61,6 @@ DataInstruction* parse_data_instruction(char *line) {
 }
 
 char * parse_data_line(char *line) {
-    IC++;
     DataInstruction *instruction = parse_data_instruction(line);
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);

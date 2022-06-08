@@ -65,4 +65,5 @@ char* machine_code_cell_to_string(struct machine_code_cell *cell);
 char *trim_whitespace(char *str);
 void validate_ascii_string(char *token);
 void validate_number(char *token);
+void validate_label(char *label);
 #endif

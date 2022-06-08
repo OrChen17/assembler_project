@@ -13,10 +13,11 @@ void validate_number(char *token) {
             exit(1);
         }
     }
+    // #check number out of range
 }
 
 int is_ascii(char c) {
-    if (c < 0 || c > 127) {
+    if (c < 0x20 || c > 0x7e) {
         return 0;
     }
     return 1;
@@ -39,6 +40,27 @@ void validate_ascii_string(char *token) {
         exit(1);
     }
 }
+// todo: add validators per operand - add shouldnt have strings etc. move to validator.c file
+void validate_label(char *label) {
+    if (strlen(label) > 30) {
+        printf("label too long: %s\n", label);
+        exit(1);
+    }
+    if (!isalpha(label[0])) {
+        printf("label must start with alphabet: %s\n", label);
+        exit(1);
+    }
+    int i;
+    for (i = 1; i < strlen(label); i++) {
+        if (!isalnum(label[i])) {
+            printf("Invalid label: %s\n", label);
+            exit(1);
+        }
+    }
+    // TODO: check if label already exists
+    // TODO: check if operand name / register name
+}
+
 
 
 char *machine_code_cell_to_string(MachineCodeCell *cell)
@@ -57,8 +79,6 @@ void slice_str(const char *str, char *buffer, int start, int end)
     }
     buffer[j] = 0;
 }
-
-// char* machine_code_to_b32(MachineCodeCell *cell) {
 
 // char b32[] = {
 //     '!',
@@ -94,9 +114,7 @@ void slice_str(const char *str, char *buffer, int start, int end)
 //     'u',
 //     'v',
 // };
-
-// }
-
+// TODO: Base32 conversion
 char *trim_whitespace(char *str)
 {
     char *end;

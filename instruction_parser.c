@@ -67,8 +67,8 @@ short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, c
         return ADDR_MODE_IMMEDIATE;
     }
     if (operand[0] == '"') {
-        validate_ascii_string(operand);
-        return ADDR_MODE_IMMEDIATE;
+        printf("Invalid operand: strings should be as part of a label %s\n", operand);
+        exit(1);
     }
     if (strcmp(operand, "r0") == 0 || 
         strcmp(operand, "r1") == 0 || 
@@ -91,12 +91,13 @@ void parse_instruction(DataInstruction *instruction) {
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
-    // TODO validate correct number of operands
+    // TODO: validate correct number of operands and operand types
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
     printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address);
     // TODO: Add address cells
     // TODO: add machine code and data list
+    // TODO: Add label to symbol chart
 
 }
