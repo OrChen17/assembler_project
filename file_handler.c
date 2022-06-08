@@ -27,17 +27,20 @@ int is_guiding_line(char *line_pointer) {
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0
-        || strcmp(token, ".extern") == 0) {
+        || strcmp(token, ".extern") == 0
+        || strcmp(token, ".entry") == 0) {
         return 1;
     }
     token = strtok(NULL, " ");
     if (token == NULL) {
-        return 0;
+        return 0; /* printf("missing arguments") 
+                     Also not that they emphasize that the program should keep running even when errors are encountered */
     }
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0
-        || strcmp(token, ".extern") == 0) {
+        || strcmp(token, ".extern") == 0
+        || strcmp(token, ".entry") == 0) {
         return 1;
     }
     return 0;
