@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
-#include <file_handler.h>
+#include <file_handler.h> /* won't complie in Ubuntu. For local headers it requires " " instead of <> */
 
 
 int process_file(char *filename) {
@@ -23,6 +23,7 @@ int main(int argc, char *argv[]) {
         printf("No files detected, please specify file names\n");
         exit(1);
     }
+    /* ##CR: we need a pre-assemble phase for deploying macros */
     for (int i = 1; i< argc; i++) {
         process_file(argv[i]);
     }
