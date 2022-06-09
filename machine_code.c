@@ -1,18 +1,32 @@
 #include <helper.h>
+#include <stdlib.h>
+#include "machine_code.h"
 
-int IC = 0
-int DC = 0
-DataCell* data_section;
-CodeCell* code_section;
+int IC = 0;
+// int DC = 0
+
+node_t* code_section;
 
 void add_code(CodeCell *cell) {
-    code_section.push(cell);
+    if (code_section == NULL) {
+        code_section = malloc(sizeof(node_t));
+        code_section->cell = cell;
+        code_section->next = NULL;
+    }
+    else {
+        node_t *cur = code_section;
+        while (cur->next != NULL) {
+            cur = cur->next;
+        }
+        cur->next = malloc(sizeof(node_t));
+        cur->next->cell = cell;
+        cur->next->next = NULL;
+    }
     IC++;
 }
 
-void add_data(DataCell *cell) {
-    data_section.push(instruction);
-    DC++;
+node_t* get_code_section() {
+    return code_section;
 }
 
 // TODO: Fix, normalize data types MachineCodeCell -> CodeCell (8 bits data, 2 bits ARE)
