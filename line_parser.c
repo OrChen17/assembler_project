@@ -67,7 +67,6 @@ char * parse_data_line(char *line) {
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
     parse_instruction(instruction);
-    // printf("opcode: %d\n", cell->opcode);
-    // return machine_code_cell_to_string(cell);
+
     return line;
 }

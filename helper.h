@@ -47,7 +47,7 @@ typedef struct machine_code_cell {
     unsigned source_address:2;
     unsigned dest_address:2;
     unsigned encoding_type:2;
-} MachineCodeCell;
+} HeaderCodeCell;
 
 typedef struct data_instruction {
     char* label;
@@ -59,11 +59,13 @@ typedef struct data_instruction {
 typedef struct data_cell {
     unsigned data:8;
     unsigned encoding_type:2;
-} DataCell;
+    char* label;
+} CodeCell;
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 char *trim_whitespace(char *str);
 void validate_ascii_string(char *token);
 void validate_number(char *token);
 void validate_label(char *label);
+char* code_cell_to_b32(CodeCell *code_cell);
 #endif

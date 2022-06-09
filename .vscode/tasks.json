@@ -51,7 +51,17 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "shell",
+            "label": "Make test",
+            "command": "/usr/bin/make test",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
+
     ],
     "version": "2.0.0"
 }

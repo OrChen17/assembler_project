@@ -61,14 +61,63 @@ void validate_label(char *label) {
     // TODO: check if operand name / register name
 }
 
-
-
-char *machine_code_cell_to_string(MachineCodeCell *cell)
-{
-    char *result = malloc(sizeof(char) * 10);
-    sprintf(result, CELL_TO_BINARY_PATTERN, CELL_TO_BINARY(cell->opcode, cell->source_address, cell->dest_address, cell->encoding_type));
-    return result;
+CodeCell* header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell) {
+    CodeCell *code_cell = malloc(sizeof(CodeCell));
+    code_cell->encoding_type = ENCODING_TYPE_A;
+    int data = header_code_cell->opcode;
+    data = data << 4;
+    data = data | header_code_cell->source_address;
+    data = data << 2;
+    data = data | header_code_cell->dest_address;
+    code_cell->data = data;
+    return code_cell;
 }
+
+char b32[] = {
+    '!',
+    '@',
+    '#',
+    '$',
+    '%',
+    '^',
+    '&',
+    '*',
+    '<',
+    '>',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+};
+
+char* code_cell_to_b32(CodeCell *code_cell) {
+    char* base32 = malloc(sizeof(char) * 2);
+    int data = code_cell->data;
+    data = data << 2;
+    data = data | code_cell->encoding_type;
+    base32[0] = b32[(data >> 5)];
+    base32[1] = b32[data ^ (data >> 5 << 5)];
+    return base32;
+}
+
 
 void slice_str(const char *str, char *buffer, int start, int end)
 {
@@ -80,41 +129,7 @@ void slice_str(const char *str, char *buffer, int start, int end)
     buffer[j] = 0;
 }
 
-// char b32[] = {
-//     '!',
-//     '@',
-//     '#',
-//     '$',
-//     '%',
-//     '^',
-//     '&',
-//     '*',
-//     '<',
-//     '>',
-//     'a',
-//     'b',
-//     'c',
-//     'd',
-//     'e',
-//     'f',
-//     'g',
-//     'h',
-//     'i',
-//     'j',
-//     'k',
-//     'l',
-//     'm',
-//     'n',
-//     'o',
-//     'p',
-//     'q',
-//     'r',
-//     's',
-//     't',
-//     'u',
-//     'v',
-// };
-// TODO: Base32 conversion
+
 char *trim_whitespace(char *str)
 {
     char *end;

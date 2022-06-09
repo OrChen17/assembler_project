@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int parse_opcode(MachineCodeCell *cell, DataInstruction *instruction) {
+int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
         return OPCODE_ADD;
     }
@@ -58,7 +58,7 @@ int parse_opcode(MachineCodeCell *cell, DataInstruction *instruction) {
     }
 }
 
-short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, char* operand) {
+short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, char* operand) {
     if (operand == NULL) {
         return ADDR_MODE_IMMEDIATE;
     }
@@ -87,7 +87,7 @@ short int parse_addr_mode(MachineCodeCell *cell, DataInstruction *instruction, c
 }
 
 void parse_instruction(DataInstruction *instruction) {
-    MachineCodeCell *cell = malloc(sizeof(MachineCodeCell));
+    HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell));
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
