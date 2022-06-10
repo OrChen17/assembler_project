@@ -91,7 +91,7 @@ void parse_instruction(DataInstruction *instruction) {
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
-    // TODO validate correct number of operands
+    // TODO validate correct number of operands /* Why here? it could be done earlier (I mentioned where in a comment), and I think it would also be easier */
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);

@@ -5,14 +5,17 @@
 
 
 int process_file(char *filename) {
+    FILE *pre_assembled_file;
+    FILE *input_file;
     printf("Got File: %s\n", filename);
     filename = strcat(filename, ".as");
-    FILE *input_file = fopen(filename, "r");
+    input_file = fopen(filename, "r");
     if (input_file == NULL) {
         printf("File %s was not found\n", filename);
         exit(1);
     }
-    assemble_file(input_file);
+    /* pre_assembled_file = pre-assemble_file(input_file) */
+    assemble_file(pre_assembled_file);
     return 1;
 }
 

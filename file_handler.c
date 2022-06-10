@@ -6,13 +6,17 @@
 #include <line_parser.h>
 #include <ctype.h>
 
-int is_empty_line(char *line) {
-    for (int i = 0; i < strlen(line); i++) {
-        if (!isspace(line[i])) {
-            return 0;
-        }
+/* Some of the functions are not declared anywhere. I guess it should go to the file_handler.h */
+
+int is_empty_line(char *line) { /* I changed it because fgets contains the \n and in your code I think we would have always gotten 0 because of that */
+    int i = 0;
+    while (!isspace(line[i])) {
+        i++;
     }
-    return 1;
+    if (line[i] != '\n')
+        return 0;
+    else
+        return 1;
 }
 
 int is_guiding_line(char *line_pointer) {
@@ -58,18 +62,18 @@ char* parse_line(char *line) {
         return NULL;
     }
     if (is_guiding_line(line)) {
-        // parse_data_line(line);
+        // parse_guiding_line(line);
     }
     else {
-        return parse_data_line(line);
+        return parse_instruction_line(line);
     }
 
 }
 
-int assemble_file(FILE *input_file) { 
+int assemble_file(FILE *pre_assembled_file) { 
     char line[83];
-    while (!feof(input_file)) {
-        fgets(line, 83, input_file);
+    while (!feof(pre_assembled_file)) {
+        fgets(line, 83, pre_assembled_file);
         printf("Got line: %s\n", line);
         if (parse_line(line) == NULL) {
            continue;
@@ -77,6 +81,7 @@ int assemble_file(FILE *input_file) {
         else {
             /* Do something */
         }
+    /* Eventually this function needs to create files and write into them - .ob, .ent and .ext */
     }
     return 1;
 }

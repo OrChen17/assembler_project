@@ -50,7 +50,7 @@ typedef struct machine_code_cell {
 } MachineCodeCell;
 
 typedef struct data_instruction {
-    char* label;
+    char* label; /* don't we need to define the size of the strings here? otherwise, how would you use sizeof for the struct? */
     char* opcode;
     char* operand_1;
     char* operand_2;

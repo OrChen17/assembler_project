@@ -26,17 +26,17 @@ void validate_ascii_string(char *token) {
     int i;
     if (token[0] != '"') {
         printf("Invalid string: %s\n", token);
-        exit(1);
+        exit(1); /* No. It should keep running and just print errors (all errors found in the program) */
     }
     for (i = 1; i < strlen(token) - 1; i++) {
         if (!is_ascii(token[i])) {
             printf("Invalid ascii string: %s\n", token);
-            exit(1);
+            exit(1); /* No. It should keep running and just print errors (all errors found in the program) */
         }
     }
     if (token[strlen(token) - 1] != '"') {
         printf("Invalid string: %s\n", token);
-        exit(1);
+        exit(1); /* No. It should keep running and just print errors (all errors found in the program) */
     }
 }
 
