@@ -5,6 +5,7 @@
 #include <line_parser.h>
 #include <instruction_parser.h>
 #include <ctype.h>
+#include <validator.h>
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));

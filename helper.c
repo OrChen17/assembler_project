@@ -7,76 +7,7 @@
 
 int has_found_error = 0;
 
-void validate_number(char *token)
-{
-    int i;
-    for (i = 1; i < strlen(token); i++)
-    {
-        if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
-        {
-            printf("Invalid number: %s\n", token);
-            has_found_error = 1;
-        }
-    }
-    // #check number out of range
-}
 
-int is_ascii(char c)
-{
-    if (c < 0x20 || c > 0x7e)
-    {
-        return 0;
-    }
-    return 1;
-}
-
-void validate_ascii_string(char *token)
-{
-    int i;
-    if (token[0] != '"')
-    {
-        printf("Invalid string: %s\n", token);
-        has_found_error = 1;
-    }
-    for (i = 1; i < strlen(token) - 1; i++)
-    {
-        if (!is_ascii(token[i]))
-        {
-            printf("Invalid ascii string: %s\n", token);
-            has_found_error = 1;
-        }
-    }
-    if (token[strlen(token) - 1] != '"')
-    {
-        printf("Invalid string: %s\n", token);
-        has_found_error = 1;
-    }
-}
-// todo: add validators per operand - add shouldnt have strings etc. move to validator.c file
-void validate_label(char *label)
-{
-    if (strlen(label) > 30)
-    {
-        printf("label too long: %s\n", label);
-        has_found_error = 1;
-    }
-    if (!isalpha(label[0]))
-    {
-        printf("label must start with alphabet: %s\n", label);
-        has_found_error = 1;
-    }
-    int i;
-    for (i = 1; i < strlen(label); i++)
-    {
-        if (!isalnum(label[i]))
-        {
-            printf("Invalid label: %s\n", label);
-            has_found_error = 1;
-        }
-    }
-    // TODO: check if label already exists
-    // TODO: check if operand name / register name
-}
 
 CodeCell *header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell)
 {
@@ -137,6 +68,12 @@ char *code_cell_to_b32(CodeCell *code_cell)
     return base32;
 }
 
+char* int_to_base_32(int data) {
+    char *base32 = malloc(sizeof(char) * 2);
+    base32[0] = b32[(data >> 5)];
+    base32[1] = b32[data ^ (data >> 5 << 5)];
+    return base32;
+}
 void slice_str(const char *str, char *buffer, int start, int end)
 {
     int j = 0;

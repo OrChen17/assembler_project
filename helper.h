@@ -34,6 +34,8 @@ int has_found_error;
 #define OPCODE_RTS 14
 #define OPCODE_HLT 15
 
+#define OPCODE_OPERATOR_AMOUNTS (int[]){2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0}
+
 #define ADDR_MODE_IMMEDIATE 0
 #define ADDR_MODE_DIRECT 1
 #define ADDR_MODE_DIRECT_PARAM 2
@@ -65,9 +67,7 @@ typedef struct data_cell {
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 char *trim_whitespace(char *str);
-void validate_ascii_string(char *token);
-void validate_number(char *token);
-void validate_label(char *label);
 char* code_cell_to_b32(CodeCell *code_cell);
+char* int_to_base_32(int data);
 CodeCell* header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell);
 #endif

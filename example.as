@@ -1,4 +1,6 @@
 HELLO: lea
+sme "something," , 
+
 add #1, r4
 add #1, #2
 add #-10, S3
@@ -20,6 +22,5 @@ add S1, r3
 add S1, HELLO
 
 
-;sme "something," , 
 ;sme
 Hello: jsr,    something

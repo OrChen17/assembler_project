@@ -3,8 +3,11 @@
 #include <string.h> 
 #include <file_handler.h>
 #include <helper.h>
+#include <output.h>
 
-int process_file(char *filename) {
+
+int process_file(char *filename) 
+{
     printf("Got File: %s\n", filename);
     filename = strcat(filename, ".as");
     FILE *input_file = fopen(filename, "r");
@@ -17,7 +20,7 @@ int process_file(char *filename) {
         printf("Found error, assembler failed\n");
         exit(1);
     }
-
+    create_output_files(filename);
     return 1;
 }
 

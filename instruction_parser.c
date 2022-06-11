@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <machine_code.h>
+#include <validator.h>
 
 int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
@@ -153,7 +154,7 @@ int parse_instruction(DataInstruction *instruction) {
     if (cell->opcode == -1) {
         return 1;
     }
-    // TODO: validate correct number of operands and operand types
+    validate_opcode_operator_amount(cell->opcode, instruction->operand_1, instruction->operand_2);
     // TODO: Add label to symbol chart
 
 

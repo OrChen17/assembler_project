@@ -3,7 +3,7 @@
 #include "machine_code.h"
 
 int IC = 0;
-// int DC = 0
+int DC = 0;
 
 node_t* code_section;
 
