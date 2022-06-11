@@ -6,6 +6,7 @@
 
 void create_object_file(char* file_name) {
     char* output_filename = strcat(file_name, ".ob");
+    printf("Making output file %s", output_filename);
     FILE *output_file = fopen(output_filename, "w");
     int start_index = 100;
     node_t* instructions = get_code_section();

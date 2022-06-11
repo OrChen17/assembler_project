@@ -65,13 +65,20 @@ char *code_cell_to_b32(CodeCell *code_cell)
     data = data | code_cell->encoding_type;
     base32[0] = b32[(data >> 5)];
     base32[1] = b32[data ^ (data >> 5 << 5)];
+    if (base32[0] == '!') {
+        base32++;
+    }
     return base32;
 }
+
 
 char* int_to_base_32(int data) {
     char *base32 = malloc(sizeof(char) * 2);
     base32[0] = b32[(data >> 5)];
     base32[1] = b32[data ^ (data >> 5 << 5)];
+    if (base32[0] == '!') {
+        base32++;
+    }
     return base32;
 }
 void slice_str(const char *str, char *buffer, int start, int end)

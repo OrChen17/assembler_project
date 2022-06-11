@@ -25,7 +25,7 @@ void validate_number(char *token)
             return;
         }
     }
-    size_t number = atoi(token +  1);
+    int number = atoi(token +  1);
     if (number > 127 || number < -128)
     {
         printf("Invalid number out of range: %s\n", token);

@@ -9,10 +9,12 @@
 int process_file(char *filename) 
 {
     printf("Got File: %s\n", filename);
-    filename = strcat(filename, ".as");
-    FILE *input_file = fopen(filename, "r");
+    char* full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
+    strcpy(full_filename, filename);
+    strcat(full_filename, ".as");
+    FILE *input_file = fopen(full_filename, "r");
     if (input_file == NULL) {
-        printf("File %s was not found\n", filename);
+        printf("File %s was not found\n", full_filename);
         exit(1);
     }
     assemble_file(input_file);
