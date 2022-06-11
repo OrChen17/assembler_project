@@ -1,6 +1,6 @@
 HELLO: lea
 add #1, r4
-add #1, 2
+add #1, #2
 add #-10, S3
 add #-1, S3.2
 
@@ -14,6 +14,12 @@ add S1.1, #123
 add S1.1, r3
 add S1.1, HELLO
 
-sme "something," , 
-sme
+add S1,HELLO.2
+add S1, #123
+add S1, r3
+add S1, HELLO
+
+
+;sme "something," , 
+;sme
 Hello: jsr,    something

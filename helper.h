@@ -1,6 +1,7 @@
 #ifndef HELPER
 #define HELPER
 
+int has_found_error;
 
 #define CELL_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c"
 #define CELL_TO_BINARY(opcode, s_addr, d_addr, enc_type)  \
@@ -57,7 +58,7 @@ typedef struct data_instruction {
 } DataInstruction;
 
 typedef struct data_cell {
-    unsigned data:8;
+    signed data:8;
     unsigned encoding_type:2;
     char* label_needed;
 } CodeCell;

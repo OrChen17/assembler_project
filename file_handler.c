@@ -43,17 +43,17 @@ int is_guiding_line(char *line_pointer) {
     return 0;
 }
 
-char* parse_line(char *line) {
+int parse_line(char *line) {
     if (is_empty_line(line)) {
-        return NULL;
+        return 0;
     }
     if (line[0] == ';') {
         // comment line
-        return NULL;
+        return 0;
     }
     if (is_guiding_line(line)) {
-        // return parse_data_line(line);
-        return NULL;
+        // return parse_guiding_line(line);
+        return 0;
     }
     else {
         return parse_data_line(line);

@@ -42,7 +42,7 @@ DataInstruction* parse_data_instruction(char *line) {
             strncpy(operand_2, token + i + 1, strlen(token) - i);
             if (strlen(operand_2) == 0) {
                 printf("Invalid empty operand\n");
-                exit(1);
+                has_found_error = 1;
             }
 
             instruction->operand_2 = trim_whitespace(operand_2);
@@ -60,13 +60,11 @@ DataInstruction* parse_data_instruction(char *line) {
     return instruction;
 }
 
-char * parse_data_line(char *line) {
+int parse_data_line(char *line) {
     DataInstruction *instruction = parse_data_instruction(line);
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
-    parse_instruction(instruction);
-
-    return line;
+    return parse_instruction(instruction);
 }

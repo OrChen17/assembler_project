@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <math.h>
-#include <helper.h>
+#include "helper.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+int has_found_error = 0;
 
 void validate_number(char *token)
 {
     int i;
     for (i = 1; i < strlen(token); i++)
     {
-        if (!isdigit(token[i]) || (i == 1 && (token[i] == '+' && token[i] == '-')))
+        if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
         {
             printf("Invalid number: %s\n", token);
-            exit(1);
+            has_found_error = 1;
         }
     }
     // #check number out of range
@@ -34,20 +36,20 @@ void validate_ascii_string(char *token)
     if (token[0] != '"')
     {
         printf("Invalid string: %s\n", token);
-        exit(1);
+        has_found_error = 1;
     }
     for (i = 1; i < strlen(token) - 1; i++)
     {
         if (!is_ascii(token[i]))
         {
             printf("Invalid ascii string: %s\n", token);
-            exit(1);
+            has_found_error = 1;
         }
     }
     if (token[strlen(token) - 1] != '"')
     {
         printf("Invalid string: %s\n", token);
-        exit(1);
+        has_found_error = 1;
     }
 }
 // todo: add validators per operand - add shouldnt have strings etc. move to validator.c file
@@ -56,12 +58,12 @@ void validate_label(char *label)
     if (strlen(label) > 30)
     {
         printf("label too long: %s\n", label);
-        exit(1);
+        has_found_error = 1;
     }
     if (!isalpha(label[0]))
     {
         printf("label must start with alphabet: %s\n", label);
-        exit(1);
+        has_found_error = 1;
     }
     int i;
     for (i = 1; i < strlen(label); i++)
@@ -69,7 +71,7 @@ void validate_label(char *label)
         if (!isalnum(label[i]))
         {
             printf("Invalid label: %s\n", label);
-            exit(1);
+            has_found_error = 1;
         }
     }
     // TODO: check if label already exists

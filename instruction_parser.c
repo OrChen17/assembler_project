@@ -55,12 +55,13 @@ int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     }
     else {
         printf("Invalid opcode: %s\n", instruction->opcode);
-        exit(1);
+        has_found_error = 1;
+        return -1;
     }
 }
 
 short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, char* operand) {
-    if (operand == 0) {
+    if (operand == NULL) {
         return ADDR_MODE_IMMEDIATE;
     }
     if (operand[0] == '#') {
@@ -69,7 +70,7 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
     }
     if (operand[0] == '"') {
         printf("Invalid operand: strings should be as part of a label %s\n", operand);
-        exit(1);
+        has_found_error = 1;
     }
     if (strcmp(operand, "r0") == 0 || 
         strcmp(operand, "r1") == 0 || 
@@ -90,8 +91,9 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
 void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
     if (operand_1 != NULL) {
         if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
+            cells[0].label_needed = "";
             cells[0].encoding_type = ENCODING_TYPE_A;
-            cells[0].data = atoi(operand_1);
+            cells[0].data = atoi(operand_1 + 1);
         }
         if (src_addr_mode == ADDR_MODE_DIRECT) {
             cells[0].label_needed = operand_1;
@@ -100,48 +102,57 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             char* label = strtok(operand_1, ".");
             cells[0].label_needed = label;
             char* num = strtok(NULL, "");
+            cells[1].label_needed = "";
             cells[1].data = atoi(num);
             cells[1].encoding_type = ENCODING_TYPE_A;
         }
         if (src_addr_mode == ADDR_MODE_REGISTER) {
-            int data = atoi(++operand_1);
+            int data = atoi(operand_1 + 1);
             data = data << 4;
             if (dest_addr_mode == ADDR_MODE_REGISTER) {
-                data = data | atoi(++operand_2);
+                data = data | atoi(operand_2 + 1);
             }
+            cells[0].label_needed = "";
             cells[0].data = data;
             cells[0].encoding_type = ENCODING_TYPE_A;
         }
     }
 
-
-    if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
-        cells[2].encoding_type = ENCODING_TYPE_A;
-        cells[2].data = atoi(operand_2);
-    }
-    if (dest_addr_mode == ADDR_MODE_DIRECT) {
-        cells[2].label_needed = operand_2;
-    }
-    if (dest_addr_mode == ADDR_MODE_DIRECT_PARAM) {
-        char* label = strtok(operand_2, ".");
-        cells[2].label_needed = label;
-        char* num = strtok(NULL, "");
-        cells[3].data = atoi(num);
-        cells[3].encoding_type = ENCODING_TYPE_A;
-    }
-    if (dest_addr_mode == ADDR_MODE_REGISTER) {
-        if (src_addr_mode != ADDR_MODE_REGISTER) {
+    if (operand_2 != NULL) {
+        if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
+            cells[2].label_needed = "";
             cells[2].encoding_type = ENCODING_TYPE_A;
-            cells[2].data = atoi(++operand_1);
+            cells[2].data = atoi(operand_2 + 1);
+        }
+        if (dest_addr_mode == ADDR_MODE_DIRECT) {
+            cells[2].label_needed = operand_2;
+        }
+        if (dest_addr_mode == ADDR_MODE_DIRECT_PARAM) {
+            char* label = strtok(operand_2, ".");
+            cells[2].label_needed = label;
+            char* num = strtok(NULL, "");
+            cells[3].label_needed = "";
+            cells[3].data = atoi(num);
+            cells[3].encoding_type = ENCODING_TYPE_A;
+        }
+        if (dest_addr_mode == ADDR_MODE_REGISTER) {
+            if (src_addr_mode != ADDR_MODE_REGISTER) {
+                cells[2].label_needed = "";
+                cells[2].encoding_type = ENCODING_TYPE_A;
+                cells[2].data = atoi(operand_2 + 1);
+            }
         }
     }
 }
 
-void parse_instruction(DataInstruction *instruction) {
+int parse_instruction(DataInstruction *instruction) {
     HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell));
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
+    if (cell->opcode == -1) {
+        return 1;
+    }
     // TODO: validate correct number of operands and operand types
     // TODO: Add label to symbol chart
 
@@ -153,14 +164,20 @@ void parse_instruction(DataInstruction *instruction) {
     
     add_code(header_code_cell_to_code_cell(cell));
 
-    CodeCell cells[4];
+    CodeCell cells[4] = {
+        {0, 0, "1NULL"},
+        {0, 0, "1NULL"},
+        {0, 0, "1NULL"},
+        {0, 0, "1NULL"},
+    };
     get_address_cell(instruction->operand_1, cell->source_address, instruction->operand_2, cell->dest_address, cells);
 
     for (int i = 0; i < 4; i++) {
-        printf("Address cell: %d\n", i);
-        if (cells[i].label_needed == NULL && cells[i].encoding_type == 9999) {
+        if (strcmp(cells[i].label_needed, "1NULL") == 0) {
             continue;
         }
+        printf("Adding address cell: data=%d, label_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].label_needed, cells[i].encoding_type);
         add_code(&cells[i]);
     }
+    return 0;
 }

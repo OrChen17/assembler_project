@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h> 
 #include <file_handler.h>
-
+#include <helper.h>
 
 int process_file(char *filename) {
     printf("Got File: %s\n", filename);
@@ -13,6 +13,11 @@ int process_file(char *filename) {
         exit(1);
     }
     assemble_file(input_file);
+    if (has_found_error) {
+        printf("Found error, assembler failed\n");
+        exit(1);
+    }
+
     return 1;
 }
 
