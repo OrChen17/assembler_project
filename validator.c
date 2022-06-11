@@ -3,6 +3,7 @@
 #include <helper.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <symbol_table.h>
 
 int is_ascii(char c)
 {
@@ -85,7 +86,8 @@ void validate_label(char *label)
         strcmp(label, "r4") == 0 ||
         strcmp(label, "r5") == 0 ||
         strcmp(label, "r6") == 0 ||
-        strcmp(label, "r7") == 0)
+        strcmp(label, "r7") == 0 ||
+        strcmp(label, "PSW") == 0)
         {
             printf("Invalid label - name is a register: %s\n", label);
             has_found_error = 1;
@@ -112,8 +114,14 @@ void validate_label(char *label)
             has_found_error = 1;
         }
     
-    // TODO: check if label already exists
+    if (is_label_in_symbol_list(label))
+    {
+        printf("Duplicate label: %s\n", label);
+        has_found_error = 1;
+    }
 }
+
+// TODO: validate address modes for opcodes operands (page 32)
 
 void validate_opcode_operator_amount(int opcode, char *operator_1, char* operator_2)
 {

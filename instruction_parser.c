@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <machine_code.h>
 #include <validator.h>
+#include <symbol_table.h>
 
 int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
@@ -155,7 +156,7 @@ int parse_instruction(DataInstruction *instruction) {
         return 1;
     }
     validate_opcode_operator_amount(cell->opcode, instruction->operand_1, instruction->operand_2);
-    // TODO: Add label to symbol chart
+    add_symbol(instruction->label, CODE_SYMBOL);
 
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);

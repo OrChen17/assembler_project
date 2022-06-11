@@ -6,7 +6,9 @@
         "stdio.h": "c",
         "command_parser.h": "c",
         "line_parser.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "instruction_parser.h": "c",
+        "machine_code.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

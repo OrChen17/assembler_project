@@ -5,10 +5,10 @@
 typedef struct node {
     CodeCell* cell;
     struct node * next;
-} node_t;
+} code_cell_node;
 
 void add_code(CodeCell* cell);
-node_t* get_code_section();
+code_cell_node* get_code_section();
 
 int IC;
 int DC;

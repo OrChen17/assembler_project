@@ -9,7 +9,7 @@ void create_object_file(char* file_name) {
     printf("Making output file %s", output_filename);
     FILE *output_file = fopen(output_filename, "w");
     int start_index = 100;
-    node_t* instructions = get_code_section();
+    code_cell_node* instructions = get_code_section();
     int i = 0;
     fprintf(output_file, "%s %s\n", int_to_base_32(IC), int_to_base_32(DC));
     while(instructions != NULL) {

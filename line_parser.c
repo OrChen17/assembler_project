@@ -1,4 +1,3 @@
-#include <helper.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,6 +5,7 @@
 #include <instruction_parser.h>
 #include <ctype.h>
 #include <validator.h>
+#include <helper.h>
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));

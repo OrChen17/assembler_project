@@ -5,27 +5,27 @@
 int IC = 0;
 int DC = 0;
 
-node_t* code_section;
+code_cell_node* code_section;
 
 void add_code(CodeCell *cell) {
     if (code_section == NULL) {
-        code_section = malloc(sizeof(node_t));
+        code_section = malloc(sizeof(code_cell_node));
         code_section->cell = cell;
         code_section->next = NULL;
     }
     else {
-        node_t *cur = code_section;
+        code_cell_node *cur = code_section;
         while (cur->next != NULL) {
             cur = cur->next;
         }
-        cur->next = malloc(sizeof(node_t));
+        cur->next = malloc(sizeof(code_cell_node));
         cur->next->cell = cell;
         cur->next->next = NULL;
     }
     IC++;
 }
 
-node_t* get_code_section() {
+code_cell_node* get_code_section() {
     return code_section;
 }
 
