@@ -7,6 +7,6 @@ typedef struct node {
     struct node * next;
 } node_t;
 
-void add_code(CodeCell *cell);
+void add_code(CodeCell* cell);
 node_t* get_code_section();
 #endif // !MACHINE_CODE

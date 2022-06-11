@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <machine_code.h>
 
 int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
@@ -59,7 +60,7 @@ int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
 }
 
 short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, char* operand) {
-    if (operand == NULL) {
+    if (operand == 0) {
         return ADDR_MODE_IMMEDIATE;
     }
     if (operand[0] == '#') {
@@ -86,18 +87,80 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
     return ADDR_MODE_DIRECT;
 }
 
+void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
+    if (operand_1 != NULL) {
+        if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
+            cells[0].encoding_type = ENCODING_TYPE_A;
+            cells[0].data = atoi(operand_1);
+        }
+        if (src_addr_mode == ADDR_MODE_DIRECT) {
+            cells[0].label_needed = operand_1;
+        }
+        if (src_addr_mode == ADDR_MODE_DIRECT_PARAM) {
+            char* label = strtok(operand_1, ".");
+            cells[0].label_needed = label;
+            char* num = strtok(NULL, "");
+            cells[1].data = atoi(num);
+            cells[1].encoding_type = ENCODING_TYPE_A;
+        }
+        if (src_addr_mode == ADDR_MODE_REGISTER) {
+            int data = atoi(++operand_1);
+            data = data << 4;
+            if (dest_addr_mode == ADDR_MODE_REGISTER) {
+                data = data | atoi(++operand_2);
+            }
+            cells[0].data = data;
+            cells[0].encoding_type = ENCODING_TYPE_A;
+        }
+    }
+
+
+    if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
+        cells[2].encoding_type = ENCODING_TYPE_A;
+        cells[2].data = atoi(operand_2);
+    }
+    if (dest_addr_mode == ADDR_MODE_DIRECT) {
+        cells[2].label_needed = operand_2;
+    }
+    if (dest_addr_mode == ADDR_MODE_DIRECT_PARAM) {
+        char* label = strtok(operand_2, ".");
+        cells[2].label_needed = label;
+        char* num = strtok(NULL, "");
+        cells[3].data = atoi(num);
+        cells[3].encoding_type = ENCODING_TYPE_A;
+    }
+    if (dest_addr_mode == ADDR_MODE_REGISTER) {
+        if (src_addr_mode != ADDR_MODE_REGISTER) {
+            cells[2].encoding_type = ENCODING_TYPE_A;
+            cells[2].data = atoi(++operand_1);
+        }
+    }
+}
+
 void parse_instruction(DataInstruction *instruction) {
     HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell));
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
     // TODO: validate correct number of operands and operand types
+    // TODO: Add label to symbol chart
+
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
     printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address);
-    // TODO: Add address cells
-    // TODO: add machine code and data list
-    // TODO: Add label to symbol chart
 
+    
+    add_code(header_code_cell_to_code_cell(cell));
+
+    CodeCell cells[4];
+    get_address_cell(instruction->operand_1, cell->source_address, instruction->operand_2, cell->dest_address, cells);
+
+    for (int i = 0; i < 4; i++) {
+        printf("Address cell: %d\n", i);
+        if (cells[i].label_needed == NULL && cells[i].encoding_type == 9999) {
+            continue;
+        }
+        add_code(&cells[i]);
+    }
 }

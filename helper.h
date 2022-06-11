@@ -59,7 +59,7 @@ typedef struct data_instruction {
 typedef struct data_cell {
     unsigned data:8;
     unsigned encoding_type:2;
-    char* label;
+    char* label_needed;
 } CodeCell;
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
@@ -68,4 +68,5 @@ void validate_ascii_string(char *token);
 void validate_number(char *token);
 void validate_label(char *label);
 char* code_cell_to_b32(CodeCell *code_cell);
+CodeCell* header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell);
 #endif
