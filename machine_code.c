@@ -29,5 +29,4 @@ node_t* get_code_section() {
     return code_section;
 }
 
-// TODO: Fix, normalize data types MachineCodeCell -> CodeCell (8 bits data, 2 bits ARE)
 // DataCell - 10 bits data,
