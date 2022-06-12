@@ -14,7 +14,10 @@ int process_file(char *filename) {
         printf("File %s was not found\n", filename);
         exit(1);
     }
-    /* pre_assembled_file = pre-assemble_file(input_file) */
+    /* pre_assembled_file = pre_assemble_file(input_file) 
+    TODO - declare and write the pre_assemble_file function */
+    /* get machine language "table" from 1st assemble round and a symbols table
+    Then send the above as inputs to ths 2nd assembling function */
     assemble_file(pre_assembled_file);
     return 1;
 }
