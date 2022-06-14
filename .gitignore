@@ -53,3 +53,5 @@ dkms.conf
 
 assembler
 */settings.json
+.vscode/
+.vscode/*
