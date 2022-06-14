@@ -5,28 +5,29 @@
 int IC = 0;
 int DC = 0;
 
-code_cell_node* code_section;
+code_cell_node* start;
+code_cell_node* end;
 
 void add_code(CodeCell *cell) {
-    if (code_section == NULL) {
-        code_section = malloc(sizeof(code_cell_node));
-        code_section->cell = cell;
-        code_section->next = NULL;
+    if (start == NULL) {
+        start = malloc(sizeof(code_cell_node));
+        start->cell = cell;
+        start->next = NULL;
+        end = start;
     }
     else {
-        code_cell_node *cur = code_section;
-        while (cur->next != NULL) {
-            cur = cur->next;
-        }
-        cur->next = malloc(sizeof(code_cell_node));
-        cur->next->cell = cell;
-        cur->next->next = NULL;
+        // bug around here - need to check
+        end->next = malloc(sizeof(code_cell_node));
+        end->next->cell = cell;
+        end->next->next = NULL;
+        end = end->next;
     }
     IC++;
 }
 
 code_cell_node* get_code_section() {
-    return code_section;
+    code_cell_node* p = start;
+    return p;
 }
 
 // DataCell - 10 bits data,

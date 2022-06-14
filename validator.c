@@ -92,7 +92,7 @@ void validate_label(char *label)
             printf("Invalid label - name is a register: %s\n", label);
             has_found_error = 1;
         }
-    
+     
     if (strcmp(label, "mov") == 0 || 
         strcmp(label, "cmp") == 0 ||
         strcmp(label, "add") == 0 ||
@@ -121,7 +121,7 @@ void validate_label(char *label)
     }
 }
 
-// TODO: validate address modes for opcodes operands (page 32)
+// TODO Or: validate address modes for opcodes operands (page 32)
 
 void validate_opcode_operator_amount(int opcode, char *operator_1, char* operator_2)
 {

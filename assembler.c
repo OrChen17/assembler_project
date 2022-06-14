@@ -17,7 +17,9 @@ int process_file(char *filename)
         printf("File %s was not found\n", full_filename);
         exit(1);
     }
+    // TODO Eran - pre assemble file
     assemble_file(input_file);
+    // TODO Eran- 2nd iteration
     if (has_found_error) {
         printf("Found error, assembler failed\n");
         exit(1);

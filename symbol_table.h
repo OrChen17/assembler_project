@@ -4,7 +4,7 @@
 #define DATA_SYMBOL 0
 #define CODE_SYMBOL 1
 #define ENTRY_SYMBOL 2
-#define EXTERN_SYMBOL 2
+#define EXTERN_SYMBOL 3
 
 
 typedef struct symbol {

@@ -11,11 +11,11 @@ void test_convert_b32() {
     code_cell->data = 0;
 
     char *b32 = code_cell_to_b32(code_cell);
-    assert(strcmp(b32, "!!") == 0);
+    assert(strcmp(b32, "!") == 0);
 
     code_cell->data = 1;
     b32 = code_cell_to_b32(code_cell);
-    assert(strcmp(b32, "!%") == 0);
+    assert(strcmp(b32, "%") == 0);
     
     code_cell->data = 16;
     b32 = code_cell_to_b32(code_cell);
@@ -35,7 +35,7 @@ void test_is_empty_line() {
     line = " ";
     assert(is_empty_line(line) == 1);
 
-    line = " \n";
+    line = "\n";
     assert(is_empty_line(line) == 1);
 
     line = "asdasd\n";

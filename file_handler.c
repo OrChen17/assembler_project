@@ -56,14 +56,14 @@ int parse_line(char *line) {
         return 0;
     }
     else {
-        return parse_data_line(line);
+        return parse_instruction_line(line);
     }
-
 }
 
 int assemble_file(FILE *input_file) { 
     char line[83];
     while (fgets(line, 83, input_file)) {
+        // TODO Or: check if line is too long
         printf("Got line: %s\n", line);
         parse_line(line);     
     }

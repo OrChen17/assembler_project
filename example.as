@@ -1,12 +1,12 @@
 ;HELLO: lea
 ;sme "something," , 
 
-add #1, r4
-add #1, #2
+add #1  , r4
+add #1,     #2
 ;add #-10, S3
 ;add #-1, S3.2
 
-add r2, #31
+add     r2, #31
 add r5, r7
 ;add r0, S5
 ;add r3, S4.1

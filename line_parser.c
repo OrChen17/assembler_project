@@ -12,7 +12,7 @@ DataInstruction* parse_data_instruction(char *line) {
     instruction->label = NULL;
     instruction->operand_1 = NULL;
     instruction->operand_2 = NULL;
-    char *token = strtok(line, " ");
+    char *token = strtok(line, " \t");
     if (token == NULL) {
         instruction->opcode = trim_whitespace(line);
         return instruction;
@@ -22,7 +22,7 @@ DataInstruction* parse_data_instruction(char *line) {
         strncpy(label, token, strlen(token) - 1);
         instruction->label = trim_whitespace(label);
         validate_label(instruction->label);
-        token = strtok(NULL, " ");
+        token = strtok(NULL, " \t");
     }
 
     instruction->opcode = trim_whitespace(token);
@@ -61,7 +61,7 @@ DataInstruction* parse_data_instruction(char *line) {
     return instruction;
 }
 
-int parse_data_line(char *line) {
+int parse_instruction_line(char *line) {
     DataInstruction *instruction = parse_data_instruction(line);
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);
