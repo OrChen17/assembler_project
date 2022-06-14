@@ -121,7 +121,58 @@ void validate_label(char *label)
     }
 }
 
+const int valid_src_addr_modes[16][4] = {
+    {0,1,2,3}, 
+    {0,1,2,3}, 
+    {0,1,2,3}, 
+    {0,1,2,3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {-1, 1, 2, -1}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}
+};
+
+const int valid_dest_addr_modes[16][4] = {
+    {-1, 1,2,3}, 
+    {0,1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {-1, 1,2,3}, 
+    {0,1,2,3}, 
+    {-1, 1,2,3}, 
+    {0, 1, 2, 3}, 
+    {0, 1, 2, 3}
+};
+
 // TODO Or: validate address modes for opcodes operands (page 32)
+void validate_src_address_mode_for_opcode(int opcode, int address_mode) {
+    if (-1 == valid_src_addr_modes[opcode][address_mode]) {
+        printf("Invalid src address mode for opcode: %d\n", opcode);
+        has_found_error = 1;
+    }
+}
+
+void validate_dest_address_mode_for_opcode(int opcode, int address_mode) {
+    if (-1 == valid_dest_addr_modes[opcode][address_mode]) {
+        printf("Invalid dest address mode for opcode: %d\n", opcode);
+        has_found_error = 1;
+    }
+}
 
 void validate_opcode_operator_amount(int opcode, char *operator_1, char* operator_2)
 {

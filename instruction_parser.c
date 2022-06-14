@@ -162,6 +162,13 @@ int parse_instruction(DataInstruction *instruction) {
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
     printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address);
+    if (instruction->operand_2 != NULL) {
+        validate_src_address_mode_for_opcode(cell->opcode, cell->source_address);
+        validate_dest_address_mode_for_opcode(cell->opcode, cell->dest_address);
+    }
+    else {
+        validate_dest_address_mode_for_opcode(cell->opcode, cell->source_address);
+    }
 
     
     add_code(header_code_cell_to_code_cell(cell));

@@ -63,9 +63,14 @@ int parse_line(char *line) {
 int assemble_file(FILE *input_file) { 
     char line[83];
     while (fgets(line, 83, input_file)) {
-        // TODO Or: check if line is too long
-        printf("Got line: %s\n", line);
-        parse_line(line);     
+        if (strlen(line) > 81) {
+            printf("Line \"%s\" is too long\n", line);
+            has_found_error = 1;
+        }
+        else {
+            printf("Got line: %s\n", line);
+            parse_line(line);     
+        }
     }
     return 1;
 }

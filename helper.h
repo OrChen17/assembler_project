@@ -35,7 +35,6 @@ int has_found_error;
 #define OPCODE_HLT 15
 
 #define OPCODE_OPERATOR_AMOUNTS (int[]){2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0}
-
 #define ADDR_MODE_IMMEDIATE 0
 #define ADDR_MODE_DIRECT 1
 #define ADDR_MODE_DIRECT_PARAM 2
