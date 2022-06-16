@@ -64,6 +64,17 @@ typedef struct data_cell {
     char label_needed[31];
 } CodeCell;
 
+typedef struct data_guiding_cell {
+    signed data:10;
+    char label_needed[31];
+} DataCell;
+
+typedef struct data_guiding {
+    char* label[31];
+    char* guidance_word[7];
+    char* guiding_input[200];
+} DataGuiding;  
+
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 char *trim_whitespace(char *str);
 char* code_cell_to_b32(CodeCell *code_cell);

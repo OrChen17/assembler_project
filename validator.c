@@ -121,6 +121,19 @@ void validate_label(char *label)
     }
 }
 
+void validate_guidance_word(char* guidance_word) {
+    if (strcmp(guidance_word, ".data") != 0
+        && strcmp(guidance_word, ".string") != 0
+        && strcmp(guidance_word, ".struct") != 0
+        && strcmp(guidance_word, ".entry") != 0
+        && strcmp(guidance_word, ".extern" != 0))
+    {
+        printf("Invalid guidance word: %s\n", guidance_word);
+        printf("Valid guidance words are: .data, .string, .struct, .entry, .extern");
+        has_found_error = 1;
+    }
+}
+
 const int valid_src_addr_modes[16][4] = {
     {0,1,2,3}, 
     {0,1,2,3}, 

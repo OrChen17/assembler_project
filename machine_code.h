@@ -7,6 +7,11 @@ typedef struct node {
     struct node * next;
 } code_cell_node;
 
+typedef struct data_node {
+    DataCell cell;
+    struct data_node * next;
+} data_cell_node;
+
 void add_code(CodeCell* cell);
 code_cell_node* get_code_section();
 
