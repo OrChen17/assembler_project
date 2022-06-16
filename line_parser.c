@@ -26,7 +26,7 @@ DataInstruction* parse_data_instruction(char *line) {
     }
 
     instruction->opcode = trim_whitespace(token);
-    token = strtok(NULL, "");
+    token = strtok(NULL, " ");
     if (token == NULL) {
         return instruction;
     }
