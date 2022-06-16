@@ -20,16 +20,19 @@ int is_guiding_line(char *line_pointer) {
     char *line = malloc(sizeof(char) * strlen(line_pointer));
     strcpy(line, line_pointer);
 
-    char *token = strtok(line, " ");
+    char *token = strtok(line, ""); // empty string or space? Assuming space, I think we need also tabs
+    // CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char
     if (token == NULL) {
         return 0;
     }
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0
-        || strcmp(token, ".extern") == 0) {
+        || strcmp(token, ".extern") == 0
+        || strcmp(token, ".entry") == 0) {
         return 1;
     }
+    //I still don't get why we need this duplication
     token = strtok(NULL, " ");
     if (token == NULL) {
         return 0;
@@ -37,7 +40,8 @@ int is_guiding_line(char *line_pointer) {
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0
-        || strcmp(token, ".extern") == 0) {
+        || strcmp(token, ".extern") == 0
+        || strcmp(token, ".entry") == 0) {
         return 1;
     }
     return 0;
@@ -52,17 +56,16 @@ int parse_line(char *line) {
         return 0;
     }
     if (is_guiding_line(line)) {
-        // return parse_guiding_line(line);
-        return 0;
+        return parse_guiding_line(line);
     }
     else {
         return parse_instruction_line(line);
     }
 }
 
-int assemble_file(FILE *input_file) { 
+int assemble_file(FILE *pre_assembled_file) { 
     char line[83];
-    while (fgets(line, 83, input_file)) {
+    while (fgets(line, 83, pre_assembled_file)) {
         if (strlen(line) > 81) {
             printf("Line \"%s\" is too long\n", line);
             has_found_error = 1;

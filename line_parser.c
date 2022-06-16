@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <validator.h>
 #include <helper.h>
+#include <guidance_parser.h>
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
@@ -14,7 +15,7 @@ DataInstruction* parse_data_instruction(char *line) {
         strcpy(instruction->opcode, trim_whitespace(line));
         return instruction;
     }
-    if (token[strlen(token) - 1] == ':') {
+    if (token[strlen(token) - 1] == ':') { //CR - what if we have spaces between the label and the colon?
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
         strcpy(instruction->label, trim_whitespace(label));
@@ -56,6 +57,30 @@ DataInstruction* parse_data_instruction(char *line) {
     return instruction;
 }
 
+DataGuiding* parse_guiding_line_to_struct(char* line) {
+    DataGuiding* guidance = malloc(sizeof(DataGuiding));
+    strcpy(guidance->label, "1NULL");
+    char *token = strtok(line, " \t");
+    if (token[strlen(token) - 1] == ':') {
+        char* label = malloc(sizeof(char) * (strlen(token) - 1));
+        strncpy(label, token, strlen(token) - 1);
+        strcpy(guidance->label, label);
+        validate_label(guidance->label);
+        token = strtok(NULL, " \t");
+    }
+    strcpy(guidance->guidance_word, trim_whitespace(token));
+    validate_guidance_word(guidance->guidance_word);
+    if ((strcmp(guidance->guidance_word, ".entry") || strcmp(guidance->guidance_word, ".extern"))
+        && guidance->label != NULL)
+        {
+            strcpy(guidance->label, "1NULL");
+            printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label");
+        }
+    token = strtok(NULL, "\n");
+    strcpy(guidance->guidance_input, token);
+    return guidance;
+}
+
 int parse_instruction_line(char *line) {
     DataInstruction *instruction = parse_data_instruction(line);
     printf("Label: %s|\n", instruction->label);
@@ -63,4 +88,12 @@ int parse_instruction_line(char *line) {
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
     return parse_instruction(instruction);
+}
+
+int parse_guiding_line(char *line) {
+    DataGuiding *guidance = parse_guiding_line_to_struct(line);
+    printf("Label: %s|\n", guidance->label);
+    printf("Guidance word: %s|\n", guidance->guidance_word);
+    printf("Guidance input: %s|\n", guidance->guidance_input);
+    return parse_guidance(guidance);
 }

@@ -121,6 +121,78 @@ void validate_label(char *label)
     }
 }
 
+void validate_guidance_word(char* guidance_word) {
+    if (strcmp(guidance_word, ".data") != 0
+        && strcmp(guidance_word, ".string") != 0
+        && strcmp(guidance_word, ".struct") != 0
+        && strcmp(guidance_word, ".entry") != 0
+        && strcmp(guidance_word, ".extern") != 0)
+    {
+        printf("Invalid guidance word: %s\n", guidance_word);
+        printf("Valid guidance words are: .data, .string, .struct, .entry, .extern");
+        has_found_error = 1;
+    }
+}
+
+void validate_guidance_input(char* guidance_word, char* guidance_input)
+{
+    char* token;
+    int i;
+    char* guidance_input_tokenized = guidance_input; //to avoid corruption
+    if (strcmp(guidance_word, ".data"))
+    {
+        //verifying no traking commas
+        for (i = 0; i < strlen(guidance_input) - 1; i++)
+        {
+            if (guidance_input[i] == ',' && guidance_input[i+1] == ',')
+            {
+                printf("Illegal input - tracking commas are not allowed");
+                has_found_error = 1;
+                break;
+            }
+        } 
+        //verifying all in list are ints
+        token = strtok(guidance_input_tokenized, ",");
+        if (token == NULL) //not sure it's necessary
+        {
+            printf("empty input");
+            has_found_error = 1;
+        }
+        while (token != NULL)
+        {
+            if (!atoi(trim_whitespace(token))) //TODO - make sure it only trims on outer margins
+            {
+                printf(".data input has to be a list of numbers, separated by commas");
+                has_found_error = 1;
+            }
+            token = strtok(NULL, ",");
+        }
+    }
+
+    else if (strcmp(guidance_word, ".string"))
+    {
+        validate_ascii_string(trim_whitespace(guidance_input));
+    }
+
+    else if (strcmp(guidance_word, ".struct"))
+    {
+        //TODO - add tracking commas validation
+        token = strtok(guidance_input_tokenized, ",");
+        if (!atoi(trim_whitespace(token)))
+        {
+            printf(".struct input must start with a number");
+            has_found_error = 1;
+        }
+        token = strtok(NULL, " \t");
+        validate_ascii_string(token);
+
+    }
+    else
+    {
+        validate_label(trim_whitespace(guidance_input));
+    }
+}
+
 const int valid_src_addr_modes[16][4] = {
     {0,1,2,3}, 
     {0,1,2,3}, 
