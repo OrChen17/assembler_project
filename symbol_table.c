@@ -4,11 +4,12 @@
 #include <string.h>
 #include <machine_code.h>
 
-symbol_node* symbol_list;
+symbol_node* symbol_list_start;
+symbol_node* symbol_list_end;
 
 void add_symbol(char* label, short int type) {
     Symbol *symbol = malloc(sizeof(Symbol));
-    symbol->label = label;
+    strcpy(symbol->label, label);
     symbol->type = type;
     if (type == CODE_SYMBOL) {
         // Not sure - should this be the IC or IC + DC?
@@ -19,28 +20,26 @@ void add_symbol(char* label, short int type) {
         symbol->address = DC;
     }
 
-    if (symbol_list == NULL) {
-        symbol_list = malloc(sizeof(symbol_node));
-        symbol_list->symbol = symbol;
-        symbol_list->next = NULL;
+    if (symbol_list_start == NULL) {
+        symbol_list_start = malloc(sizeof(symbol_node));
+        strcpy(symbol->label, label);
+        symbol_list_start->next = NULL;
+        symbol_list_end = symbol_list_start;
     }
     else {
-        symbol_node *cur = symbol_list;
-        while (cur->next != NULL) {
-            cur = cur->next;
-        }
-        cur->next = malloc(sizeof(symbol_node));
-        cur->next->symbol = symbol;
-        cur->next->next = NULL;
+        symbol_list_end->next = malloc(sizeof(symbol_node));
+        symbol_list_end->next->symbol = symbol;
+        symbol_list_end->next->next = NULL;
+        symbol_list_end = symbol_list_end->next;
     }
 }
 
 symbol_node* get_symbol_list() {
-    return symbol_list;
+    return symbol_list_start;
 }
 
 int is_label_in_symbol_list(char* label) {
-    symbol_node *cur = symbol_list;
+    symbol_node *cur = symbol_list_start;
     while (cur != NULL) {
         if (strcmp(cur->symbol->label, label) == 0) {
             return 1;

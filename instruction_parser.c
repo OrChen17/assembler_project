@@ -93,18 +93,18 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
 void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
     if (operand_1 != NULL) {
         if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
-            cells[0].label_needed = "";
+            strcpy(cells[0].label_needed, "");
             cells[0].encoding_type = ENCODING_TYPE_A;
             cells[0].data = atoi(operand_1 + 1);
         }
         if (src_addr_mode == ADDR_MODE_DIRECT) {
-            cells[0].label_needed = operand_1;
+            strcpy(cells[0].label_needed, operand_1);
         }
         if (src_addr_mode == ADDR_MODE_DIRECT_PARAM) {
             char* label = strtok(operand_1, ".");
-            cells[0].label_needed = label;
+            strcpy(cells[0].label_needed, label);
             char* num = strtok(NULL, "");
-            cells[1].label_needed = "";
+            strcpy(cells[1].label_needed, "");
             cells[1].data = atoi(num);
             cells[1].encoding_type = ENCODING_TYPE_A;
         }
@@ -114,7 +114,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             if (dest_addr_mode == ADDR_MODE_REGISTER) {
                 data = data | atoi(operand_2 + 1);
             }
-            cells[0].label_needed = "";
+            strcpy(cells[0].label_needed, "");
             cells[0].data = data;
             cells[0].encoding_type = ENCODING_TYPE_A;
         }
@@ -122,24 +122,24 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
 
     if (operand_2 != NULL) {
         if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
-            cells[2].label_needed = "";
+            strcpy(cells[2].label_needed, "");
             cells[2].encoding_type = ENCODING_TYPE_A;
             cells[2].data = atoi(operand_2 + 1);
         }
         if (dest_addr_mode == ADDR_MODE_DIRECT) {
-            cells[2].label_needed = operand_2;
+            strcpy(cells[2].label_needed, operand_2);
         }
         if (dest_addr_mode == ADDR_MODE_DIRECT_PARAM) {
             char* label = strtok(operand_2, ".");
-            cells[2].label_needed = label;
+            strcpy(cells[2].label_needed, label);
             char* num = strtok(NULL, "");
-            cells[3].label_needed = "";
+            strcpy(cells[3].label_needed, "");
             cells[3].data = atoi(num);
             cells[3].encoding_type = ENCODING_TYPE_A;
         }
         if (dest_addr_mode == ADDR_MODE_REGISTER) {
             if (src_addr_mode != ADDR_MODE_REGISTER) {
-                cells[2].label_needed = "";
+                strcpy(cells[2].label_needed, "");
                 cells[2].encoding_type = ENCODING_TYPE_A;
                 cells[2].data = atoi(operand_2 + 1);
             }
@@ -173,12 +173,12 @@ int parse_instruction(DataInstruction *instruction) {
     
     add_code(header_code_cell_to_code_cell(cell));
 
-    CodeCell cells[4] = {
-        {0, 0, "1NULL"},
-        {0, 0, "1NULL"},
-        {0, 0, "1NULL"},
-        {0, 0, "1NULL"},
-    };
+    CodeCell *cells = malloc(sizeof(CodeCell) * 4);
+    for (int i = 0; i < 4; i++) {
+        strcpy(cells[i].label_needed, "1NULL");
+        cells[i].encoding_type = 0;
+        cells[i].data = 0;
+    }
     get_address_cell(instruction->operand_1, cell->source_address, instruction->operand_2, cell->dest_address, cells);
 
     for (int i = 0; i < 4; i++) {

@@ -52,16 +52,16 @@ typedef struct machine_code_cell {
 } HeaderCodeCell;
 
 typedef struct data_instruction {
-    char* label;
-    char* opcode;
-    char* operand_1;
-    char* operand_2;
+    char label[31];
+    char opcode[10];
+    char operand_1[40];
+    char operand_2[40];
 } DataInstruction;
 
 typedef struct data_cell {
     signed data:8;
     unsigned encoding_type:2;
-    char* label_needed;
+    char label_needed[31];
 } CodeCell;
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);

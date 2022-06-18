@@ -16,7 +16,6 @@ void add_code(CodeCell *cell) {
         end = start;
     }
     else {
-        // bug around here - need to check
         end->next = malloc(sizeof(code_cell_node));
         end->next->cell = cell;
         end->next->next = NULL;

@@ -8,7 +8,7 @@
 
 
 typedef struct symbol {
-    char *label;
+    char label[31];
     int address;
     short int type;
 } Symbol;

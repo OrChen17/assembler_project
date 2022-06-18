@@ -8,7 +8,8 @@
         "line_parser.h": "c",
         "string.h": "c",
         "instruction_parser.h": "c",
-        "machine_code.h": "c"
+        "machine_code.h": "c",
+        "*.tcc": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

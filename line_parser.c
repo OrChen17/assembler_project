@@ -9,23 +9,20 @@
 
 DataInstruction* parse_data_instruction(char *line) {
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
-    instruction->label = NULL;
-    instruction->operand_1 = NULL;
-    instruction->operand_2 = NULL;
     char *token = strtok(line, " \t");
     if (token == NULL) {
-        instruction->opcode = trim_whitespace(line);
+        strcpy(instruction->opcode, trim_whitespace(line));
         return instruction;
     }
     if (token[strlen(token) - 1] == ':') {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
-        instruction->label = trim_whitespace(label);
+        strcpy(instruction->label, trim_whitespace(label));
         validate_label(instruction->label);
         token = strtok(NULL, " \t");
     }
 
-    instruction->opcode = trim_whitespace(token);
+    strcpy(instruction->opcode, trim_whitespace(token));
     token = strtok(NULL, "");
     if (token == NULL) {
         return instruction;
@@ -37,8 +34,10 @@ DataInstruction* parse_data_instruction(char *line) {
             strncpy(operand_1, token, i);
             if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
+                printf("Found empty operand 1 with , \n");
+                has_found_error = 1;
             }
-            instruction->operand_1 = trim_whitespace(operand_1);
+            strcpy(instruction->operand_1, trim_whitespace(operand_1));
 
             strncpy(operand_2, token + i + 1, strlen(token) - i);
             if (strlen(operand_2) == 0) {
@@ -46,18 +45,14 @@ DataInstruction* parse_data_instruction(char *line) {
                 has_found_error = 1;
             }
 
-            instruction->operand_2 = trim_whitespace(operand_2);
+            strcpy(instruction->operand_2, trim_whitespace(operand_2));
             return instruction;
         }
     }
     // no ","
-    if (strlen(trim_whitespace(token)) == 0) {
-        instruction->operand_1 = NULL;
+    if (strlen(trim_whitespace(token)) != 0) {
+        strcpy(instruction->operand_1, trim_whitespace(token));
     }
-    else {
-        instruction->operand_1 = trim_whitespace(token);
-    }
-    instruction->operand_2 = NULL;
     return instruction;
 }
 
