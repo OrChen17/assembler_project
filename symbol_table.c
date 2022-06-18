@@ -28,7 +28,7 @@ void add_symbol(char* label, short int type) {
         symbol_node *cur = symbol_list;
         while (cur->next != NULL) {
             cur = cur->next;
-        }
+        } //wouldn't it be more efficient to have a tail pointer to the end of the list and each new symbol will just be added using that pointer?
         cur->next = malloc(sizeof(symbol_node));
         cur->next->symbol = symbol;
         cur->next->next = NULL;
