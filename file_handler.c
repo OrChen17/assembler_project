@@ -56,8 +56,7 @@ int parse_line(char *line) {
         return 0;
     }
     if (is_guiding_line(line)) {
-        // return parse_guiding_line(line);
-        return 0;
+        return parse_guiding_line(line);
     }
     else {
         return parse_instruction_line(line);
