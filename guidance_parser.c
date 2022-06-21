@@ -58,4 +58,5 @@ int parse_guidance(DataGuiding *guidance) {
         add_data(data_cell);
     }
     // else if entry or extern --> add relevant symbpl; put into files. Here or not here?
+    return 0;
 }

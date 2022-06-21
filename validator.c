@@ -126,7 +126,7 @@ void validate_guidance_word(char* guidance_word) {
         && strcmp(guidance_word, ".string") != 0
         && strcmp(guidance_word, ".struct") != 0
         && strcmp(guidance_word, ".entry") != 0
-        && strcmp(guidance_word, ".extern" != 0))
+        && strcmp(guidance_word, ".extern") != 0)
     {
         printf("Invalid guidance word: %s\n", guidance_word);
         printf("Valid guidance words are: .data, .string, .struct, .entry, .extern");
@@ -142,9 +142,9 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
     if (strcmp(guidance_word, ".data"))
     {
         //verifying no traking commas
-        for (i = 0; i < strlen(guidance_input) - 1, i++)
+        for (i = 0; i < strlen(guidance_input) - 1; i++)
         {
-            if (strcmp(guidance_input[i], ",") && strcmp(guidance_input[i+1], ","))
+            if (guidance_input[i] == ',' && guidance_input[i+1] == ',')
             {
                 printf("Illegal input - tracking commas are not allowed");
                 has_found_error = 1;
