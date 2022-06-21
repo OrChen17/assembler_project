@@ -72,7 +72,7 @@ typedef struct data_guiding_cell {
 typedef struct data_guiding {
     char* label[31];
     char* guidance_word[7];
-    char* guiding_input[200];
+    char* guidance_input[200]; // Probably should be dynamic
 } DataGuiding;  
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);

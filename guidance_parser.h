@@ -2,5 +2,5 @@
 #define GUIDANCE_PARSER
 #include "helper.h"
 
-int parse_guidance(DataGuidance *guidance);
+int parse_guidance(DataGuiding *guidance);
 #endif

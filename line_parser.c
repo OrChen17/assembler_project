@@ -32,7 +32,7 @@ DataInstruction* parse_data_instruction(char *line) {
     for (int i = 0; i < strlen(token); i++) {
         if (token[i] == ',') {
             strncpy(operand_1, token, i);
-            if (strlen(operand_1) == 0) { // CR - doesn't it just mean that we had a comma with nothing before it --> an error ?
+            if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
                 printf("Found empty operand 1 with , \n");
                 has_found_error = 1;
@@ -76,7 +76,7 @@ DataGuiding* parse_guiding_line_to_struct(char* line) {
             printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label");
         }
     token = strtok(NULL, "\n");
-    strcpy(guidance->guiding_input, token);
+    strcpy(guidance->guidance_input, token);
 }
 
 int parse_instruction_line(char *line) {
@@ -92,6 +92,6 @@ int parse_guiding_line(char *line) {
     DataGuiding *guidance = parse_guiding_line_to_struct(line);
     printf("Label: %s|\n", guidance->label);
     printf("Guidance word: %s|\n", guidance->guidance_word);
-    printf("Guidance input: %s|\n", guidance->guiding_input);
+    printf("Guidance input: %s|\n", guidance->guidance_input);
     return parse_guidance(guidance);
 }

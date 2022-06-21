@@ -7,8 +7,8 @@ int DC = 0;
 
 code_cell_node* start;
 code_cell_node* end;
-data_cell_node* start;
-data_cell_node* end;
+data_cell_node* data_start;
+data_cell_node* data_end;
 
 void add_code(CodeCell *cell) {
     if (start == NULL) {
@@ -27,17 +27,17 @@ void add_code(CodeCell *cell) {
 }
 
 void add_data(DataCell *cell) {
-    if (start == NULL) {
-        start = malloc(sizeof(data_cell_node));
-        start->cell = cell;
-        start->next = NULL;
-        end = start;
+    if (data_start == NULL) {
+        data_start = malloc(sizeof(data_cell_node));
+        data_start->cell = cell;
+        data_start->next = NULL;
+        data_end = data_start;
     }
     else {
-        end->next = malloc(sizeof(data_cell_node));
-        end->next->cell = cell;
-        end->next->next = NULL;
-        end = end->next;
+        data_end->next = malloc(sizeof(data_cell_node));
+        data_end->next->cell = cell;
+        data_end->next->next = NULL;
+        data_end = data_end->next;
     }
     DC++;
 }
@@ -48,6 +48,6 @@ code_cell_node* get_code_section() {
 }
 
 data_cell_node* get_data_section() {
-    data_cell_node* p = start;
+    data_cell_node* p = data_start;
     return p;
 }
