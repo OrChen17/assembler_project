@@ -25,6 +25,7 @@ int is_guiding_line(char *line_pointer) {
     token = strtok(line, ""); /* empty string or space? Assuming space, I think we need also tabs */
     /* CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char */
     if (token == NULL) {
+        free(line);
         return 0;
     }
     if (strcmp(token, ".data") == 0
@@ -32,11 +33,13 @@ int is_guiding_line(char *line_pointer) {
         || strcmp(token, ".struct") == 0
         || strcmp(token, ".extern") == 0
         || strcmp(token, ".entry") == 0) {
+        free(line);
         return 1;
     }
     /*I still don't get why we need this duplication*/
     token = strtok(NULL, " ");
     if (token == NULL) {
+        free(line);
         return 0;
     }
     if (strcmp(token, ".data") == 0
@@ -46,6 +49,7 @@ int is_guiding_line(char *line_pointer) {
         || strcmp(token, ".entry") == 0) {
         return 1;
     }
+    free(line);
     return 0;
 }
 

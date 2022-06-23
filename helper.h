@@ -42,6 +42,11 @@ int has_found_error;
 #define ENCODING_TYPE_E 1;
 #define ENCODING_TYPE_R 2;
 
+typedef struct macro {
+    char name[20];
+    char content[500];
+} MacroCell;
+
 typedef struct machine_code_cell {
     unsigned opcode:4;
     unsigned source_address:2;
