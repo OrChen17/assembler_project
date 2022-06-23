@@ -9,7 +9,9 @@
         "string.h": "c",
         "instruction_parser.h": "c",
         "machine_code.h": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "typeindex": "c",
+        "typeinfo": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }
