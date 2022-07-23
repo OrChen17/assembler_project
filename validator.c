@@ -17,6 +17,7 @@ int is_ascii(char c)
 void validate_number(char *token)
 {
     int i;
+    int number;
     for (i = 1; i < strlen(token); i++)
     {
         if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
@@ -26,7 +27,7 @@ void validate_number(char *token)
             return;
         }
     }
-    int number = atoi(token +  1);
+    number = atoi(token +  1);
     if (number > 127 || number < -128)
     {
         printf("Invalid number out of range: %s\n", token);
@@ -59,6 +60,7 @@ void validate_ascii_string(char *token)
 
 void validate_label(char *label)
 {
+    int i;
     if (strlen(label) > 30)
     {
         printf("label too long: %s\n", label);
@@ -69,7 +71,6 @@ void validate_label(char *label)
         printf("label must start with alphabet: %s\n", label);
         has_found_error = 1;
     }
-    int i;
     for (i = 1; i < strlen(label); i++)
     {
         if (!isalnum(label[i]))
@@ -138,10 +139,10 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
 {
     char* token;
     int i;
-    char* guidance_input_tokenized = guidance_input; //to avoid corruption
+    char* guidance_input_tokenized = guidance_input; /*to avoid corruption */
     if (strcmp(guidance_word, ".data"))
     {
-        //verifying no traking commas
+        /* verifying no traking commas */
         for (i = 0; i < strlen(guidance_input) - 1; i++)
         {
             if (guidance_input[i] == ',' && guidance_input[i+1] == ',')
@@ -151,16 +152,16 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
                 break;
             }
         } 
-        //verifying all in list are ints
+        /* verifying all in list are ints */
         token = strtok(guidance_input_tokenized, ",");
-        if (token == NULL) //not sure it's necessary
+        if (token == NULL) /* not sure it's necessary */
         {
             printf("empty input");
             has_found_error = 1;
         }
         while (token != NULL)
         {
-            if (!atoi(trim_whitespace(token))) //TODO - make sure it only trims on outer margins
+            if (!atoi(trim_whitespace(token))) /*TODO - make sure it only trims on outer margins */
             {
                 printf(".data input has to be a list of numbers, separated by commas");
                 has_found_error = 1;
@@ -176,7 +177,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
 
     else if (strcmp(guidance_word, ".struct"))
     {
-        //TODO - add tracking commas validation
+        /* TODO - add tracking commas validation*/
         token = strtok(guidance_input_tokenized, ",");
         if (!atoi(trim_whitespace(token)))
         {
@@ -247,6 +248,8 @@ void validate_dest_address_mode_for_opcode(int opcode, int address_mode) {
 
 void validate_opcode_operator_amount(int opcode, char *operator_1, char* operator_2)
 {
+    const int OPCODE_OPERATOR_AMOUNTS[] = {2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0};
+
     int amount = 0;
     if (operator_1 != NULL)
     {

@@ -2,7 +2,6 @@
 #define HELPER
 
 int has_found_error;
-
 #define CELL_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c"
 #define CELL_TO_BINARY(opcode, s_addr, d_addr, enc_type)  \
   (opcode & 0x08 ? '1' : '0'), \
@@ -34,7 +33,6 @@ int has_found_error;
 #define OPCODE_RTS 14
 #define OPCODE_HLT 15
 
-#define OPCODE_OPERATOR_AMOUNTS (int[]){2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0}
 #define ADDR_MODE_IMMEDIATE 0
 #define ADDR_MODE_DIRECT 1
 #define ADDR_MODE_DIRECT_PARAM 2
@@ -72,7 +70,7 @@ typedef struct data_guiding_cell {
 typedef struct data_guiding {
     char label[31];
     char guidance_word[7];
-    char guidance_input[200]; // Probably should be dynamic
+    char guidance_input[200]; /* Probably should be dynamic */
 } DataGuiding;  
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);

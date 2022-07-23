@@ -8,19 +8,22 @@
 
 int process_file(char *filename) 
 {
+    char* full_filename;
+    FILE *pre_assembled_file;
+    FILE *input_file;
     printf("Got File: %s\n", filename);
-    char* full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
+    full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
     strcpy(full_filename, filename);
     strcat(full_filename, ".as");
-    FILE *input_file = fopen(full_filename, "r");
+    input_file = fopen(full_filename, "r");
     if (input_file == NULL) {
         printf("File %s was not found\n", full_filename);
         exit(1);
     }
-    FILE *pre_assembled_file = input_file;
-    // TODO Eran - declare and write the pre_assemble_file funcion, call it with input_file as argument and place the result in pre_assembled_file
+    pre_assembled_file = input_file;
+    /* TODO Eran - declare and write the pre_assemble_file funcion, call it with input_file as argument and place the result in pre_assembled_file */
     assemble_file(pre_assembled_file);
-    // TODO Eran- 2nd iteration
+    /* TODO Eran- 2nd iteration */
     if (has_found_error) {
         printf("Found error, assembler failed\n");
         exit(1);
@@ -32,11 +35,13 @@ int process_file(char *filename)
 
 
 int main(int argc, char *argv[]) {
+    int i;
     if (argc == 1) {
         printf("No files detected, please specify file names\n");
         exit(1);
     }
-    for (int i = 1; i< argc; i++) {
+    for (i = 1; i< argc; i++) {
         process_file(argv[i]);
     }
+    return 0;
 }

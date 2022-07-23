@@ -12,11 +12,11 @@ void add_symbol(char* label, short int type) {
     strcpy(symbol->label, label);
     symbol->type = type;
     if (type == CODE_SYMBOL) {
-        // Not sure - should this be the IC or IC + DC?
+        /* Not sure - should this be the IC or IC + DC? */
         symbol->address = IC;
     }
     else {
-        // Not sure - should this be the DC or IC + DC?
+        /* Not sure - should this be the DC or IC + DC? */
         symbol->address = DC;
     }
 

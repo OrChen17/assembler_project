@@ -9,13 +9,16 @@
 #include <guidance_parser.h>
 
 DataInstruction* parse_data_instruction(char *line) {
+    int i;
+    char* operand_1;
+    char* operand_2;
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
     char *token = strtok(line, " \t");
     if (token == NULL) {
         strcpy(instruction->opcode, trim_whitespace(line));
         return instruction;
     }
-    if (token[strlen(token) - 1] == ':') { //CR - what if we have spaces between the label and the colon?
+    if (token[strlen(token) - 1] == ':') { /*CR - what if we have spaces between the label and the colon? */
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
         strcpy(instruction->label, trim_whitespace(label));
@@ -28,9 +31,9 @@ DataInstruction* parse_data_instruction(char *line) {
     if (token == NULL) {
         return instruction;
     }
-    char* operand_1 = malloc(sizeof(char) * strlen(token));
-    char* operand_2 = malloc(sizeof(char) * strlen(token));
-    for (int i = 0; i < strlen(token); i++) {
+    operand_1 = malloc(sizeof(char) * strlen(token));
+    operand_2 = malloc(sizeof(char) * strlen(token));
+    for (i = 0; i < strlen(token); i++) {
         if (token[i] == ',') {
             strncpy(operand_1, token, i);
             if (strlen(operand_1) == 0) {
@@ -50,7 +53,7 @@ DataInstruction* parse_data_instruction(char *line) {
             return instruction;
         }
     }
-    // no ","
+    /* no "," */
     if (strlen(trim_whitespace(token)) != 0) {
         strcpy(instruction->operand_1, trim_whitespace(token));
     }
@@ -58,9 +61,10 @@ DataInstruction* parse_data_instruction(char *line) {
 }
 
 DataGuiding* parse_guiding_line_to_struct(char* line) {
+    char *token;
     DataGuiding* guidance = malloc(sizeof(DataGuiding));
     strcpy(guidance->label, "1NULL");
-    char *token = strtok(line, " \t");
+    token = strtok(line, " \t");
     if (token[strlen(token) - 1] == ':') {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);

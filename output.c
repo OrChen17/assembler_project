@@ -5,12 +5,16 @@
 #include <string.h>
 
 void create_object_file(char* file_name) {
+    FILE *output_file;
+    int start_index;
+    code_cell_node* instructions;
+    int i;
     char* output_filename = strcat(file_name, ".ob");
     printf("Making output file %s", output_filename);
-    FILE *output_file = fopen(output_filename, "w");
-    int start_index = 100;
-    code_cell_node* instructions = get_code_section();
-    int i = 0;
+    output_file = fopen(output_filename, "w");
+    start_index = 100;
+    instructions = get_code_section();
+    i = 0;
     fprintf(output_file, "%s %s\n", int_to_base_32(IC), int_to_base_32(DC));
     while(instructions != NULL) {
         int line_index = start_index + i;

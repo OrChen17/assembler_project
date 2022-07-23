@@ -11,9 +11,10 @@ int has_found_error = 0;
 
 CodeCell *header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell)
 {
+    int data;
     CodeCell *code_cell = malloc(sizeof(CodeCell));
     code_cell->encoding_type = ENCODING_TYPE_A;
-    int data = header_code_cell->opcode;
+    data = header_code_cell->opcode;
     data = data << 2;
     data = data | header_code_cell->source_address;
     data = data << 2;
@@ -83,8 +84,9 @@ char* int_to_base_32(int data) {
 }
 void slice_str(const char *str, char *buffer, int start, int end)
 {
+    int i;
     int j = 0;
-    for (int i = start; i <= end; ++i)
+    for (i = start; i <= end; ++i)
     {
         buffer[j++] = str[i];
     }
@@ -94,7 +96,7 @@ void slice_str(const char *str, char *buffer, int start, int end)
 char *trim_whitespace(char *str)
 {
     char *end;
-    // Trim leading space
+    /* Trim leading space */
     while (isspace(*str))
         str++;
     if (*str == 0)
@@ -102,7 +104,7 @@ char *trim_whitespace(char *str)
         return str;
     }
 
-    // Trim trailing space
+    /* Trim trailing space */
     end = str + strlen(str) - 1;
     while (end > str && isspace(*end))
         end--;
