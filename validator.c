@@ -265,3 +265,4 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
         has_found_error = 1;
     }
 }
+/* We don't have validation for opcode's name! */

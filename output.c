@@ -10,7 +10,7 @@ void create_object_file(char* file_name) {
     code_cell_node* instructions;
     int i;
     char* output_filename = strcat(file_name, ".ob");
-    printf("Making output file %s", output_filename);
+    printf("\nMaking output file %s\n", output_filename);
     output_file = fopen(output_filename, "w");
     start_index = 100;
     instructions = get_code_section();

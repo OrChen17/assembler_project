@@ -1,4 +1,4 @@
-HELLO: lea
+;HELLO: lea
 sme "something,"
 macro m1
  inc r2
@@ -18,8 +18,7 @@ sub r5, r7
 add r3, S4.1
 m1
 add S1.1,HELLO.2
-LABEL: ABC
+;LABEL: ABC
 m2
 mov S1,HELLO.2
 add S1, #123
-end of example

@@ -59,6 +59,7 @@ typedef struct data_instruction {
     char opcode[10];
     char operand_1[40];
     char operand_2[40];
+    /* We limit lines to be of length 83 but here we give them an accumulated length of 121 */
 } DataInstruction;
 
 typedef struct data_cell {

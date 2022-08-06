@@ -3,38 +3,38 @@
 #include <stdlib.h>
 #include <string.h>
 
-macro_cell_node* start;
+macro_cell_node* macro_start;
 macro_cell_node* new_cell;
 
 void add_macro_to_macros_table(MacroCell * cell)
 {
-    if (start == NULL)
+    if (macro_start == NULL)
     {
-        start = malloc(sizeof(macro_cell_node));
-        strcpy(start->name, cell->name);
-        strcpy(start->content, cell->content);
-        start->next = NULL;
+        macro_start = malloc(sizeof(macro_cell_node));
+        strcpy(macro_start->name, cell->name);
+        strcpy(macro_start->content, cell->content);
+        macro_start->next = NULL;
     }
     else
     {
         new_cell = malloc(sizeof(macro_cell_node));
         strcpy(new_cell->name, cell->name);
         strcpy(new_cell->content, cell->content);
-        new_cell->next = start;
-        start = new_cell;
+        new_cell->next = macro_start;
+        macro_start = new_cell;
     }
 }
 
 int not_in_macros_table(char* token)
 {
     macro_cell_node* p;
-    if (start == NULL)
+    if (macro_start == NULL)
     {
         return 1;
     }
     else
     {
-        p = start;
+        p = macro_start;
         while (p->next != NULL)
         {
             if (strcmp(p->name, token) == 0)
@@ -59,7 +59,7 @@ char* unfold_single_macro(char * token)
     macro_cell_node* p;
     char *content;
 
-    p = start;
+    p = macro_start;
     if (p->next == NULL)
     {
         content = p->content;
@@ -81,19 +81,22 @@ char* unfold_single_macro(char * token)
     return content; 
 }
 
-void free_macros_table(macro_cell_node* start)
+void free_macros_table(macro_cell_node* macro_start)
 {
     macro_cell_node* to_free;
-    to_free = start->next;
-    /*free(start);*/
-    while (to_free->next != NULL)
+    to_free = macro_start->next;
+    free(macro_start);
+    if (to_free != NULL)
     {
-        to_free = to_free->next;
-        free(to_free);
+        while (to_free->next != NULL)
+        {
+            to_free = to_free->next;
+            free(to_free);
+        }
     }
 }
 
-FILE* unfold_macros(FILE *input_file)
+char* unfold_macros(FILE *input_file)
 {
     FILE* pre_assembled_file;
     char line[83];
@@ -103,14 +106,15 @@ FILE* unfold_macros(FILE *input_file)
     char *content;
     MacroCell *macro_cell = malloc(sizeof(MacroCell));
     
-    pre_assembled_file = fopen("pre_assembled_file", "w+"); //I'm assuming here that we can use the same file name for all the files given as inputs
+    pre_assembled_file = fopen(PRE_ASSEMBLED_FILE_NAME, "w+"); /* I'm assuming here that we can use the same file name for all the files given as inputs */
     while (fgets(line, 83, input_file)) {
+        /*printf("line is: %s", line);*/
         strcpy(tokenized_line, line);
         token = strtok(tokenized_line, " \t\n");
-        printf("current word is: %s\n", token);
+        /*printf("token is: %s\n", token);*/
         if (token == NULL)
         {
-            fputs(line, pre_assembled_file);
+            fprintf(pre_assembled_file, "%s", line);
             continue;
         }
         if (strcmp(token, "macro") == 0)
@@ -133,21 +137,20 @@ FILE* unfold_macros(FILE *input_file)
         {
             if (not_in_macros_table(token))
             {
-                fputs(line, pre_assembled_file);
+                fprintf(pre_assembled_file, "%s", line);
             }
             else
             {
                 content = unfold_single_macro(token);
-                fputs(content, pre_assembled_file);
+                fprintf(pre_assembled_file, "%s", content);
             }
         }
     }
-    if (start != NULL)
+    if (macro_start != NULL)
     {
-        free_macros_table(start);
+        free_macros_table(macro_start);
     }
-    printf("freed table\n");
     fclose(pre_assembled_file);
     free(macro_cell);
-    return pre_assembled_file;
+    return PRE_ASSEMBLED_FILE_NAME;
 }

@@ -8,14 +8,16 @@
 #include <helper.h>
 #include <guidance_parser.h>
 
-DataInstruction* parse_data_instruction(char *line) {
+DataInstruction* parse_data_instruction(char *instruction_to_parse) {
     int i;
     char* operand_1;
     char* operand_2;
     DataInstruction *instruction = malloc(sizeof(DataInstruction));
-    char *token = strtok(line, " \t");
+    char *token;
+    strcpy(instruction->label, "");
+    token = strtok(instruction_to_parse, " \t\n");
     if (token == NULL) {
-        strcpy(instruction->opcode, trim_whitespace(line));
+        strcpy(instruction->opcode, trim_whitespace(instruction_to_parse));
         return instruction;
     }
     if (token[strlen(token) - 1] == ':') { /*CR - what if we have spaces between the label and the colon? */
@@ -23,7 +25,7 @@ DataInstruction* parse_data_instruction(char *line) {
         strncpy(label, token, strlen(token) - 1);
         strcpy(instruction->label, trim_whitespace(label));
         validate_label(instruction->label);
-        token = strtok(NULL, " \t");
+        token = strtok(NULL, " \t\n");
     }
 
     strcpy(instruction->opcode, trim_whitespace(token));
@@ -31,11 +33,12 @@ DataInstruction* parse_data_instruction(char *line) {
     if (token == NULL) {
         return instruction;
     }
-    operand_1 = malloc(sizeof(char) * strlen(token));
-    operand_2 = malloc(sizeof(char) * strlen(token));
+    operand_1 = malloc(sizeof(char) * strlen(token) + 1);
+    operand_2 = malloc(sizeof(char) * strlen(token) + 1);
     for (i = 0; i < strlen(token); i++) {
         if (token[i] == ',') {
             strncpy(operand_1, token, i);
+            operand_1[i] = '\0';
             if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
                 printf("Found empty operand 1 with , \n");
@@ -63,21 +66,21 @@ DataInstruction* parse_data_instruction(char *line) {
 DataGuiding* parse_guiding_line_to_struct(char* line) {
     char *token;
     DataGuiding* guidance = malloc(sizeof(DataGuiding));
-    strcpy(guidance->label, "1NULL");
+    strcpy(guidance->label, "");
     token = strtok(line, " \t");
     if (token[strlen(token) - 1] == ':') {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
-        strcpy(guidance->label, label);
+        strcpy(guidance->label, trim_whitespace(label));
         validate_label(guidance->label);
         token = strtok(NULL, " \t");
     }
     strcpy(guidance->guidance_word, trim_whitespace(token));
     validate_guidance_word(guidance->guidance_word);
     if ((strcmp(guidance->guidance_word, ".entry") || strcmp(guidance->guidance_word, ".extern"))
-        && guidance->label != NULL)
+        && strcmp(guidance->label, ""))
         {
-            strcpy(guidance->label, "1NULL");
+            strcpy(guidance->label, "");
             printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label");
         }
     token = strtok(NULL, "\n");
@@ -85,8 +88,8 @@ DataGuiding* parse_guiding_line_to_struct(char* line) {
     return guidance;
 }
 
-int parse_instruction_line(char *line) {
-    DataInstruction *instruction = parse_data_instruction(line);
+int parse_instruction_line(char *instruction_to_parse) {
+    DataInstruction *instruction = parse_data_instruction(instruction_to_parse);
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);
     printf("Operand 1: %s|\n", instruction->operand_1);
