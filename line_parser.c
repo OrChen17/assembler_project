@@ -23,6 +23,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
     if (token[strlen(token) - 1] == ':') { /*CR - what if we have spaces between the label and the colon? */
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
+        label[strlen(token) - 1] = '\0';
         strcpy(instruction->label, trim_whitespace(label));
         validate_label(instruction->label);
         token = strtok(NULL, " \t\n");
