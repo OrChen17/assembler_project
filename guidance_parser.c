@@ -13,7 +13,7 @@ int parse_guidance(DataGuiding *guidance) {
     DataCell *data_cell = malloc(sizeof(DataCell));
     /* Might need guidance_tokenized to avoid corruption */
     validate_guidance_input(guidance->guidance_word, guidance->guidance_input);
-    if (strcmp(guidance->guidance_word, ".data"))
+    if (!strcmp(guidance->guidance_word, ".data"))
     {
         add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
@@ -27,7 +27,7 @@ int parse_guidance(DataGuiding *guidance) {
             token = strtok(NULL, " \t,");
         }
     }
-    else if (strcmp(guidance->guidance_word, ".string"))
+    else if (!strcmp(guidance->guidance_word, ".string"))
     {
         add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
@@ -40,7 +40,7 @@ int parse_guidance(DataGuiding *guidance) {
         data_cell->data = 0;
         add_data(data_cell);
     }
-    else if (strcmp(guidance->guidance_word, ".struct"))
+    else if (!strcmp(guidance->guidance_word, ".struct"))
     {
         add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);

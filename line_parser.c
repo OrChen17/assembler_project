@@ -47,7 +47,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
             }
             strcpy(instruction->operand_1, trim_whitespace(operand_1));
 
-            strncpy(operand_2, token + i + 1, strlen(token) - i);
+            strncpy(operand_2, token + i + 1, strlen(token) - i); /* add null terminator */
             if (strlen(operand_2) == 0) {
                 printf("Invalid empty operand\n");
                 has_found_error = 1;
@@ -68,21 +68,22 @@ DataGuiding* parse_guiding_line_to_struct(char* line) {
     char *token;
     DataGuiding* guidance = malloc(sizeof(DataGuiding));
     strcpy(guidance->label, "");
-    token = strtok(line, " \t");
+    token = strtok(line, " \t\n");
     if (token[strlen(token) - 1] == ':') {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
+        label[strlen(token) - 1] = '\0';
         strcpy(guidance->label, trim_whitespace(label));
         validate_label(guidance->label);
-        token = strtok(NULL, " \t");
+        token = strtok(NULL, " \t\n");
     }
     strcpy(guidance->guidance_word, trim_whitespace(token));
     validate_guidance_word(guidance->guidance_word);
-    if ((strcmp(guidance->guidance_word, ".entry") || strcmp(guidance->guidance_word, ".extern"))
+    if (!(strcmp(guidance->guidance_word, ".entry") || !strcmp(guidance->guidance_word, ".extern"))
         && strcmp(guidance->label, ""))
         {
             strcpy(guidance->label, "");
-            printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label");
+            printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label\n");
         }
     token = strtok(NULL, "\n");
     strcpy(guidance->guidance_input, token);

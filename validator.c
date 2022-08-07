@@ -142,7 +142,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
     char* token;
     int i;
     char* guidance_input_tokenized = guidance_input; /*to avoid corruption */
-    if (strcmp(guidance_word, ".data"))
+    if (!strcmp(guidance_word, ".data"))
     {
         /* verifying no traking commas */
         for (i = 0; i < strlen(guidance_input) - 1; i++)
@@ -172,12 +172,12 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         }
     }
 
-    else if (strcmp(guidance_word, ".string"))
+    else if (!strcmp(guidance_word, ".string"))
     {
         validate_ascii_string(trim_whitespace(guidance_input));
     }
 
-    else if (strcmp(guidance_word, ".struct"))
+    else if (!strcmp(guidance_word, ".struct"))
     {
         /* TODO - add tracking commas validation*/
         token = strtok(guidance_input_tokenized, ",");

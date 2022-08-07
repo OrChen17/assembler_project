@@ -10,6 +10,8 @@ lea S2.1, r2
 ;add #-10, S3.1
 ;add #-1, S3.2
 
+LABEL: .data 6,-9,15
+
 ;add     r2, HELLO
 ;add r5, r7
 ;add HELLO1, S5.3

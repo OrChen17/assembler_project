@@ -22,7 +22,7 @@ int is_guiding_line(char *line_pointer) {
     char *line_to_parse = malloc(sizeof(char) * strlen(line_pointer));
     strcpy(line_to_parse, line_pointer);
 
-    token = strtok(line_to_parse, ""); /* empty string or space? Assuming space, I think we need also tabs */
+    token = strtok(line_to_parse, " \t\n"); /* empty string or space? Assuming space, I think we need also tabs */
     /* CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char */
     if (token == NULL) {
         return 0;
@@ -35,7 +35,7 @@ int is_guiding_line(char *line_pointer) {
         return 1;
     }
     /*I still don't get why we need this duplication*/
-    token = strtok(NULL, " ");
+    token = strtok(NULL, " \t\n");
     if (token == NULL) {
         return 0;
     }
