@@ -8,7 +8,7 @@
 #include "symbol_table.h"
 #include "guidance_parser.h"
 
-int parse_guidance(DataGuiding *guidance) {
+int parse_guidance(GuidingInstruction *guidance) {
     int i;
     char* token;
     DataCell *data_cell = malloc(sizeof(DataCell));

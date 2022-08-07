@@ -63,9 +63,9 @@ DataInstruction* parse_data_instruction(char *line) {
     return instruction;
 }
 
-DataGuiding* parse_guiding_line_to_struct(char* line) {
+GuidingInstruction* parse_guiding_line_to_struct(char* line) {
     char *token;
-    DataGuiding* guidance = malloc(sizeof(DataGuiding));
+    GuidingInstruction* guidance = malloc(sizeof(GuidingInstruction));
     strcpy(guidance->label, "1NULL");
     token = strtok(line, " \t");
     if (token[strlen(token) - 1] == ':') {
@@ -98,7 +98,7 @@ int parse_instruction_line(char *line) {
 }
 
 int parse_guiding_line(char *line) {
-    DataGuiding *guidance = parse_guiding_line_to_struct(line);
+    GuidingInstruction *guidance = parse_guiding_line_to_struct(line);
     printf("Label: %s|\n", guidance->label);
     printf("Guidance word: %s|\n", guidance->guidance_word);
     printf("Guidance input: %s|\n", guidance->guidance_input);

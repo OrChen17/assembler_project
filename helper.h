@@ -62,20 +62,25 @@ typedef struct data_cell {
     char label_needed[31];
 } CodeCell;
 
-typedef struct data_guiding_cell {
+typedef struct guiding_cell {
     signed data:10;
     char label_needed[31];
 } DataCell;
 
-typedef struct data_guiding {
+typedef struct guiding_instruction {
     char label[31];
     char guidance_word[7];
     char guidance_input[200]; /* Probably should be dynamic */
-} DataGuiding;  
+} GuidingInstruction;  
 
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
+/*Translates Machine Code Cell to a string, for printing*/
 char *trim_whitespace(char *str);
+/*trim the whitespace of the given str*/
 char* code_cell_to_b32(CodeCell *code_cell);
+/*transforms the code cell to b32*/
 char* int_to_base_32(int data);
+/*converts given data to base 32*/
 CodeCell* header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell);
+/*converts a header code cell to a regular code cell*/
 #endif

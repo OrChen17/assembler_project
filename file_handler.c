@@ -19,6 +19,7 @@ int is_empty_line(char *line) {
 }
 
 int is_guiding_line(char *line_pointer) {
+    /*checks if the line is a guiding-type line*/
     char *token;
     /* copy to protect original line */
     char *line = malloc(sizeof(char) * strlen(line_pointer));
@@ -52,6 +53,9 @@ int is_guiding_line(char *line_pointer) {
 }
 
 int parse_line(char *line) {
+    /*checks which type of line it is. returns 0 if everything is ok, otherwise 1
+        parses the line if needed*/
+
     if (is_empty_line(line)) {
         return 0;
     }
@@ -67,6 +71,7 @@ int parse_line(char *line) {
 }
 
 int assemble_file(FILE *pre_assembled_file) { 
+    /*runs the assembler on the file*/
     char line[83];
     while (fgets(line, 83, pre_assembled_file)) {
         if (strlen(line) > 81) {

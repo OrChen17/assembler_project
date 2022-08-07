@@ -8,7 +8,8 @@
 #include <output.h>
 
 
-int process_file(char *filename) 
+int process_file(char *filename)
+/*Gets the name of the file without extension. runs the assembler on the file*/
 {
     char* full_filename;
     FILE *pre_assembled_file;
@@ -37,6 +38,7 @@ int process_file(char *filename)
 
 
 int main(int argc, char *argv[]) {
+    /*the entrypoint, handles the arguments*/
     int i;
     if (argc == 1) {
         printf("No files detected, please specify file names\n");
