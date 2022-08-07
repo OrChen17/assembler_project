@@ -1,3 +1,6 @@
+/* parses each line from its bare text to a "DataInstruction" / GuidingInstruction struct, 
+which has the parsed sections of the line - label, operands, opcode etc. passes the instruction to the instruction parser */
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

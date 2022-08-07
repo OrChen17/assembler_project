@@ -1,3 +1,4 @@
+/*parses the Guiding Instructions into DataCells, and adds them to the cells list. */
 #include "helper.h"
 #include <string.h>
 #include <stdio.h>

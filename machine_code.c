@@ -1,3 +1,4 @@
+/*inputs data and code cells to theie respective section, implemented with a linked list */
 #include <helper.h>
 #include <stdlib.h>
 #include "machine_code.h"

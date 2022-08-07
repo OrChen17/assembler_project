@@ -1,3 +1,5 @@
+/*This file process each file line by line, checks which type of line it is, 
+and calls line_parser according to the type of file it is*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <helper.h>

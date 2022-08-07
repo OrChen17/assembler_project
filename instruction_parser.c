@@ -1,3 +1,5 @@
+/*transforms the instruction object into the CodeCell, which can be translated into the byte-code of the line
+saves the code cell. */
 #include <helper.h>
 #include <string.h>
 #include <stdio.h>

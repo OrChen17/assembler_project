@@ -1,3 +1,5 @@
+/* This file is the first file in the processing chain.
+ in charge of handling the input, calling the file_handler for each file and finally calling the output */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 

@@ -1,3 +1,5 @@
+/*outputs the required files, by using the code_section and data_section. */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <machine_code.h>

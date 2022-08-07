@@ -1,3 +1,4 @@
+/* includes generic methods for the rest of the code to use */ 
 #include <stdio.h>
 #include <math.h>
 #include "helper.h"

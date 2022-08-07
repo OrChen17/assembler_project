@@ -1,3 +1,4 @@
+/*includes validation logic for the rest of the program */
 #include <string.h>
 #include <stdio.h>
 #include <helper.h>
