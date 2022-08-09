@@ -93,6 +93,8 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
 }
 
 void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
+    /*populates the address cells needed. if the cell isn't relevant, it will have 1NULL at its label needed, and later will be skipped
+    and not inserted into the instruction cells. */
     char* label;
     char* num;
     if (operand_1 != NULL) {
