@@ -22,10 +22,10 @@ int is_guiding_line(char *line_pointer) {
     /*checks if the line is a guiding-type line*/
     char *token;
     /* copy to protect original line */
-    char *line = malloc(sizeof(char) * strlen(line_pointer));
-    strcpy(line, line_pointer);
+    char *line_to_parse = malloc(sizeof(char) * strlen(line_pointer));
+    strcpy(line_to_parse, line_pointer);
 
-    token = strtok(line, ""); /* empty string or space? Assuming space, I think we need also tabs */
+    token = strtok(line_to_parse, " \t\n"); /* empty string or space? Assuming space, I think we need also tabs */
     /* CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char */
     if (token == NULL) {
         return 0;
@@ -38,7 +38,7 @@ int is_guiding_line(char *line_pointer) {
         return 1;
     }
     /*I still don't get why we need this duplication*/
-    token = strtok(NULL, " ");
+    token = strtok(NULL, " \t\n");
     if (token == NULL) {
         return 0;
     }
@@ -79,7 +79,7 @@ int assemble_file(FILE *pre_assembled_file) {
             has_found_error = 1;
         }
         else {
-            printf("Got line: %s\n", line);
+            printf("$$ Got line: %s", line);
             parse_line(line);     
         }
     }

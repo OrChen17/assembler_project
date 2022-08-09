@@ -6,16 +6,19 @@
 #include <file_handler.h>
 #include <helper.h>
 #include <output.h>
+#include "unfold_macros.h"
 
 
 int process_file(char *filename)
 /*Gets the name of the file without extension. runs the assembler on the file*/
 {
     char* full_filename;
+    char* full_filename_after_macros;
     FILE *pre_assembled_file;
     FILE *input_file;
-    printf("Got File: %s\n", filename);
+    printf("Got File: %s\n\n", filename);
     full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
+    full_filename_after_macros = malloc(sizeof(char) * strlen(PRE_ASSEMBLED_FILE_NAME) + 1);
     strcpy(full_filename, filename);
     strcat(full_filename, ".as");
     input_file = fopen(full_filename, "r");
@@ -23,15 +26,26 @@ int process_file(char *filename)
         printf("File %s was not found\n", full_filename);
         exit(1);
     }
-    pre_assembled_file = input_file;
-    /* TODO Eran - declare and write the pre_assemble_file funcion, call it with input_file as argument and place the result in pre_assembled_file */
+
+    strcpy(full_filename_after_macros, unfold_macros(input_file));
+    pre_assembled_file = fopen(full_filename_after_macros, "r");
+    if (pre_assembled_file == NULL) {
+        printf("File %s was not found\n", full_filename_after_macros);
+        exit(1);
+    }
+
     assemble_file(pre_assembled_file);
     /* TODO Eran- 2nd iteration */
     if (has_found_error) {
-        printf("Found error, assembler failed\n");
+        printf("\nFound error, assembler failed\n");
         exit(1);
     }
+
     create_output_files(filename);
+    free(full_filename);
+    free(full_filename_after_macros);
+    fclose(input_file);
+    fclose(pre_assembled_file);
     return 1;
 }
 

@@ -116,6 +116,8 @@ void validate_label(char *label)
             has_found_error = 1;
         }
     
+    /* Add validation that label is not a guidance word */
+
     if (is_label_in_symbol_list(label))
     {
         printf("Duplicate label: %s\n", label);
@@ -141,7 +143,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
     char* token;
     int i;
     char* guidance_input_tokenized = guidance_input; /*to avoid corruption */
-    if (strcmp(guidance_word, ".data"))
+    if (!strcmp(guidance_word, ".data"))
     {
         /* verifying no traking commas */
         for (i = 0; i < strlen(guidance_input) - 1; i++)
@@ -171,12 +173,12 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         }
     }
 
-    else if (strcmp(guidance_word, ".string"))
+    else if (!strcmp(guidance_word, ".string"))
     {
         validate_ascii_string(trim_whitespace(guidance_input));
     }
 
-    else if (strcmp(guidance_word, ".struct"))
+    else if (!strcmp(guidance_word, ".struct"))
     {
         /* TODO - add tracking commas validation*/
         token = strtok(guidance_input_tokenized, ",");
@@ -266,3 +268,8 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
         has_found_error = 1;
     }
 }
+/* We don't have validation for opcode's name! */
+/* Validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
+/* A label can't be also a "reshuma", I would assume. Currently we allow that */
+/* When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
+/* Operand which take 2 operand (add, lea) pass the run even with no operands */

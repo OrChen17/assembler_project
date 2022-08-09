@@ -42,6 +42,11 @@ int has_found_error;
 #define ENCODING_TYPE_E 1;
 #define ENCODING_TYPE_R 2;
 
+typedef struct macro {
+    char name[20];
+    char content[500];
+} MacroCell;
+
 typedef struct machine_code_cell {
     unsigned opcode:4;
     unsigned source_address:2;
@@ -54,6 +59,7 @@ typedef struct data_instruction {
     char opcode[10];
     char operand_1[40];
     char operand_2[40];
+    /* We limit lines to be of length 83 but here we give them an accumulated length of 121 */
 } DataInstruction;
 
 typedef struct data_cell {

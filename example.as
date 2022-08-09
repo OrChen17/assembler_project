@@ -1,27 +1,34 @@
-;HELLO: lea
+HELLO: lea
 ;sme "something," , 
 
-add #1  , r4
-;lea #1, r2
-;add #1,     #2
-;add #-10, S3
+mov r2, r6
+HELLO: add r3, r1
+
+;add #1  , r4
+lea S2.1, r2
+;add #1,     r1
+;add #-10, S3.1
 ;add #-1, S3.2
 
-;add     r2, #31
-add r5, r7
-;add r0, S5
+LABEL: .data 6,-9,15
+
+;add     r2, HELLO
+;add r5, r7
+;add HELLO1, S5.3
 ;add r3, S4.1
 
-;add S1.1,HELLO.2
-;add S1.1, #123
+HI: add #4, r1
+
+;add S1.1,H.2
+;add S1.1, S1.2
 ;add S1.1, r3
 ;add S1.1, HELLO
 
-;add S1,HELLO.2
-;add S1, #123
-;add S1, r3
-;add S1, HELLO
+;add S1.2,H.2
+;add S1.1, r5
+;add S3.1, r3
+;add S3.2, HELLO
 
 
 ;sme
-;Hello: jsr,    something
+;Hello: jsr    something
