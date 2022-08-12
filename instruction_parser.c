@@ -99,7 +99,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
     char* num;
     if (operand_1 != NULL) {
         if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
-            strcpy(cells[0].label_needed, "");
+            strcpy(cells[0].label_needed, "1NULL");
             cells[0].encoding_type = ENCODING_TYPE_A;
             cells[0].data = atoi(operand_1 + 1);
         }
@@ -110,7 +110,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             label = strtok(operand_1, ".");
             strcpy(cells[0].label_needed, label);
             num = strtok(NULL, "");
-            strcpy(cells[1].label_needed, "");
+            strcpy(cells[1].label_needed, "1NULL");
             cells[1].data = atoi(num);
             cells[1].encoding_type = ENCODING_TYPE_A;
         }
@@ -120,7 +120,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             if (dest_addr_mode == ADDR_MODE_REGISTER) {
                 data = data | atoi(operand_2 + 1);
             }
-            strcpy(cells[0].label_needed, "");
+            strcpy(cells[0].label_needed, "1NULL");
             cells[0].data = data;
             cells[0].encoding_type = ENCODING_TYPE_A;
         }
@@ -130,7 +130,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
         char* label;
         char* num;
         if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
-            strcpy(cells[2].label_needed, "");
+            strcpy(cells[2].label_needed, "1NULL");
             cells[2].encoding_type = ENCODING_TYPE_A;
             cells[2].data = atoi(operand_2 + 1);
         }
@@ -141,13 +141,13 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             label = strtok(operand_2, ".");
             strcpy(cells[2].label_needed, label);
             num = strtok(NULL, "");
-            strcpy(cells[3].label_needed, "");
+            strcpy(cells[3].label_needed, "1NULL");
             cells[3].data = atoi(num);
             cells[3].encoding_type = ENCODING_TYPE_A;
         }
         if (dest_addr_mode == ADDR_MODE_REGISTER) {
             if (src_addr_mode != ADDR_MODE_REGISTER) {
-                strcpy(cells[2].label_needed, "");
+                strcpy(cells[2].label_needed, "1NULL");
                 cells[2].encoding_type = ENCODING_TYPE_A;
                 cells[2].data = atoi(operand_2 + 1);
             }
@@ -185,7 +185,7 @@ int parse_instruction(DataInstruction *instruction) {
 
     cells = malloc(sizeof(CodeCell) * 4); /* CR - Need to free memory at some point */
     for (i = 0; i < 4; i++) {
-        strcpy(cells[i].label_needed, "1NULL");
+        strcpy(cells[i].label_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
         cells[i].encoding_type = 0;
         cells[i].data = 0;
     }
