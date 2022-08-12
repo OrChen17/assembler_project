@@ -13,17 +13,15 @@ void add_symbol(char* label, short int type) {
     strcpy(symbol->label, label);
     symbol->type = type;
     if (type == CODE_SYMBOL) {
-        /* Not sure - should this be the IC or IC + DC? */
         symbol->address = IC;
     }
     else {
-        /* Not sure - should this be the DC or IC + DC? */
         symbol->address = DC;
     }
 
     if (symbol_list_start == NULL) {
         symbol_list_start = malloc(sizeof(symbol_node));
-        strcpy(symbol->label, label);
+        symbol_list_start->symbol = symbol;
         symbol_list_start->next = NULL;
         symbol_list_end = symbol_list_start;
     }
@@ -46,6 +44,20 @@ int is_label_in_symbol_list(char* label) {
             return 1;
         }
         cur = cur->next;
+    }
+    return 0;
+}
+
+int get_label_address(char label[31])
+{
+    symbol_node* cur = symbol_list_start;
+    while (cur != NULL)
+    {
+        if (strcmp(cur->symbol->label, label) == 0)
+        {
+            return cur->symbol->address;
+        }
+    cur = cur->next;
     }
     return 0;
 }

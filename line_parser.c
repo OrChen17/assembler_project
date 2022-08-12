@@ -46,6 +46,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
             if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
                 printf("Found empty operand 1 with , \n");
+                /* When getting here (with proper example) --> segfault */
                 has_found_error = 1;
             }
             strcpy(instruction->operand_1, trim_whitespace(operand_1));

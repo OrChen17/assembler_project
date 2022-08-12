@@ -256,11 +256,11 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
     const int OPCODE_OPERATOR_AMOUNTS[] = {2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0};
 
     int amount = 0;
-    if (operator_1 != NULL)
+    if (strcmp(operator_1, "") != 0)
     {
         amount++;
     }
-    if (operator_2 != NULL)
+    if (strcmp(operator_2, "") != 0)
     {
         amount++;
     }

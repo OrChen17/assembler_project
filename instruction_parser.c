@@ -65,7 +65,7 @@ int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
 }
 
 short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, char* operand) {
-    if (operand == NULL) {
+    if (strcmp(operand, "") == 0) {
         return ADDR_MODE_IMMEDIATE;
     }
     if (operand[0] == '#') {
@@ -92,12 +92,13 @@ short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, ch
     return ADDR_MODE_DIRECT;
 }
 
+/* The function doesn't populate encoding types R where necessary */
 void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
     /*populates the address cells needed. if the cell isn't relevant, it will have 1NULL at its label needed, and later will be skipped
     and not inserted into the instruction cells. */
     char* label;
     char* num;
-    if (operand_1 != NULL) {
+    if (strcmp(operand_1, "") != 0) {
         if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
             strcpy(cells[0].label_needed, "");
             cells[0].encoding_type = ENCODING_TYPE_A;
@@ -126,7 +127,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
         }
     }
 
-    if (operand_2 != NULL) {
+    if (strcmp(operand_1, "") != 0) {
         char* label;
         char* num;
         if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
@@ -166,7 +167,10 @@ int parse_instruction(DataInstruction *instruction) {
         return 1;
     }
     validate_opcode_operator_amount(cell->opcode, instruction->operand_1, instruction->operand_2);
-    add_symbol(instruction->label, CODE_SYMBOL);
+    if (strcmp(instruction->label, "") != 0)
+    {
+        add_symbol(instruction->label, CODE_SYMBOL);
+    }
 
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
@@ -185,7 +189,7 @@ int parse_instruction(DataInstruction *instruction) {
 
     cells = malloc(sizeof(CodeCell) * 4); /* CR - Need to free memory at some point */
     for (i = 0; i < 4; i++) {
-        strcpy(cells[i].label_needed, "1NULL");
+        strcpy(cells[i].label_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
         cells[i].encoding_type = 0;
         cells[i].data = 0;
     }
@@ -195,8 +199,16 @@ int parse_instruction(DataInstruction *instruction) {
         if (strcmp(cells[i].label_needed, "1NULL") == 0) {
             continue;
         }
-        printf("Adding address cell: data=%d, label_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].label_needed, cells[i].encoding_type);
-        add_code(&cells[i]);
+        if (strcmp(cells[i].label_needed, "") == 0)
+        {
+            printf("Adding address cell: data=%d, encoding_type=%d \n", cells[i].data, cells[i].encoding_type);
+            add_code(&cells[i]);
+        }
+        else
+        {
+            printf("Adding address cell with placeholder: data=%d, label_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].label_needed, cells[i].encoding_type);
+            add_code(&cells[i]);
+        }
     }
     return 0;
 }

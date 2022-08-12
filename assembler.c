@@ -7,6 +7,7 @@
 #include <helper.h>
 #include <output.h>
 #include "unfold_macros.h"
+#include "label_fixer.h"
 
 
 int process_file(char *filename)
@@ -35,7 +36,8 @@ int process_file(char *filename)
     }
 
     assemble_file(pre_assembled_file);
-    /* TODO Eran- 2nd iteration */
+    fix_labels();
+    
     if (has_found_error) {
         printf("\nFound error, assembler failed\n");
         exit(1);
@@ -44,7 +46,8 @@ int process_file(char *filename)
     create_output_files(filename);
     free(full_filename);
     free(full_filename_after_macros);
-    fclose(input_file);
+    /*fclose(input_file);*/
+    /* For some reason closing the file leads to a crash */
     fclose(pre_assembled_file);
     return 1;
 }
