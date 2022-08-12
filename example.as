@@ -10,7 +10,9 @@ lea S2.1, r2
 ;add #-10, S3.1
 ;add #-1, S3.2
 
-LABEL: .data 6,-9,15
+LABEL: .data 6 -9,15
+STR: .string "acvd"
+strct8: .struct 8, "xyz"
 
 ;add     r2, HELLO
 ;add r5, r7

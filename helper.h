@@ -75,7 +75,7 @@ typedef struct guiding_cell {
 
 typedef struct guiding_instruction {
     char label[31];
-    char guidance_word[7];
+    char guidance_word[8];
     char guidance_input[200]; /* Probably should be dynamic */
 } GuidingInstruction;  
 

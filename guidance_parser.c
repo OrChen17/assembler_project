@@ -33,7 +33,7 @@ int parse_guidance(GuidingInstruction *guidance) {
         add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
         token = trim_whitespace(guidance->guidance_input);
-        for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char */
+        for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
          {
             data_cell->data = token[i] + '0';
             add_data(data_cell);
@@ -45,11 +45,11 @@ int parse_guidance(GuidingInstruction *guidance) {
     {
         add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
-        token = trim_whitespace(strtok(guidance->guidance_input, ","));
+        token = trim_whitespace(strtok(guidance->guidance_input, " \t,"));
         data_cell->data = atoi(token);
         add_data(data_cell);
-
-        token = trim_whitespace(strtok(NULL, " \t"));
+        token = strtok(NULL, " \t\n");
+        strcpy(token, trim_whitespace(token));
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char */
          {
             data_cell->data = token[i] + '0';

@@ -133,7 +133,7 @@ void validate_guidance_word(char* guidance_word) {
         && strcmp(guidance_word, ".extern") != 0)
     {
         printf("Invalid guidance word: %s\n", guidance_word);
-        printf("Valid guidance words are: .data, .string, .struct, .entry, .extern");
+        printf("Valid guidance words are: .data, .string, .struct, .entry, .extern\n");
         has_found_error = 1;
     }
 }
@@ -142,7 +142,8 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
 {
     char* token;
     int i;
-    char* guidance_input_tokenized = guidance_input; /*to avoid corruption */
+    char guidance_input_tokenized[200];
+    strcpy(guidance_input_tokenized, guidance_input); /*to avoid corruption */
     if (!strcmp(guidance_word, ".data"))
     {
         /* verifying no traking commas */
@@ -150,7 +151,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         {
             if (guidance_input[i] == ',' && guidance_input[i+1] == ',')
             {
-                printf("Illegal input - tracking commas are not allowed");
+                printf("Illegal input - tracking commas are not allowed\n");
                 has_found_error = 1;
                 break;
             }
@@ -166,11 +167,12 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         {
             if (!atoi(trim_whitespace(token))) /*TODO - make sure it only trims on outer margins */
             {
-                printf(".data input has to be a list of numbers, separated by commas");
+                printf(".data input has to be a list of numbers, separated by commas\n");
                 has_found_error = 1;
             }
             token = strtok(NULL, ",");
         }
+        /* Need to add validation that 1 comma atually does exist (space only should fail) */
     }
 
     else if (!strcmp(guidance_word, ".string"))
@@ -184,7 +186,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         token = strtok(guidance_input_tokenized, ",");
         if (!atoi(trim_whitespace(token)))
         {
-            printf(".struct input must start with a number");
+            printf(".struct input must start with a number\n");
             has_found_error = 1;
         }
         token = strtok(NULL, " \t");
@@ -273,3 +275,4 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* A label can't be also a "reshuma", I would assume. Currently we allow that */
 /* When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
 /* Operand which take 2 operand (add, lea) pass the run even with no operands */
+/* Consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
