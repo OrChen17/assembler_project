@@ -12,11 +12,10 @@ int parse_guidance(GuidingInstruction *guidance) {
     int i;
     char* token;
     DataCell *data_cell = malloc(sizeof(DataCell));
-    /* Might need guidance_tokenized to avoid corruption */
     validate_guidance_input(guidance->guidance_word, guidance->guidance_input);
+    add_symbol(guidance->label, DATA_SYMBOL);
     if (!strcmp(guidance->guidance_word, ".data"))
     {
-        add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
         /* Is label auto-initialized with a null value? */
         /* Do I need to put null values in label for the following numbers? */
@@ -30,7 +29,6 @@ int parse_guidance(GuidingInstruction *guidance) {
     }
     else if (!strcmp(guidance->guidance_word, ".string"))
     {
-        add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
         token = trim_whitespace(guidance->guidance_input);
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
@@ -43,7 +41,6 @@ int parse_guidance(GuidingInstruction *guidance) {
     }
     else if (!strcmp(guidance->guidance_word, ".struct"))
     {
-        add_symbol(guidance->label, DATA_SYMBOL);
         strcpy(data_cell->label_needed, guidance->label);
         token = trim_whitespace(strtok(guidance->guidance_input, " \t,"));
         data_cell->data = atoi(token);
