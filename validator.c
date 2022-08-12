@@ -276,3 +276,9 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
 /* Operand which take 2 operand (add, lea) pass the run even with no operands */
 /* Consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
+/* Macros validation */
+/* guidance - no commas at end/beginning of row */
+/* Same label can't be used in both entry and extern buidance words */
+/* Do we make sure that Labels are <= 30 chars long? */
+/* Make sure labels are not defined more that once */
+/* entry and extern can't have the same label in the same file */
