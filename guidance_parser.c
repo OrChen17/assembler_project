@@ -63,7 +63,13 @@ int parse_guidance(GuidingInstruction *guidance) {
         data_cell->data = 0;
         add_data(data_cell);
     }
-    /* else if entry or extern --> add relevant symbpl; put into files. Here or not here? */
-    /* labe_needed will be relevant here for entry and extern */
+    else if (!strcmp(guidance->guidance_word, ".entry"))
+    {
+        strcpy(data_cell->label_needed, guidance->label);
+    }
+    else if (!strcmp(guidance->guidance_word, ".extern"))
+    {
+        
+    }
     return 0;
 }
