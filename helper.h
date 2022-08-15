@@ -42,6 +42,9 @@ int has_found_error;
 #define ENCODING_TYPE_E 1;
 #define ENCODING_TYPE_R 2;
 
+#define LABEL_TYPE_ENTRY 0;
+#define LABEL_TYPE_EXTERN 1;
+
 typedef struct macro {
     char name[20];
     char content[500];
@@ -60,25 +63,35 @@ typedef struct data_instruction {
     char operand_1[40];
     char operand_2[40];
     /* We limit lines to be of length 83 but here we give them an accumulated length of 121 */
-} DataInstruction;
+} DataInstruction; /* Bad name! */
 
-typedef struct data_cell {
-    signed data:8;
-    unsigned encoding_type:2;
-    char label_needed[31];
-} CodeCell;
-
-typedef struct guiding_cell {
-    signed data:10;
-    char label_needed[31];
-} DataCell;
 
 typedef struct guiding_instruction {
     char label[31];
     char guidance_word[8];
     char guidance_input[200]; /* Probably should be dynamic */
-} GuidingInstruction;  
+} GuidingInstruction;
 
+typedef struct instruction_cell {
+    signed data:8;
+    unsigned encoding_type:2;
+    char address_needed[31];
+} CodeCell;
+
+typedef struct guiding_cell {
+    signed data:10;
+    char address_needed[31];
+} DataCell;
+
+typedef struct entry_extern_cell{
+    char label[31];
+    int label_type;
+} EntryExternCell;
+
+/*typedef struct extern_cell {
+    char label[31];
+} ExternCell;*/
+  
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 /*Translates Machine Code Cell to a string, for printing*/
 char *trim_whitespace(char *str);

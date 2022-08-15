@@ -29,6 +29,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
         label[strlen(token) - 1] = '\0';
         strcpy(instruction->label, trim_whitespace(label));
         validate_label(instruction->label);
+        check_duplicate_label(instruction->label);
         token = strtok(NULL, " \t\n");
     }
 
@@ -79,6 +80,7 @@ GuidingInstruction* parse_guiding_line_to_struct(char* line) {
         label[strlen(token) - 1] = '\0';
         strcpy(guidance->label, trim_whitespace(label));
         validate_label(guidance->label);
+        check_duplicate_label(guidance->label);
         token = strtok(NULL, " \t\n");
     }
     strcpy(guidance->guidance_word, trim_whitespace(token));

@@ -117,7 +117,9 @@ void validate_label(char *label)
         }
     
     /* Add validation that label is not a guidance word */
+}
 
+void check_duplicate_label(char *label) {
     if (is_label_in_symbol_list(label))
     {
         printf("Duplicate label: %s\n", label);
@@ -282,3 +284,4 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* Do we make sure that Labels are <= 30 chars long? */
 /* Make sure labels are not defined more that once */
 /* entry and extern can't have the same label in the same file */
+/* Validate that a label doesn't appear both for entry and extern */

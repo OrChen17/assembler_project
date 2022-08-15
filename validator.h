@@ -6,6 +6,8 @@ void validate_number(char *token);
 /* validates the token is proper number*/
 void validate_label(char *label);
 /* validates the string is a valid label */
+void check_duplicate_label(char *label);
+/* validates that the label is not already in the symbols table (duplicates are not allowed) */
 void validate_guidance_word(char* guidance_word);
 /* validates the string is proper guiding word*/
 

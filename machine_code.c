@@ -2,6 +2,7 @@
 #include <helper.h>
 #include <stdlib.h>
 #include "machine_code.h"
+#include <stdio.h>
 
 int IC = 0;
 int DC = 0;
@@ -10,6 +11,8 @@ code_cell_node* start;
 code_cell_node* end;
 data_cell_node* data_start;
 data_cell_node* data_end;
+entry_extern_cell_node* ent_ext_start;
+entry_extern_cell_node* ent_ext_end;
 
 void add_code(CodeCell *cell) {
     if (start == NULL) {
@@ -25,6 +28,8 @@ void add_code(CodeCell *cell) {
         end = end->next;
     }
     IC++;
+    /*printf("IC: %d\n", IC);
+    printf("DC: %d\n", DC);*/
 }
 
 void add_data(DataCell *cell) {
@@ -41,6 +46,23 @@ void add_data(DataCell *cell) {
         data_end = data_end->next;
     }
     DC++;
+    /*printf("IC: %d\n", IC);
+    printf("DC: %d\n", DC);*/
+}
+
+void add_ent_ext(EntryExternCell *cell) {
+    if (ent_ext_start == NULL) {
+        ent_ext_start = malloc(sizeof(entry_extern_cell_node));
+        ent_ext_start->cell = cell;
+        ent_ext_start->next = NULL;
+        ent_ext_end = ent_ext_start;
+    }
+    else {
+        ent_ext_end->next = malloc(sizeof(entry_extern_cell_node));
+        ent_ext_end->next->cell = cell;
+        ent_ext_end->next->next = NULL;
+        ent_ext_end = ent_ext_end->next;
+    }
 }
 
 code_cell_node* get_code_section() {
@@ -50,5 +72,10 @@ code_cell_node* get_code_section() {
 
 data_cell_node* get_data_section() {
     data_cell_node* p = data_start;
+    return p;
+}
+
+entry_extern_cell_node* get_ent_ext_section() {
+    entry_extern_cell_node* p = ent_ext_start;
     return p;
 }

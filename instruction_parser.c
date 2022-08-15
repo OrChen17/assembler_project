@@ -100,18 +100,18 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
     char* num;
     if (strcmp(operand_1, "") != 0) {
         if (src_addr_mode == ADDR_MODE_IMMEDIATE) {
-            strcpy(cells[0].label_needed, "");
+            strcpy(cells[0].address_needed, "");
             cells[0].encoding_type = ENCODING_TYPE_A;
             cells[0].data = atoi(operand_1 + 1);
         }
         if (src_addr_mode == ADDR_MODE_DIRECT) {
-            strcpy(cells[0].label_needed, operand_1);
+            strcpy(cells[0].address_needed, operand_1);
         }
         if (src_addr_mode == ADDR_MODE_DIRECT_PARAM) {
             label = strtok(operand_1, ".");
-            strcpy(cells[0].label_needed, label);
+            strcpy(cells[0].address_needed, label);
             num = strtok(NULL, "");
-            strcpy(cells[1].label_needed, "");
+            strcpy(cells[1].address_needed, "");
             cells[1].data = atoi(num);
             cells[1].encoding_type = ENCODING_TYPE_A;
         }
@@ -121,7 +121,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
             if (dest_addr_mode == ADDR_MODE_REGISTER) {
                 data = data | atoi(operand_2 + 1);
             }
-            strcpy(cells[0].label_needed, "");
+            strcpy(cells[0].address_needed, "");
             cells[0].data = data;
             cells[0].encoding_type = ENCODING_TYPE_A;
         }
@@ -131,24 +131,24 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
         char* label;
         char* num;
         if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {
-            strcpy(cells[2].label_needed, "");
+            strcpy(cells[2].address_needed, "");
             cells[2].encoding_type = ENCODING_TYPE_A;
             cells[2].data = atoi(operand_2 + 1);
         }
         if (dest_addr_mode == ADDR_MODE_DIRECT) {
-            strcpy(cells[2].label_needed, operand_2);
+            strcpy(cells[2].address_needed, operand_2);
         }
         if (dest_addr_mode == ADDR_MODE_DIRECT_PARAM) {
             label = strtok(operand_2, ".");
-            strcpy(cells[2].label_needed, label);
+            strcpy(cells[2].address_needed, label);
             num = strtok(NULL, "");
-            strcpy(cells[3].label_needed, "");
+            strcpy(cells[3].address_needed, "");
             cells[3].data = atoi(num);
             cells[3].encoding_type = ENCODING_TYPE_A;
         }
         if (dest_addr_mode == ADDR_MODE_REGISTER) {
             if (src_addr_mode != ADDR_MODE_REGISTER) {
-                strcpy(cells[2].label_needed, "");
+                strcpy(cells[2].address_needed, "");
                 cells[2].encoding_type = ENCODING_TYPE_A;
                 cells[2].data = atoi(operand_2 + 1);
             }
@@ -189,24 +189,24 @@ int parse_instruction(DataInstruction *instruction) {
 
     cells = malloc(sizeof(CodeCell) * 4); /* CR - Need to free memory at some point */
     for (i = 0; i < 4; i++) {
-        strcpy(cells[i].label_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
+        strcpy(cells[i].address_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
         cells[i].encoding_type = 0;
         cells[i].data = 0;
     }
     get_address_cell(instruction->operand_1, cell->source_address, instruction->operand_2, cell->dest_address, cells);
 
     for (i = 0; i < 4; i++) {
-        if (strcmp(cells[i].label_needed, "1NULL") == 0) {
+        if (strcmp(cells[i].address_needed, "1NULL") == 0) {
             continue;
         }
-        if (strcmp(cells[i].label_needed, "") == 0)
+        if (strcmp(cells[i].address_needed, "") == 0)
         {
             printf("Adding address cell: data=%d, encoding_type=%d \n", cells[i].data, cells[i].encoding_type);
             add_code(&cells[i]);
         }
         else
         {
-            printf("Adding address cell with placeholder: data=%d, label_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].label_needed, cells[i].encoding_type);
+            printf("Adding address cell with placeholder: data=%d, address_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].address_needed, cells[i].encoding_type);
             add_code(&cells[i]);
         }
     }

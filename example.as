@@ -15,6 +15,8 @@ STR: .string "acvd"
 strct8: .struct 8, "xyz"
 ; .data 3,4,5
 
+.entry STR
+
 add HELLO1, S5.3
 
 HI: add #4, r1
@@ -22,8 +24,14 @@ HI: add #4, r1
 
 HLT: hlt
 
-;add S1.2,H.2
+.extern K1
+
+add K1.2,H.2
 ;add S3.2, HELLO
+
+.extern H
+.extern HELLO1
+.extern S5
 
 
 ;Hello3: jsr    something

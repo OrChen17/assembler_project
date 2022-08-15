@@ -1,5 +1,6 @@
 /*the interface for the symbol table, which is implemented using a linked list*/
 #include <helper.h>
+#include <stdio.h>
 #include "symbol_table.h"
 #include <stdlib.h>
 #include <string.h>
