@@ -31,6 +31,7 @@ int parse_guidance(GuidingInstruction *guidance) {
         token = strtok(guidance->guidance_input, " \t,");
         while (token != NULL)
         {
+            data_cell = malloc(sizeof(DataCell));
             data_cell->data = atoi(token);
             add_data(data_cell);
             token = strtok(NULL, " \t,");
@@ -42,7 +43,9 @@ int parse_guidance(GuidingInstruction *guidance) {
         token = trim_whitespace(guidance->guidance_input);
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
          {
-            data_cell->data = token[i] + '0';
+            data_cell = malloc(sizeof(DataCell));
+            data_cell->data = token[i];
+            printf("@#@# %d\n", data_cell->data);
             add_data(data_cell);
         }
         data_cell->data = 0; /* Adding null terminator */
@@ -52,6 +55,7 @@ int parse_guidance(GuidingInstruction *guidance) {
     {
         strcpy(data_cell->address_needed, "");
         token = trim_whitespace(strtok(guidance->guidance_input, " \t,"));
+        data_cell = malloc(sizeof(DataCell));
         data_cell->data = atoi(token);
         add_data(data_cell);
         token = strtok(NULL, " \t\n");
@@ -66,7 +70,7 @@ int parse_guidance(GuidingInstruction *guidance) {
     }
     else
     {
-        strcpy(entry_extern_cell->label, guidance->guidance_input);
+        strcpy(entry_extern_cell->label, trim_whitespace(guidance->guidance_input));
         if (!strcmp(guidance->guidance_word, ".entry"))
         {
             entry_extern_cell->label_type = LABEL_TYPE_ENTRY;

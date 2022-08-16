@@ -60,5 +60,5 @@ int get_label_address(char label[31])
         }
     cur = cur->next;
     }
-    return 0;
+    return -1;
 }

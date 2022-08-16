@@ -80,6 +80,10 @@ int assemble_file(FILE *pre_assembled_file) {
         }
         else {
             printf("$$ Got line: %s", line);
+            if (line[(strlen(line) - 1)] != '\n')
+            {
+                printf("\n");
+            }
             parse_line(line);     
         }
     }

@@ -1,3 +1,4 @@
+A1: .data 22
 HELLO: lea S4.3, r2
 ;sme "something," ,
 
@@ -15,7 +16,7 @@ STR: .string "acvd"
 strct8: .struct 8, "xyz"
 ; .data 3,4,5
 
-.entry STR
+.entry STR 
 
 add HELLO1, S5.3
 
@@ -24,14 +25,15 @@ HI: add #4, r1
 
 HLT: hlt
 
-.extern K1
+.extern 	K1
 
 add K1.2,H.2
 ;add S3.2, HELLO
 
-.extern H
+.extern  H
 .extern HELLO1
-.extern S5
+.extern S5	
 
+inc HI
 
 ;Hello3: jsr    something

@@ -123,9 +123,11 @@ char* unfold_macros(FILE *input_file)
             content = malloc(500);
             strcpy(content, "");
             fgets(line, 83, input_file);
-            while (strcmp(line, "endmacro\n") != 0)
+            while (strcmp(trim_whitespace(line), "endmacro") != 0)
             {
-                strcat(content, line + 1);
+                strcat(content, trim_whitespace(line));
+                content[strlen(content)] = '\n';
+                content[strlen(content)] = '\0';
                 fgets(line, 83, input_file);
             }
             strcpy(macro_cell->name, name);

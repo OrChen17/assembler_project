@@ -8,6 +8,7 @@
 #include <output.h>
 #include "unfold_macros.h"
 #include "label_fixer.h"
+#include "machine_code.h"
 
 
 int process_file(char *filename)
@@ -17,6 +18,8 @@ int process_file(char *filename)
     char* full_filename_after_macros;
     FILE *pre_assembled_file;
     FILE *input_file;
+    code_cell_node* instructions_for_print;
+    data_cell_node* guidance_for_print;
     printf("Got File: %s\n\n", filename);
     full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
     full_filename_after_macros = malloc(sizeof(char) * strlen(PRE_ASSEMBLED_FILE_NAME) + 1);
@@ -27,15 +30,34 @@ int process_file(char *filename)
         printf("File %s was not found\n", full_filename);
         exit(1);
     }
-
     strcpy(full_filename_after_macros, unfold_macros(input_file));
     pre_assembled_file = fopen(full_filename_after_macros, "r");
     if (pre_assembled_file == NULL) {
         printf("File %s was not found\n", full_filename_after_macros);
         exit(1);
     }
-
     assemble_file(pre_assembled_file);
+
+    
+    printf("____________________________________________\n");
+    printf("____________________________________________\n");
+    instructions_for_print = get_code_section();
+    while (instructions_for_print != NULL)
+    {
+        printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);
+        instructions_for_print = instructions_for_print->next;
+    }
+
+    printf("____________________________________________\n");
+    printf("____________________________________________\n");
+    guidance_for_print = get_data_section();
+    while (guidance_for_print != NULL)
+    {
+        printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);
+        guidance_for_print = guidance_for_print->next;
+    }
+
+    
     fix_labels();
     
     if (has_found_error) {

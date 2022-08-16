@@ -127,7 +127,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
         }
     }
 
-    if (strcmp(operand_1, "") != 0) {
+    if (strcmp(operand_2, "") != 0) {
         char* label;
         char* num;
         if (dest_addr_mode == ADDR_MODE_IMMEDIATE) {

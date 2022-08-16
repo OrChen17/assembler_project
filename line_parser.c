@@ -64,16 +64,17 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
     }
     /* no "," */
     if (strlen(trim_whitespace(token)) != 0) {
-        strcpy(instruction->operand_1, trim_whitespace(token));
+        strcpy(instruction->operand_2, trim_whitespace(token));
     }
     return instruction;
 }
 
-GuidingInstruction* parse_guiding_line_to_struct(char* line) {
+GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
     char *token;
     GuidingInstruction* guidance = malloc(sizeof(GuidingInstruction));
     strcpy(guidance->label, "");
-    token = strtok(line, " \t\n");
+    token = strtok(guidance_to_parse, " \t\n");
+    printf("%s\n", token);
     if (token[strlen(token) - 1] == ':') {
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
@@ -82,6 +83,7 @@ GuidingInstruction* parse_guiding_line_to_struct(char* line) {
         validate_label(guidance->label);
         check_duplicate_label(guidance->label);
         token = strtok(NULL, " \t\n");
+        printf("%s\n", token);
     }
     strcpy(guidance->guidance_word, trim_whitespace(token));
     validate_guidance_word(guidance->guidance_word);
@@ -105,8 +107,8 @@ int parse_instruction_line(char *instruction_to_parse) {
     return parse_instruction(instruction);
 }
 
-int parse_guiding_line(char *line) {
-    GuidingInstruction *guidance = parse_guiding_line_to_struct(line);
+int parse_guiding_line(char *guidance_to_parse) {
+    GuidingInstruction *guidance = parse_guiding_line_to_struct(guidance_to_parse);
     printf("Label: %s|\n", guidance->label);
     printf("Guidance word: %s|\n", guidance->guidance_word);
     printf("Guidance input: %s|\n", guidance->guidance_input);
