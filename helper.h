@@ -80,7 +80,7 @@ typedef struct instruction_cell {
 
 typedef struct guiding_cell {
     signed data:10;
-    char address_needed[31];
+    char address_needed[31]; /* Can probably remove this field (make sure to remove also assignments to it) */
 } DataCell;
 
 typedef struct entry_extern_cell{

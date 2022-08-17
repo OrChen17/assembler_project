@@ -1,4 +1,4 @@
-A1: .data 22
+;A1: .data 22
 HELLO: lea S4.3, r2
 ;sme "something," ,
 

@@ -39,26 +39,45 @@ int process_file(char *filename)
     assemble_file(pre_assembled_file);
 
     
-    printf("____________________________________________\n");
-    printf("____________________________________________\n");
+    /*printf("____________________________________________\n");
+    printf("____________________________________________\n");*/
     instructions_for_print = get_code_section();
     while (instructions_for_print != NULL)
     {
-        printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);
+        /*printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);*/
         instructions_for_print = instructions_for_print->next;
     }
 
-    printf("____________________________________________\n");
-    printf("____________________________________________\n");
+    /*printf("____________________________________________\n");
+    printf("____________________________________________\n");*/
     guidance_for_print = get_data_section();
     while (guidance_for_print != NULL)
     {
-        printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);
+        /*printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);*/
         guidance_for_print = guidance_for_print->next;
     }
 
     
     fix_labels();
+
+    /*printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");*/
+    instructions_for_print = get_code_section();
+    while (instructions_for_print != NULL)
+    {
+        /*printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);*/
+        instructions_for_print = instructions_for_print->next;
+    }
+
+    /*printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");*/
+    guidance_for_print = get_data_section();
+    while (guidance_for_print != NULL)
+    {
+        /*printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);*/
+        guidance_for_print = guidance_for_print->next;
+    }
+
     
     if (has_found_error) {
         printf("\nFound error, assembler failed\n");

@@ -284,5 +284,5 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* Do we make sure that Labels are <= 30 chars long? */
 /* Make sure labels are not defined more that once */
 /* entry and extern can't have the same label in the same file */
-/* Validate that a label doesn't appear both for entry and extern */
 /* For all mallocs - we need to cast I think? and free memory later... */
+/* free mallocs, including list frees! */

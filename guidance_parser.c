@@ -45,11 +45,12 @@ int parse_guidance(GuidingInstruction *guidance) {
          {
             data_cell = malloc(sizeof(DataCell));
             data_cell->data = token[i];
-            printf("@#@# %d\n", data_cell->data);
             add_data(data_cell);
         }
+        data_cell = malloc(sizeof(DataCell));
         data_cell->data = 0; /* Adding null terminator */
         add_data(data_cell);
+
     }
     else if (!strcmp(guidance->guidance_word, ".struct"))
     {
@@ -62,9 +63,11 @@ int parse_guidance(GuidingInstruction *guidance) {
         strcpy(token, trim_whitespace(token));
         for (i = 1; i < strlen(token) - 1; i++) /* token[0] and token [length-1] are the " char */
         {
-            data_cell->data = token[i] + '0';
+            data_cell = malloc(sizeof(DataCell));
+            data_cell->data = token[i];
             add_data(data_cell);
         }
+        data_cell = malloc(sizeof(DataCell));
         data_cell->data = 0;
         add_data(data_cell);
     }

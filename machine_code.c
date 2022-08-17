@@ -28,8 +28,8 @@ void add_code(CodeCell *cell) {
         end = end->next;
     }
     IC++;
-    /*printf("IC: %d\n", IC);
-    printf("DC: %d\n", DC);*/
+    printf("IC: %d\n", IC);
+    printf("DC: %d\n", DC);
 }
 
 void add_data(DataCell *cell) {
@@ -38,19 +38,16 @@ void add_data(DataCell *cell) {
         data_start->cell = cell;
         data_start->next = NULL;
         data_end = data_start;
-        printf("FIRST START: !!!@@@***()()()(()) %d\n", data_start->cell->data);
     }
     else {
         data_end->next = malloc(sizeof(data_cell_node));
         data_end->next->cell = cell;
         data_end->next->next = NULL;
         data_end = data_end->next;
-        printf("START: !!!@@@***()()()(()) %d\n", data_start->cell->data);
-        printf("END: !!!@@@***()()()(()) %d\n", data_end->cell->data);
     }
     DC++;
-    /*printf("IC: %d\n", IC);
-    printf("DC: %d\n", DC);*/
+    printf("IC: %d\n", IC);
+    printf("DC: %d\n", DC);
 }
 
 void add_ent_ext(EntryExternCell *cell) {

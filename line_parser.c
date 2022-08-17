@@ -74,16 +74,14 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
     GuidingInstruction* guidance = malloc(sizeof(GuidingInstruction));
     strcpy(guidance->label, "");
     token = strtok(guidance_to_parse, " \t\n");
-    printf("%s\n", token);
     if (token[strlen(token) - 1] == ':') {
-        char* label = malloc(sizeof(char) * (strlen(token) - 1));
+        char* label = malloc(sizeof(char) * (strlen(token) + 10)); /* try to look for a better solution */
         strncpy(label, token, strlen(token) - 1);
         label[strlen(token) - 1] = '\0';
         strcpy(guidance->label, trim_whitespace(label));
         validate_label(guidance->label);
         check_duplicate_label(guidance->label);
         token = strtok(NULL, " \t\n");
-        printf("%s\n", token);
     }
     strcpy(guidance->guidance_word, trim_whitespace(token));
     validate_guidance_word(guidance->guidance_word);
