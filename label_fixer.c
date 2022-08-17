@@ -5,32 +5,15 @@
 #include "machine_code.h"
 
 void fix_labels() {
-    /*symbol_node* symbols = get_symbol_list();
-    while (symbols != NULL)
-    {
-        printf("ADDRESS BEFORE FIX: %d\n", symbols->symbol->address);
-        symbols = symbols->next;
-    }*/
     fix_symbols_table();
     add_missing_addresses_code();
-    /* add_missing_addresses_data(); */
+    /* ##CR: add_missing_addresses_data(); */
 }
 
 void fix_symbols_table()
 {
     symbol_node* symbols;
     symbols = get_symbol_list();
-    printf("\n");
-    while (symbols != NULL)
-    {
-        printf("\nLabel before fix: %s\n", symbols->symbol->label);
-        printf("Address before fix: %d\n", symbols->symbol->address);
-        symbols = symbols->next;
-    }
-    printf("\n************************\n");
-    symbols = get_symbol_list();
-
-
     while (symbols != NULL)
     {
         if (symbols->symbol->type == DATA_SYMBOL)
@@ -38,8 +21,6 @@ void fix_symbols_table()
             symbols->symbol->address += IC;
         }
         symbols->symbol->address += 100;
-    printf("\nLabel after fix: %s\n", symbols->symbol->label);
-    printf("Address after fix: %d\n", symbols->symbol->address);
     symbols = symbols->next;
     }
 }
@@ -50,16 +31,15 @@ void add_missing_addresses_code()
     instructions = get_code_section();
     while (instructions != NULL)
     {
-        /*printf("@@ %s\n", instructions->cell->address_needed);*/
         if (strcmp(instructions->cell->address_needed, "") != 0)
         {
-            /*printf("Adding missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type); */
+            /* ##CR: printf("Adding missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type); */
             instructions->cell->data = get_label_address(instructions->cell->address_needed);
             if (instructions->cell->data != -1)
             {
                 strcpy(instructions->cell->address_needed, "");
                 instructions->cell->encoding_type = ENCODING_TYPE_R;
-                /*printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
+                /* ##CR: printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
                 continue;
             }
             else if (check_if_extern(instructions->cell->address_needed))
@@ -67,7 +47,7 @@ void add_missing_addresses_code()
                 strcpy(instructions->cell->address_needed, "");
                 instructions->cell->encoding_type = ENCODING_TYPE_E;
                 instructions->cell->data = 0; /* I think that for externs the address should be 0 */
-                /*printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
+                /* ##CR: printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
             }
             else
             {

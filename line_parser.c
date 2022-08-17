@@ -23,7 +23,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
         strcpy(instruction->opcode, trim_whitespace(instruction_to_parse));
         return instruction;
     }
-    if (token[strlen(token) - 1] == ':') { /*CR - what if we have spaces between the label and the colon? */
+    if (token[strlen(token) - 1] == ':') { /* ##CR: what if we have spaces between the label and the colon? */
         char* label = malloc(sizeof(char) * (strlen(token) - 1));
         strncpy(label, token, strlen(token) - 1);
         label[strlen(token) - 1] = '\0';
@@ -47,12 +47,12 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
             if (strlen(operand_1) == 0) {
                 operand_1 = NULL;
                 printf("Found empty operand 1 with , \n");
-                /* When getting here (with proper example) --> segfault */
+                /* ##CR: When getting here (with proper example) --> segfault */
                 has_found_error = 1;
             }
             strcpy(instruction->operand_1, trim_whitespace(operand_1));
 
-            strncpy(operand_2, token + i + 1, strlen(token) - i); /* add null terminator */
+            strncpy(operand_2, token + i + 1, strlen(token) - i); /* ##CR: add null terminator */
             if (strlen(operand_2) == 0) {
                 printf("Invalid empty operand\n");
                 has_found_error = 1;
@@ -62,7 +62,7 @@ DataInstruction* parse_data_instruction(char *instruction_to_parse) {
             return instruction;
         }
     }
-    /* no "," */
+    /* ##CR: no "," */
     if (strlen(trim_whitespace(token)) != 0) {
         strcpy(instruction->operand_2, trim_whitespace(token));
     }
@@ -75,7 +75,7 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
     strcpy(guidance->label, "");
     token = strtok(guidance_to_parse, " \t\n");
     if (token[strlen(token) - 1] == ':') {
-        char* label = malloc(sizeof(char) * (strlen(token) + 10)); /* try to look for a better solution */
+        char* label = malloc(sizeof(char) * (strlen(token) + 10)); /* ##CR: try to look for a better solution */
         strncpy(label, token, strlen(token) - 1);
         label[strlen(token) - 1] = '\0';
         strcpy(guidance->label, trim_whitespace(label));

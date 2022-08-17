@@ -14,7 +14,7 @@ int parse_guidance(GuidingInstruction *guidance) {
     DataCell *data_cell = malloc(sizeof(DataCell));
     EntryExternCell *entry_extern_cell = malloc(sizeof(EntryExternCell));
     
-    /* Might need to wrap with: if validate_guidance_input, only then do all the parsing */
+    /* ##CR: Might need to wrap with: if validate_guidance_input, only then do all the parsing */
     validate_guidance_input(guidance->guidance_word, guidance->guidance_input);
 
     if (strcmp(guidance->label, "") != 0)
@@ -26,8 +26,8 @@ int parse_guidance(GuidingInstruction *guidance) {
     if (!strcmp(guidance->guidance_word, ".data"))
     {
         strcpy(data_cell->address_needed, "");
-        /* Do I need to put null values in label for the following numbers? */
-        /* Not sure what this comment means ^^ */
+        /* ##CR: Do I need to put null values in label for the following numbers? */
+        /* ##CR: Not sure what this comment means ^^ */
         token = strtok(guidance->guidance_input, " \t,");
         while (token != NULL)
         {

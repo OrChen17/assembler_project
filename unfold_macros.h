@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "helper.h"
-#define PRE_ASSEMBLED_FILE_NAME "pre_assembled_file.am" /* Maybe the name should be identical to the 
+#define PRE_ASSEMBLED_FILE_NAME "pre_assembled_file.am" /* ##CR: Maybe the name should be identical to the 
 input file's name, only with .am instead of .as */
 
 typedef struct node {

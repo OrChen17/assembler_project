@@ -116,7 +116,7 @@ void validate_label(char *label)
             has_found_error = 1;
         }
     
-    /* Add validation that label is not a guidance word */
+    /* ##CR: Add validation that label is not a guidance word */
 }
 
 void check_duplicate_label(char *label) {
@@ -145,7 +145,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
     char* token;
     int i;
     char guidance_input_tokenized[200];
-    strcpy(guidance_input_tokenized, guidance_input); /*to avoid corruption */
+    strcpy(guidance_input_tokenized, guidance_input); /* ##CR: to avoid corruption */
     if (!strcmp(guidance_word, ".data"))
     {
         /* verifying no traking commas */
@@ -160,21 +160,21 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
         } 
         /* verifying all in list are ints */
         token = strtok(guidance_input_tokenized, ",");
-        if (token == NULL) /* not sure it's necessary */
+        if (token == NULL) /* ##CR: not sure it's necessary */
         {
             printf("empty input");
             has_found_error = 1;
         }
         while (token != NULL)
         {
-            if (!atoi(trim_whitespace(token))) /*TODO - make sure it only trims on outer margins */
+            if (!atoi(trim_whitespace(token))) /* ##CR: make sure it only trims on outer margins */
             {
                 printf(".data input has to be a list of numbers, separated by commas\n");
                 has_found_error = 1;
             }
             token = strtok(NULL, ",");
         }
-        /* Need to add validation that 1 comma atually does exist (space only should fail) */
+        /* ##CR: Need to add validation that 1 comma atually does exist (space only should fail) */
     }
 
     else if (!strcmp(guidance_word, ".string"))
@@ -184,7 +184,7 @@ void validate_guidance_input(char* guidance_word, char* guidance_input)
 
     else if (!strcmp(guidance_word, ".struct"))
     {
-        /* TODO - add tracking commas validation*/
+        /* ##CR: add tracking commas validation*/
         token = strtok(guidance_input_tokenized, ",");
         if (!atoi(trim_whitespace(token)))
         {
@@ -272,17 +272,17 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
         has_found_error = 1;
     }
 }
-/* We don't have validation for opcode's name! */
-/* Validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
-/* A label can't be also a "reshuma", I would assume. Currently we allow that */
-/* When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
-/* Operand which take 2 operand (add, lea) pass the run even with no operands */
-/* Consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
-/* Macros validation */
-/* guidance - no commas at end/beginning of row */
-/* Same label can't be used in both entry and extern buidance words */
-/* Do we make sure that Labels are <= 30 chars long? */
-/* Make sure labels are not defined more that once */
-/* entry and extern can't have the same label in the same file */
-/* For all mallocs - we need to cast I think? and free memory later... */
-/* free mallocs, including list frees! */
+/* ##CR: We don't have validation for opcode's name! */
+/* ##CR: Validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
+/* ##CR: A label can't be also a "reshuma", I would assume. Currently we allow that */
+/* ##CR: When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
+/* ##CR: Operand which take 2 operand (add, lea) pass the run even with no operands */
+/* ##CR: Consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
+/* ##CR: Macros validation */
+/* ##CR: guidance - no commas at end/beginning of row */
+/* ##CR: Same label can't be used in both entry and extern buidance words */
+/* ##CR: Do we make sure that Labels are <= 30 chars long? */
+/* ##CR: Make sure labels are not defined more that once */
+/* ##CR: entry and extern can't have the same label in the same file */
+/* ##CR: For all mallocs - we need to cast I think? and free memory later... */
+/* ##CR: free mallocs, including list frees! */

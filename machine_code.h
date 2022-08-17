@@ -17,11 +17,6 @@ typedef struct entry_extern_node {
 	struct entry_extern_node * next;
 } entry_extern_cell_node;
 
-/*typedef extern_node {
-	ExternCell* cell;
-	struct extern_node * next;
-} extern_cell_node;*/
-
 void add_code(CodeCell* cell);
 /* adds the code cell to the list of code cells (the code section)*/
 void add_data(DataCell *cell);
