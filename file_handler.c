@@ -8,7 +8,7 @@ and calls line_parser according to the type of file it is*/
 #include <line_parser.h>
 #include <ctype.h>
 
-int is_empty_line(char *line) {
+int is_empty_line(char line[83]) {
     int i;
     for (i = 0; i < strlen(line); i++) {
         if (!isspace(line[i])) {
@@ -18,12 +18,12 @@ int is_empty_line(char *line) {
     return 1;
 }
 
-int is_guiding_line(char *line_pointer) {
+int is_guiding_line(char line[83]) {
     /*checks if the line is a guiding-type line*/
     char *token;
+    char line_to_parse[83];
     /* copy to protect original line */
-    char *line_to_parse = malloc(sizeof(char) * strlen(line_pointer));
-    strcpy(line_to_parse, line_pointer);
+    strcpy(line_to_parse, line);
 
     token = strtok(line_to_parse, " \t\n"); /* empty string or space? Assuming space, I think we need also tabs */
     /* CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char */
@@ -37,7 +37,6 @@ int is_guiding_line(char *line_pointer) {
         || strcmp(token, ".entry") == 0) {
         return 1;
     }
-    /*I still don't get why we need this duplication*/
     token = strtok(NULL, " \t\n");
     if (token == NULL) {
         return 0;

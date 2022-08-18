@@ -62,11 +62,6 @@ void validate_ascii_string(char *token)
 void validate_label(char *label)
 {
     int i;
-    if (strlen(label) > 30)
-    {
-        printf("label too long: %s\n", label);
-        has_found_error = 1;
-    }
     if (!isalpha(label[0]))
     {
         printf("label must start with alphabet: %s\n", label);

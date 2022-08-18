@@ -28,8 +28,6 @@ void add_code(CodeCell *cell) {
         end = end->next;
     }
     IC++;
-    printf("IC: %d\n", IC);
-    printf("DC: %d\n", DC);
 }
 
 void add_data(DataCell *cell) {
@@ -46,8 +44,6 @@ void add_data(DataCell *cell) {
         data_end = data_end->next;
     }
     DC++;
-    printf("IC: %d\n", IC);
-    printf("DC: %d\n", DC);
 }
 
 void add_ent_ext(EntryExternCell *cell) {
