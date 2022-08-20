@@ -115,7 +115,15 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
             printf("Warning: .entry and .extern guidance words should not have labels. Ignoring label\n");
         }
     token = strtok(NULL, "\n");
-    strcpy(guidance->guidance_input, token);
+    if (token != NULL)
+    {
+        strcpy(guidance->guidance_input, token);
+    }
+    else
+    {
+        printf("Error: a guidanc line must have an input\n");
+        has_found_error = 1;
+    }
     return guidance;
 }
 
