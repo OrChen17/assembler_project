@@ -163,6 +163,7 @@ int parse_instruction(DataInstruction *instruction) {
 
     cell->encoding_type = ENCODING_TYPE_A;
     cell->opcode = parse_opcode(cell, instruction);
+    strcpy(cell->line_label, instruction->label);
     if (cell->opcode == -1) {
         return 1;
     }

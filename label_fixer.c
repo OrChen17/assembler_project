@@ -62,9 +62,8 @@ void add_missing_addresses_code()
                 /*printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
                 continue;
             }
-            else if (check_if_extern(instructions->cell->address_needed))
+            else if (get_label_type(instructions->cell->address_needed) == LABEL_TYPE_EXTERN)
             {
-                strcpy(instructions->cell->address_needed, "");
                 instructions->cell->encoding_type = ENCODING_TYPE_E;
                 instructions->cell->data = 0; /* I think that for externs the address should be 0 */
                 /*printf("Added missing address cell: data=%d, encoding_type=%d \n", instructions->cell->data, instructions->cell->encoding_type);*/
@@ -79,17 +78,17 @@ void add_missing_addresses_code()
     }
 }
 
-int check_if_extern(char label[31])
+int get_label_type(char label[31])
 {
     entry_extern_cell_node* ent_exts;
     ent_exts = get_ent_ext_section();
     while (ent_exts != NULL)
     {
-        if (strcmp(label, ent_exts->cell->label) == 0 && ent_exts->cell->label_type == 1)
+        if (strcmp(label, ent_exts->cell->label) == 0)
         {
-            return 1;
+            return ent_exts->cell->label_type;
         }
         ent_exts = ent_exts->next;
     }
-    return 0;
+    return -1;
 }

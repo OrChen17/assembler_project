@@ -21,6 +21,7 @@ CodeCell *header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell)
     data = data << 2;
     data = data | header_code_cell->dest_address;
     code_cell->data = data;
+    strcpy(code_cell->line_label, header_code_cell->line_label);
     strcpy(code_cell->address_needed, "");
     return code_cell;
 }

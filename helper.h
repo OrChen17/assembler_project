@@ -38,12 +38,12 @@ int has_found_error;
 #define ADDR_MODE_DIRECT_PARAM 2
 #define ADDR_MODE_REGISTER 3
 
-#define ENCODING_TYPE_A 0;
-#define ENCODING_TYPE_E 1;
-#define ENCODING_TYPE_R 2;
+#define ENCODING_TYPE_A 0
+#define ENCODING_TYPE_E 1
+#define ENCODING_TYPE_R 2
 
-#define LABEL_TYPE_ENTRY 0;
-#define LABEL_TYPE_EXTERN 1;
+#define LABEL_TYPE_ENTRY 0
+#define LABEL_TYPE_EXTERN 1
 
 typedef struct macro {
     char name[20];
@@ -55,6 +55,7 @@ typedef struct machine_code_cell {
     unsigned source_address:2;
     unsigned dest_address:2;
     unsigned encoding_type:2;
+    char line_label[31];
 } HeaderCodeCell;
 
 typedef struct data_instruction {
@@ -62,7 +63,6 @@ typedef struct data_instruction {
     char opcode[10];
     char operand_1[40];
     char operand_2[40];
-    /* We limit lines to be of length 83 but here we give them an accumulated length of 121 */
 } DataInstruction; /* Bad name! */
 
 
@@ -72,10 +72,11 @@ typedef struct guiding_instruction {
     char guidance_input[200]; /* Probably should be dynamic */
 } GuidingInstruction;
 
-typedef struct instruction_cell {
+typedef struct code_cell {
     signed data:8;
     unsigned encoding_type:2;
     char address_needed[31];
+    char line_label[31];
 } CodeCell;
 
 typedef struct guiding_cell {
