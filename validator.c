@@ -135,66 +135,93 @@ void validate_guidance_word(char* guidance_word) {
     }
 }
 
-void validate_guidance_input(char* guidance_word, char* guidance_input)
+void validate_no_tracking_commas(char guidance_input[200])
 {
-    char* token;
     int i;
+    char *token;
     char guidance_input_tokenized[200];
     strcpy(guidance_input_tokenized, guidance_input); /*to avoid corruption */
-    if (!strcmp(guidance_word, ".data"))
+    token = strtok(guidance_input_tokenized, " \t\n");
+    while (token != NULL)
     {
-        /* verifying no traking commas */
-        for (i = 0; i < strlen(guidance_input) - 1; i++)
+        for (i = 0; i < strlen(token) - 1; i++)
         {
-            if (guidance_input[i] == ',' && guidance_input[i+1] == ',')
+            if (token[i] == ',' && token[i+1] == ',')
             {
                 printf("Illegal input - tracking commas are not allowed\n");
                 has_found_error = 1;
-                break;
             }
-        } 
-        /* verifying all in list are ints */
-        token = strtok(guidance_input_tokenized, ",");
-        if (token == NULL) /* not sure it's necessary */
-        {
-            printf("empty input");
-            has_found_error = 1;
         }
-        while (token != NULL)
-        {
-            if (!atoi(trim_whitespace(token))) /*TODO - make sure it only trims on outer margins */
-            {
-                printf(".data input has to be a list of numbers, separated by commas\n");
-                has_found_error = 1;
-            }
-            token = strtok(NULL, ",");
-        }
-        /* Need to add validation that 1 comma atually does exist (space only should fail) */
+        token = strtok(NULL, " \t\n");
     }
-
-    else if (!strcmp(guidance_word, ".string"))
+     
+    /* verifying all in list are ints
+    while (token != NULL)
     {
-        validate_ascii_string(trim_whitespace(guidance_input));
-    }
-
-    else if (!strcmp(guidance_word, ".struct"))
-    {
-        /* TODO - add tracking commas validation*/
-        token = strtok(guidance_input_tokenized, ",");
         if (!atoi(trim_whitespace(token)))
         {
-            printf(".struct input must start with a number\n");
+            printf(".data input has to be a list of numbers, separated by commas\n");
             has_found_error = 1;
         }
-        token = strtok(NULL, " \t");
-        validate_ascii_string(token);
+        token = strtok(NULL, ",");
+    }*/
+    
+        /* Need to add validation that 1 comma atually does exist (space only should fail) */
+}
 
-    }
-    else
+void validate_number_for_guidance(char* token)
+{
+    int i;
+    for (i = 1; i < strlen(token); i++)
     {
-        validate_label(trim_whitespace(guidance_input));
+        if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
+        {
+            printf("ERROR: .data input has to be a list of numbers, separated by commas");
+            has_found_error = 1;
+            return;
+        }
     }
 }
+
+void validate_guidance_string_input(char* token)
+{
+    validate_ascii_string(trim_whitespace(token));
+    if (token[0] != '\"' || token[strlen(token) - 1] != '\"')
+    {
+        printf("ERROR: string inputs must start and and with a double quote\n");
+        has_found_error = 1;
+    }
+    else if (strlen(token) == 2)
+    {
+        printf("ERROR: string input can't be and empty string\n");
+    }
+}
+
+/*void validate_guidance_struct_input(char* token)
+{
+    token = strtok(guidance_input_tokenized, ",");
+    if (!atoi(trim_whitespace(token)))
+    {
+        printf(".struct input must start with a number\n");
+        has_found_error = 1;
+        return 0;
+    }
+    token = strtok(NULL, " \t");
+    if (token == NULL)
+    {
+        printf("ERROR: struct must have a string\n");
+        has_found_error = 1;
+        return 0;
+    }
+    validate_ascii_string(token);
+}
+
+
+   else
+    {
+        validate_label(trim_whitespace(guidance_input));
+    }*/
+
 
 const int valid_src_addr_modes[16][4] = {
     {0,1,2,3}, 

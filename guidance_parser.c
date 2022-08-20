@@ -11,69 +11,91 @@
 int parse_guidance(GuidingInstruction *guidance) {
     int i;
     char* token;
-    DataCell *data_cell = malloc(sizeof(DataCell));
-    EntryExternCell *entry_extern_cell = malloc(sizeof(EntryExternCell));
     
-    /* Might need to wrap with: if validate_guidance_input, only then do all the parsing */
-    validate_guidance_input(guidance->guidance_word, guidance->guidance_input);
-
     if (strcmp(guidance->label, "") != 0)
     {
         add_symbol(guidance->label, DATA_SYMBOL);
     }
-
+    if (trim_whitespace(guidance->guidance_input) == NULL || strcmp(trim_whitespace(guidance->guidance_input), "") == 0)
+    {
+        printf("Error: guidance input can't be empty\n");
+        has_found_error = 1;
+        return 1;
+    }
     
     if (!strcmp(guidance->guidance_word, ".data"))
     {
+        DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->address_needed, "");
-        /* Do I need to put null values in label for the following numbers? */
-        /* Not sure what this comment means ^^ */
-        token = strtok(guidance->guidance_input, " \t,");
+        validate_no_tracking_commas(guidance->guidance_input);
+        token = strtok(guidance->guidance_input, " \t\n,");
         while (token != NULL)
         {
+            validate_number_for_guidance(token);
             data_cell = malloc(sizeof(DataCell));
+            strcpy(data_cell->address_needed, "");
             data_cell->data = atoi(token);
             add_data(data_cell);
-            token = strtok(NULL, " \t,");
+            token = strtok(NULL, " \t\n,");
         }
     }
     else if (!strcmp(guidance->guidance_word, ".string"))
     {
+        DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->address_needed, "");
         token = trim_whitespace(guidance->guidance_input);
+        validate_guidance_string_input(token);
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
          {
             data_cell = malloc(sizeof(DataCell));
+            strcpy(data_cell->address_needed, "");
             data_cell->data = token[i];
             add_data(data_cell);
         }
         data_cell = malloc(sizeof(DataCell));
+        strcpy(data_cell->address_needed, "");
         data_cell->data = 0; /* Adding null terminator */
         add_data(data_cell);
-
     }
     else if (!strcmp(guidance->guidance_word, ".struct"))
     {
+        DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->address_needed, "");
-        token = trim_whitespace(strtok(guidance->guidance_input, " \t,"));
+        /* Need to validate no tracking commas, but it's tricky here because in the string part commas are allowed */
+        token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of "," input */
+        validate_number_for_guidance(token);
         data_cell = malloc(sizeof(DataCell));
+        strcpy(data_cell->address_needed, "");
         data_cell->data = atoi(token);
         add_data(data_cell);
-        token = strtok(NULL, " \t\n");
-        strcpy(token, trim_whitespace(token));
-        for (i = 1; i < strlen(token) - 1; i++) /* token[0] and token [length-1] are the " char */
+        token = strtok(NULL, " \t\n,");
+        /* ##CR: I don't check for a series of commas */
+        if (token == NULL)
         {
+            printf("ERROR: struct guidance must have 2 inputs - 1 number and 1 string\n");
+        }
+        else
+        {
+            strcpy(token, trim_whitespace(token));
+            validate_guidance_string_input(token);
+            for (i = 1; i < strlen(token) - 1; i++) /* token[0] and token [length-1] are the " char */
+            {
+                data_cell = malloc(sizeof(DataCell));
+                strcpy(data_cell->address_needed, "");
+                data_cell->data = token[i];
+                add_data(data_cell);
+            }
             data_cell = malloc(sizeof(DataCell));
-            data_cell->data = token[i];
+            strcpy(data_cell->address_needed, "");
+            data_cell->data = 0;
             add_data(data_cell);
         }
-        data_cell = malloc(sizeof(DataCell));
-        data_cell->data = 0;
-        add_data(data_cell);
     }
     else
     {
+        EntryExternCell *entry_extern_cell = malloc(sizeof(EntryExternCell));
         strcpy(entry_extern_cell->label, trim_whitespace(guidance->guidance_input));
+        validate_label(trim_whitespace(guidance->guidance_input));
         if (!strcmp(guidance->guidance_word, ".entry"))
         {
             entry_extern_cell->label_type = LABEL_TYPE_ENTRY;

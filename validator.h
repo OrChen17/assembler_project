@@ -11,8 +11,13 @@ void check_duplicate_label(char *label);
 void validate_guidance_word(char* guidance_word);
 /* validates the string is proper guiding word*/
 
-void validate_guidance_input(char* guidance_word, char* guidance_input);
-/* validates the guiding input is correct*/
+void validate_no_tracking_commas(char guidance_input[200]);
+/* validates there are no tracking commas, including spaces*/
+void validate_number_for_guidance(char* token);
+/* validates input is a number */ 
+void validate_guidance_string_input(char* token);
+/* validates string guiding input is correct*/
+/*void validate_guidance_struct_input(char* token);*/
 
 void validate_opcode_operator_amount(int opcode, char *operator_1, char* operator_2);
 /* validates the amount of operators is valid for the opcode*/
