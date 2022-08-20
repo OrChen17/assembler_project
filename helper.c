@@ -76,8 +76,9 @@ char *code_cell_to_b32(CodeCell *code_cell)
 
 char* int_to_base_32(int data) {
     TenBit *data_tenbit = malloc(sizeof(TenBit));
-    data_tenbit->x = data;
     char *base32 = malloc(sizeof(char) * 2);
+    data_tenbit->x = data;
+
     base32[0] = b32[(data_tenbit->x >> 5)];
     base32[1] = b32[data_tenbit->x ^ (data_tenbit->x >> 5 << 5)];
     return base32;
