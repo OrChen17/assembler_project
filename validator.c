@@ -21,8 +21,11 @@ void validate_number(char *token)
     int number;
     for (i = 1; i < strlen(token); i++)
     {
-        if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
+        if (!isdigit(token[i]))
         {
+            if (i == 1 && (token[i] == '+' || token[i] == '-')) {
+                continue;
+            }
             printf("Invalid number: %s\n", token);
             has_found_error = 1;
             return;
@@ -144,6 +147,12 @@ void validate_no_tracking_commas(char guidance_input[200])
     token = strtok(guidance_input_tokenized, " \t\n");
     while (token != NULL)
     {
+        if (token[0] == ',')
+        {
+            printf("Invalid input: %s\n", guidance_input);
+            has_found_error = 1;
+            return;
+        }
         for (i = 0; i < strlen(token) - 1; i++)
         {
             if (token[i] == ',' && token[i+1] == ',')
@@ -172,6 +181,11 @@ void validate_no_tracking_commas(char guidance_input[200])
 void validate_number_for_guidance(char* token)
 {
     int i;
+    if (strlen(token) == 0) {
+        printf("ERROR: .data input has to be a list of numbers, separated by commas");
+        has_found_error = 1;
+        return;
+    }
     for (i = 1; i < strlen(token); i++)
     {
         if (!isdigit(token[i]) && ((token[i] == '+' && i != 1) || (token[i] == '-' && i != 1)))
@@ -186,7 +200,7 @@ void validate_number_for_guidance(char* token)
 void validate_guidance_string_input(char* token)
 {
     validate_ascii_string(trim_whitespace(token));
-    if (token[0] != '\"' || token[strlen(token) - 1] != '\"')
+    if (token[0] != '\"' || token[strlen(token) - 1] != '\"' || strlen(token) < 2)
     {
         printf("ERROR: string inputs must start and and with a double quote\n");
         has_found_error = 1;

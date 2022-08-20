@@ -11,6 +11,12 @@
 int parse_guidance(GuidingInstruction *guidance) {
     int i;
     char* token;
+
+    if (is_label_ext(guidance->label)) {
+        printf("Error: Label %s is an external label.\n", guidance->label);
+        has_found_error = 1;
+        return 1;
+    }
     
     if (strcmp(guidance->label, "") != 0)
     {
@@ -103,6 +109,11 @@ int parse_guidance(GuidingInstruction *guidance) {
         }
         else
         {
+            if (is_label_in_symbol_list(guidance->guidance_input)) {
+                printf("Error: label already defined can't be external %s\n", guidance->label);
+                has_found_error = 1;
+                return 1;
+            }
             entry_extern_cell->label_type = LABEL_TYPE_EXTERN;
         }
         add_ent_ext(entry_extern_cell);

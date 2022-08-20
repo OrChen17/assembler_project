@@ -32,6 +32,7 @@ void add_ent_ext(EntryExternCell *cell);
 code_cell_node* get_code_section();
 data_cell_node* get_data_section();
 entry_extern_cell_node* get_ent_ext_section();
+int is_label_ext(char *label);
 
 int IC;
 int DC;

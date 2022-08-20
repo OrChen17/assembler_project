@@ -121,7 +121,7 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
     }
     else
     {
-        printf("Error: a guidanc line must have an input\n");
+        printf("Error: a guidance line must have an input\n");
         has_found_error = 1;
     }
     return guidance;
@@ -129,17 +129,21 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
 
 int parse_instruction_line(char *instruction_to_parse) {
     DataInstruction *instruction = parse_data_instruction(instruction_to_parse);
+    /*
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);
     printf("Operand 1: %s|\n", instruction->operand_1);
     printf("Operand 2: %s|\n", instruction->operand_2);
+    */
     return parse_instruction(instruction);
 }
 
 int parse_guiding_line(char *guidance_to_parse) {
     GuidingInstruction *guidance = parse_guiding_line_to_struct(guidance_to_parse);
+    /*
     printf("Label: %s|\n", guidance->label);
     printf("Guidance word: %s|\n", guidance->guidance_word);
     printf("Guidance input: %s|\n", guidance->guidance_input);
+    */
     return parse_guidance(guidance);
 }

@@ -23,8 +23,8 @@ void fix_symbols_table()
     printf("\n");
     while (symbols != NULL)
     {
-        printf("\nLabel before fix: %s\n", symbols->symbol->label);
-        printf("Address before fix: %d\n", symbols->symbol->address);
+        /*printf("\nLabel before fix: %s\n", symbols->symbol->label);
+        printf("Address before fix: %d\n", symbols->symbol->address);*/
         symbols = symbols->next;
     }
     printf("\n************************\n");
@@ -38,8 +38,8 @@ void fix_symbols_table()
             symbols->symbol->address += IC;
         }
         symbols->symbol->address += 100;
-    printf("\nLabel after fix: %s\n", symbols->symbol->label);
-    printf("Address after fix: %d\n", symbols->symbol->address);
+   /* printf("\nLabel after fix: %s\n", symbols->symbol->label);
+    printf("Address after fix: %d\n", symbols->symbol->address);*/
     symbols = symbols->next;
     }
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "machine_code.h"
 #include <stdio.h>
+#include <string.h>
 
 int IC = 0;
 int DC = 0;
@@ -59,6 +60,22 @@ void add_ent_ext(EntryExternCell *cell) {
         ent_ext_end->next->next = NULL;
         ent_ext_end = ent_ext_end->next;
     }
+}
+
+int is_label_ext(char *label) {
+    entry_extern_cell_node *cur = ent_ext_start;
+    while (cur != NULL) {
+        if (strcmp(cur->cell->label, label) == 0) {
+            if (cur->cell->label_type == LABEL_TYPE_EXTERN) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        cur = cur->next;
+    }
+    return 0;
 }
 
 code_cell_node* get_code_section() {
