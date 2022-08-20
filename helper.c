@@ -64,25 +64,22 @@ char b32[] = {
 char *code_cell_to_b32(CodeCell *code_cell)
 {
     char *base32 = malloc(sizeof(char) * 2);
-    int data = code_cell->data;
-    data = data << 2;
-    data = data | code_cell->encoding_type;
-    base32[0] = b32[(data >> 5)];
-    base32[1] = b32[data ^ (data >> 5 << 5)];
-    if (base32[0] == '!') {
-        base32++;
-    }
+    TenBit *data = malloc(sizeof(TenBit));
+    data->x = code_cell->data << 2;
+    data->x = data->x | code_cell->encoding_type;
+    base32[0] = b32[(data->x >> 5)];
+    base32[1] = b32[data->x ^ (data->x >> 5 << 5)];
     return base32;
 }
 
 
+
 char* int_to_base_32(int data) {
+    TenBit *data_tenbit = malloc(sizeof(TenBit));
+    data_tenbit->x = data;
     char *base32 = malloc(sizeof(char) * 2);
-    base32[0] = b32[(data >> 5)];
-    base32[1] = b32[data ^ (data >> 5 << 5)];
-    if (base32[0] == '!') {
-        base32++;
-    }
+    base32[0] = b32[(data_tenbit->x >> 5)];
+    base32[1] = b32[data_tenbit->x ^ (data_tenbit->x >> 5 << 5)];
     return base32;
 }
 void slice_str(const char *str, char *buffer, int start, int end)

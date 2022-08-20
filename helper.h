@@ -50,6 +50,10 @@ typedef struct macro {
     char content[500];
 } MacroCell;
 
+typedef struct tenbit
+{
+    unsigned x:10;
+} TenBit;
 typedef struct machine_code_cell {
     unsigned opcode:4;
     unsigned source_address:2;
@@ -82,6 +86,7 @@ typedef struct code_cell {
 typedef struct guiding_cell {
     signed data:10;
     char address_needed[31]; /* Can probably remove this field (make sure to remove also assignments to it) */
+    char line_label[31];
 } DataCell;
 
 typedef struct entry_extern_cell{

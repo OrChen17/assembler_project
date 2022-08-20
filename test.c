@@ -13,11 +13,11 @@ void test_convert_b32() {
     code_cell->data = 0;
 
     char *b32 = code_cell_to_b32(code_cell);
-    assert(strcmp(b32, "!") == 0);
+    assert(strcmp(b32, "!!") == 0);
 
     code_cell->data = 1;
     b32 = code_cell_to_b32(code_cell);
-    assert(strcmp(b32, "%") == 0);
+    assert(strcmp(b32, "!%") == 0);
     
     code_cell->data = 16;
     b32 = code_cell_to_b32(code_cell);
@@ -28,6 +28,11 @@ void test_convert_b32() {
     b32 = code_cell_to_b32(code_cell);
     assert(strcmp(b32, "vu") == 0);
     printf("test_convert_b32 passed\n");
+
+    code_cell->data = -9;
+    code_cell->encoding_type = ENCODING_TYPE_R;
+    b32 = int_to_base_32(-9);
+    assert(strcmp(b32, "vn") == 0);
 }
 
 void test_is_empty_line() {

@@ -26,31 +26,33 @@ int parse_guidance(GuidingInstruction *guidance) {
     if (!strcmp(guidance->guidance_word, ".data"))
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
+        strcpy(data_cell->line_label, guidance->label);
         strcpy(data_cell->address_needed, "");
         validate_no_tracking_commas(guidance->guidance_input);
         token = strtok(guidance->guidance_input, " \t\n,");
         while (token != NULL)
         {
             validate_number_for_guidance(token);
-            data_cell = malloc(sizeof(DataCell));
             strcpy(data_cell->address_needed, "");
             data_cell->data = atoi(token);
             add_data(data_cell);
             token = strtok(NULL, " \t\n,");
+            data_cell = malloc(sizeof(DataCell));
         }
     }
     else if (!strcmp(guidance->guidance_word, ".string"))
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
+        strcpy(data_cell->line_label, guidance->label);
         strcpy(data_cell->address_needed, "");
         token = trim_whitespace(guidance->guidance_input);
         validate_guidance_string_input(token);
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
          {
-            data_cell = malloc(sizeof(DataCell));
-            strcpy(data_cell->address_needed, "");
             data_cell->data = token[i];
             add_data(data_cell);
+            data_cell = malloc(sizeof(DataCell));
+            strcpy(data_cell->address_needed, "");
         }
         data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->address_needed, "");
@@ -60,12 +62,11 @@ int parse_guidance(GuidingInstruction *guidance) {
     else if (!strcmp(guidance->guidance_word, ".struct"))
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
+        strcpy(data_cell->line_label, guidance->label);
         strcpy(data_cell->address_needed, "");
         /* Need to validate no tracking commas, but it's tricky here because in the string part commas are allowed */
         token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of "," input */
         validate_number_for_guidance(token);
-        data_cell = malloc(sizeof(DataCell));
-        strcpy(data_cell->address_needed, "");
         data_cell->data = atoi(token);
         add_data(data_cell);
         token = strtok(NULL, " \t\n,");
