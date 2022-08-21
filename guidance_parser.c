@@ -8,7 +8,7 @@
 #include "symbol_table.h"
 #include "guidance_parser.h"
 
-int parse_guidance(GuidingInstruction *guidance) {
+int parse_guidance(GuidingComponents *guidance) {
     int i;
     char* token;
 
