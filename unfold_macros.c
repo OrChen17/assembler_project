@@ -96,7 +96,7 @@ void free_macros_table(macro_cell_node* macro_start)
     }
 }
 
-char* unfold_macros(FILE *input_file)
+void unfold_macros(char *full_filename_after_macros, FILE *input_file)
 {
     FILE* pre_assembled_file;
     char line[83];
@@ -106,7 +106,7 @@ char* unfold_macros(FILE *input_file)
     char *content;
     MacroCell *macro_cell = malloc(sizeof(MacroCell));
     
-    pre_assembled_file = fopen(PRE_ASSEMBLED_FILE_NAME, "w+");
+    pre_assembled_file = fopen(full_filename_after_macros, "w+");
     while (fgets(line, 83, input_file)) {
         strcpy(tokenized_line, line);
         token = strtok(tokenized_line, " \t\n");
@@ -152,5 +152,4 @@ char* unfold_macros(FILE *input_file)
     }
     fclose(pre_assembled_file);
     free(macro_cell);
-    return PRE_ASSEMBLED_FILE_NAME;
 }

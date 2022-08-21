@@ -21,15 +21,17 @@ int process_file(char *filename)
 
     printf("Got File: %s\n\n", filename);
     full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
-    full_filename_after_macros = malloc(sizeof(char) * strlen(PRE_ASSEMBLED_FILE_NAME) + 1);
+    full_filename_after_macros = malloc(sizeof(char) * (strlen(filename) + strlen(".am") + 1));
     strcpy(full_filename, filename);
     strcat(full_filename, ".as");
+    strcpy(full_filename_after_macros, filename);
+    strcat(full_filename_after_macros, ".am");
     input_file = fopen(full_filename, "r");
     if (input_file == NULL) {
         printf("File %s was not found\n", full_filename);
         exit(1);
     }
-    strcpy(full_filename_after_macros, unfold_macros(input_file));
+    unfold_macros(full_filename_after_macros, input_file);
     pre_assembled_file = fopen(full_filename_after_macros, "r");
     if (pre_assembled_file == NULL) {
         printf("File %s was not found\n", full_filename_after_macros);

@@ -20,11 +20,18 @@ m1
 ;add S1.1, r3
 ;add S1.1, HELLO
 
+macro m2
+ mov r1, r2
+ add r2, r3
+ sub r4, r5
+endmacro
+
 ;add S1,HELLO.2
 ;add S1, #123
 ;add S1, r3
 ;add S1, HELLO
 
+m2
 
 ;sme
 ;Hello: jsr,    something
