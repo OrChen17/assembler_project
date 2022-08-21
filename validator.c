@@ -115,7 +115,15 @@ void validate_label(char *label)
             has_found_error = 1;
         }
     
-    /* ##CR: add validation that label is not a guidance word */
+    if (strcmp(label, ".data")  ==  0 || 
+        strcmp(label, ".string") == 0 ||
+        strcmp(label, ".struct") == 0 ||
+        strcmp(label, ".entry")  == 0 ||
+        strcmp(label, ".extern") == 0)
+        {
+            printf("Invalid label - name is a guidance word: %s\n", label);
+            has_found_error = 1;
+        }
 }
 
 void check_duplicate_label(char *label) {
