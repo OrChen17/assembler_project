@@ -14,7 +14,7 @@ lea S2.1, r2
 LABEL: .data 6, -9,15
 STR: .string "acvd"
 strct8: .struct 8, "xyz"
-; .data 3,4,5
+ .data 3,4,5
 
 .entry STR 
 

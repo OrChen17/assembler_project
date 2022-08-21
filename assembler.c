@@ -58,12 +58,12 @@ and then runs the assembler on that new file. Eventually it creates the output f
     
     fclose(input_file);
     fclose(pre_assembled_file);
-    
+
     free_symbols_table();
     free_code_list();
     free_data_list();
     free_ent_ext_list();
-
+    
     return 1;
 }
 
