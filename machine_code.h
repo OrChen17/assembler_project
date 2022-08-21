@@ -2,6 +2,7 @@
 #define MACHINE_CODE
 #include <helper.h>
 
+/*Defining data structures to build the linked lists*/
 typedef struct instruction_node {
     CodeCell* cell;
     struct instruction_node * next;
@@ -31,8 +32,11 @@ void free_ent_ext_list();
 /*Frees the EntExt cell nodes in the EntExt cells list*/
 
 code_cell_node* get_code_section();
+/*returns the head of the code list*/
 data_cell_node* get_data_section();
+/*returns the head of the data list*/
 entry_extern_cell_node* get_ent_ext_section();
+/*returns the head of the EntExt list*/
 int is_label_ext(char *label);
 
 int IC;
