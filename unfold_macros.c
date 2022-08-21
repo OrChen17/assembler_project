@@ -140,9 +140,10 @@ We assume that macros have no errors in them, as requeted in the excercise*/
             {
                 strcat(content, trim_whitespace(line));
                 content[strlen(content)] = '\n';
-                content[strlen(content)] = '\0';
                 fgets(line, 83, input_file);
             }
+            content[strlen(content)] = '\0';
+
             strcpy(macro_cell->name, name);
             strcpy(macro_cell->content, content);
             free(content);
