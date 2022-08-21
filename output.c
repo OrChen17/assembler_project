@@ -9,6 +9,7 @@
 #include <label_fixer.h>
 
 void create_object_file(char *file_name)
+/*Created the .ob file with the given name, and writes into it the converted machine code in the 32-base format*/
 {
     FILE *output_file;
     FILE *extern_output_file;
@@ -17,7 +18,7 @@ void create_object_file(char *file_name)
     char *entry_output_filename;
     char *output_filename;
     char *total_instructions;
-    char *total_data;
+    char *total_data; 
     int start_index;
     code_cell_node *instructions;
     data_cell_node *data;
