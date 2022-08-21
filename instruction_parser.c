@@ -158,7 +158,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
 int parse_instruction(InstructionComponents *instruction) {
     int i;
     CodeCell *cells;
-    HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell)); /* CR - Need to free memory at some point */
+    HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell));
 
     if (is_label_ext(instruction->label)) {
         printf("Error: Label %s is an external label.\n", instruction->label);
@@ -193,7 +193,7 @@ int parse_instruction(InstructionComponents *instruction) {
     
     add_code(header_code_cell_to_code_cell(cell));
 
-    cells = malloc(sizeof(CodeCell) * 4); /* CR - Need to free memory at some point */
+    cells = malloc(sizeof(CodeCell) * 4);
     for (i = 0; i < 4; i++) {
         strcpy(cells[i].address_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
         cells[i].encoding_type = 0;
@@ -205,20 +205,7 @@ int parse_instruction(InstructionComponents *instruction) {
         if (strcmp(cells[i].address_needed, "1NULL") == 0) {
             continue;
         }
-        if (strcmp(cells[i].address_needed, "") == 0)
-        {
-            /*
-            printf("Adding address cell: data=%d, encoding_type=%d \n", cells[i].data, cells[i].encoding_type);
-            */
-            add_code(&cells[i]);
-        }
-        else
-        {
-            /*
-            printf("Adding address cell with placeholder: data=%d, address_needed=%s, encoding_type=%d \n", cells[i].data, cells[i].address_needed, cells[i].encoding_type);
-            */
-            add_code(&cells[i]);
-        }
+        add_code(&cells[i]);
     }
     return 0;
 }

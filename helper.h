@@ -93,15 +93,11 @@ typedef struct entry_extern_cell{
     char label[31];
     int label_type;
 } EntryExternCell;
-
-/*typedef struct extern_cell {
-    char label[31];
-} ExternCell;*/
   
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 /*Translates Machine Code Cell to a string, for printing*/
 char *trim_whitespace(char *str);
-/*trim the whitespace of the given str*/
+/*trims the whitespace of the given str*/
 char* code_cell_to_b32(CodeCell *code_cell);
 /*transforms the code cell to b32*/
 char* int_to_base_32(int data);
