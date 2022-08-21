@@ -25,11 +25,11 @@ int is_guiding_line(char line[83]) {
     /* copy to protect original line */
     strcpy(line_to_parse, line);
 
-    token = strtok(line_to_parse, " \t\n"); /* empty string or space? Assuming space, I think we need also tabs */
-    /* CR - I still think we don't need this, since ff there are no spaces then the line only has a \n, but isspace() also recognizes the \n char */
+    token = strtok(line_to_parse, " \t\n");
     if (token == NULL) {
         return 0;
     }
+    /* checking if the 1st word in the line is a guiding word */
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0
@@ -41,6 +41,7 @@ int is_guiding_line(char line[83]) {
     if (token == NULL) {
         return 0;
     }
+    /* checking if the 2nd word in the line is a guiding word (the 1st one could be a label) */
     if (strcmp(token, ".data") == 0
         || strcmp(token, ".string") == 0
         || strcmp(token, ".struct") == 0

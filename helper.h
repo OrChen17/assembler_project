@@ -54,6 +54,7 @@ typedef struct tenbit
 {
     unsigned x:10;
 } TenBit;
+
 typedef struct machine_code_cell {
     unsigned opcode:4;
     unsigned source_address:2;

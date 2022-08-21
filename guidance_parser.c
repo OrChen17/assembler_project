@@ -70,8 +70,7 @@ int parse_guidance(GuidingInstruction *guidance) {
         DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->line_label, guidance->label);
         strcpy(data_cell->address_needed, "");
-        /* Need to validate no tracking commas, but it's tricky here because in the string part commas are allowed */
-        token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of "," input */
+        token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of an only "," input */
         validate_number_for_guidance(token);
         data_cell->data = atoi(token);
         add_data(data_cell);

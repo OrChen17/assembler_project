@@ -18,8 +18,7 @@ int process_file(char *filename)
     char* full_filename_after_macros;
     FILE *pre_assembled_file;
     FILE *input_file;
-    /*code_cell_node* instructions_for_print;
-    ata_cell_node* guidance_for_print;*/
+
     printf("Got File: %s\n\n", filename);
     full_filename = malloc(sizeof(char) * (strlen(filename) + strlen(".as") + 1));
     full_filename_after_macros = malloc(sizeof(char) * strlen(PRE_ASSEMBLED_FILE_NAME) + 1);
@@ -36,49 +35,9 @@ int process_file(char *filename)
         printf("File %s was not found\n", full_filename_after_macros);
         exit(1);
     }
-    assemble_file(pre_assembled_file);
-
     
-    /*printf("____________________________________________\n");
-    printf("____________________________________________\n");
-    instructions_for_print = get_code_section();
-    while (instructions_for_print != NULL)
-    {
-        printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);
-        instructions_for_print = instructions_for_print->next;
-    }
-
-    printf("____________________________________________\n");
-    printf("____________________________________________\n");
-    guidance_for_print = get_data_section();
-    while (guidance_for_print != NULL)
-    {
-        printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);
-        guidance_for_print = guidance_for_print->next;
-    }*/
-
-    
-    fix_labels();
-
-    /*printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-    instructions_for_print = get_code_section();
-    while (instructions_for_print != NULL)
-    {
-        printf("%d, %d, %s\n", instructions_for_print->cell->data, instructions_for_print->cell->encoding_type, instructions_for_print->cell->address_needed);
-        instructions_for_print = instructions_for_print->next;
-    }
-
-    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-    guidance_for_print = get_data_section();
-    while (guidance_for_print != NULL)
-    {
-        printf("%d, %s\n", guidance_for_print->cell->data, guidance_for_print->cell->address_needed);
-        guidance_for_print = guidance_for_print->next;
-    }*/
-
-    
+    assemble_file(pre_assembled_file);   
+    fix_labels();   
     if (has_found_error) {
         printf("\nFound error, assembler failed\n");
         exit(1);
@@ -87,8 +46,7 @@ int process_file(char *filename)
     create_output_files(filename);
     free(full_filename);
     free(full_filename_after_macros);
-    /*fclose(input_file);*/
-    /* For some reason closing the file leads to a crash */
+    fclose(input_file);
     fclose(pre_assembled_file);
     return 1;
 }
