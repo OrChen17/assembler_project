@@ -1,3 +1,5 @@
+/*Contains functions which allow macros unfolding*/
+
 #include "unfold_macros.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +9,7 @@ macro_cell_node* macro_start;
 macro_cell_node* new_cell;
 
 void add_macro_to_macros_table(MacroCell * cell)
+/*Adds a detected macro into the linked list*/
 {
     if (macro_start == NULL)
     {
@@ -26,6 +29,7 @@ void add_macro_to_macros_table(MacroCell * cell)
 }
 
 int not_in_macros_table(char* token)
+/*Checks if a certain object is a macro*/
 {
     macro_cell_node* p;
     if (macro_start == NULL)
@@ -55,6 +59,8 @@ int not_in_macros_table(char* token)
 }
 
 char* unfold_single_macro(char * token)
+/*When detecting a macro's name in the original input file, the code comes here in order to look for the
+macro's content and write them into the right place in the new file*/
 {
     macro_cell_node* p;
     char *content;
@@ -97,6 +103,11 @@ void free_macros_table(macro_cell_node* macro_start)
 }
 
 void unfold_macros(char *full_filename_after_macros, FILE *input_file)
+/*Goes through the original input file and copies the rows as they are into a new file, unless
+the line read starts with the word macro, or contains a macro's name. In the first case it adds the macro's name and contents
+into a linked list; in the second case it goes to the list and brings the content, replacing the macro's name with its contents.
+The new file that's created is identical to the original file, only with macros unfolded
+We assume that macros have no errors in them, as requeted in the excercise*/
 {
     FILE* pre_assembled_file;
     char line[83];
@@ -148,6 +159,7 @@ void unfold_macros(char *full_filename_after_macros, FILE *input_file)
     }
     if (macro_start != NULL)
     {
+        /*Once the new file is written we don't need the macros linked list anymore so it's being freed*/
         free_macros_table(macro_start);
     }
     fclose(pre_assembled_file);

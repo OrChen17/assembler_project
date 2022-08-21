@@ -1,13 +1,15 @@
-/*inputs data and code cells to theie respective section, implemented with a linked list */
+/*inputs data and code cells to their respective section, implemented with a linked list */
 #include <helper.h>
 #include <stdlib.h>
 #include "machine_code.h"
 #include <stdio.h>
 #include <string.h>
 
+/*counters for instructions and guidances*/
 int IC = 0;
 int DC = 0;
 
+/*linked lists parameters*/
 code_cell_node* start;
 code_cell_node* end;
 data_cell_node* data_start;
@@ -16,6 +18,7 @@ entry_extern_cell_node* ent_ext_start;
 entry_extern_cell_node* ent_ext_end;
 
 void add_code(CodeCell *cell) {
+    /* adds the code cell to the list of code cells (the code section)*/
     if (start == NULL) {
         start = malloc(sizeof(code_cell_node));
         start->cell = cell;
@@ -32,6 +35,7 @@ void add_code(CodeCell *cell) {
 }
 
 void add_data(DataCell *cell) {
+    /* adds the data cell to the data section */
     if (data_start == NULL) {
         data_start = malloc(sizeof(data_cell_node));
         data_start->cell = cell;
@@ -48,6 +52,7 @@ void add_data(DataCell *cell) {
 }
 
 void add_ent_ext(EntryExternCell *cell) {
+    /* adds a label originated in a .entry or .extern guidance sentence into the ent_ext labels section */
     if (ent_ext_start == NULL) {
         ent_ext_start = malloc(sizeof(entry_extern_cell_node));
         ent_ext_start->cell = cell;
@@ -79,21 +84,25 @@ int is_label_ext(char *label) {
 }
 
 code_cell_node* get_code_section() {
+    /*returns the head of the code list*/
     code_cell_node* p = start;
     return p;
 }
 
 data_cell_node* get_data_section() {
+    /*returns the head of the data list*/
     data_cell_node* p = data_start;
     return p;
 }
 
 entry_extern_cell_node* get_ent_ext_section() {
+    /*returns the head of the EntExt list*/
     entry_extern_cell_node* p = ent_ext_start;
     return p;
 }
 
 void free_code_list()
+/*Frees the code cell nodes in the code cells list*/
 {
     code_cell_node* code_cell_start;
     code_cell_node* to_free;
@@ -115,6 +124,7 @@ void free_code_list()
 }
 
 void free_data_list()
+/*Frees the data cell nodes in the data cells list*/
 {
     data_cell_node* data_cell_start;
     data_cell_node* to_free;
@@ -136,6 +146,7 @@ void free_data_list()
 }
 
 void free_ent_ext_list()
+/*Frees the EntExt cell nodes in the EntExt cells list*/
 {
     entry_extern_cell_node* entry_extern_cell_start;
     entry_extern_cell_node* to_free;
