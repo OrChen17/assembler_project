@@ -114,7 +114,7 @@ void validate_label(char *label)
             has_found_error = 1;
         }
     
-    /* Add validation that label is not a guidance word */
+    /* ##CR: add validation that label is not a guidance word */
 }
 
 void check_duplicate_label(char *label) {
@@ -163,19 +163,6 @@ void validate_no_tracking_commas(char guidance_input[200])
         }
         token = strtok(NULL, " \t\n");
     }
-     
-    /* verifying all in list are ints
-    while (token != NULL)
-    {
-        if (!atoi(trim_whitespace(token)))
-        {
-            printf(".data input has to be a list of numbers, separated by commas\n");
-            has_found_error = 1;
-        }
-        token = strtok(NULL, ",");
-    }*/
-    
-        /* Need to add validation that 1 comma atually does exist (space only should fail) */
 }
 
 void validate_number_for_guidance(char* token)
@@ -210,32 +197,6 @@ void validate_guidance_string_input(char* token)
         printf("ERROR: string input can't be and empty string\n");
     }
 }
-
-/*void validate_guidance_struct_input(char* token)
-{
-    token = strtok(guidance_input_tokenized, ",");
-    if (!atoi(trim_whitespace(token)))
-    {
-        printf(".struct input must start with a number\n");
-        has_found_error = 1;
-        return 0;
-    }
-    token = strtok(NULL, " \t");
-    if (token == NULL)
-    {
-        printf("ERROR: struct must have a string\n");
-        has_found_error = 1;
-        return 0;
-    }
-    validate_ascii_string(token);
-}
-
-
-   else
-    {
-        validate_label(trim_whitespace(guidance_input));
-    }*/
-
 
 const int valid_src_addr_modes[16][4] = {
     {0,1,2,3}, 
@@ -322,3 +283,4 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* entry and extern can't have the same label in the same file */
 /* For all mallocs - we need to cast I think? and free memory later... */
 /* free mallocs, including list frees! */
+/* Need to add validation that 1 comma atually does exist (space only should fail) */

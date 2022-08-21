@@ -106,12 +106,10 @@ char* unfold_macros(FILE *input_file)
     char *content;
     MacroCell *macro_cell = malloc(sizeof(MacroCell));
     
-    pre_assembled_file = fopen(PRE_ASSEMBLED_FILE_NAME, "w+"); /* I'm assuming here that we can use the same file name for all the files given as inputs */
+    pre_assembled_file = fopen(PRE_ASSEMBLED_FILE_NAME, "w+");
     while (fgets(line, 83, input_file)) {
-        /*printf("line is: %s", line);*/
         strcpy(tokenized_line, line);
         token = strtok(tokenized_line, " \t\n");
-        /*printf("token is: %s\n", token);*/
         if (token == NULL)
         {
             fprintf(pre_assembled_file, "%s", line);
