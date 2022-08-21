@@ -1,4 +1,5 @@
 /*includes validation logic for the rest of the program */
+/*Functions documentation appears in the header file*/
 #include <string.h>
 #include <stdio.h>
 #include <helper.h>
