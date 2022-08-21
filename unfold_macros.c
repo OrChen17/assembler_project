@@ -6,11 +6,11 @@
 #include <string.h>
 
 macro_cell_node* macro_start;
-macro_cell_node* new_cell;
 
 void add_macro_to_macros_table(MacroCell * cell)
 /*Adds a detected macro into the linked list*/
 {
+    macro_cell_node* new_cell;
     if (macro_start == NULL)
     {
         macro_start = malloc(sizeof(macro_cell_node));
@@ -91,7 +91,6 @@ void free_macros_table()
 {
     macro_cell_node* to_free;
     if (macro_start == NULL) {
-        new_cell = NULL;
         return;
     }
     to_free = macro_start->next;
@@ -105,7 +104,6 @@ void free_macros_table()
         }
     }
     macro_start = NULL;
-    new_cell = NULL;
 }
 
 void unfold_macros(char *full_filename_after_macros, FILE *input_file)
