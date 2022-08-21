@@ -133,7 +133,7 @@ We assume that macros have no errors in them, as requeted in the excercise*/
         if (strcmp(token, "macro") == 0)
         {
             name = strtok(NULL, " \t\n");
-            content = malloc(500);
+            content = malloc(sizeof(char) * 500);
             strcpy(content, "");
             fgets(line, 83, input_file);
             while (strcmp(trim_whitespace(line), "endmacro") != 0)
