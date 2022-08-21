@@ -16,17 +16,20 @@ void fix_labels() {
     check_all_entries_are_labels();
     /* add_missing_addresses_data(); */
 }
-void check_all_entries_are_labels() {
+
+int check_all_entries_are_labels() {
     entry_extern_cell_node* cur = get_ent_ext_section();
     while (cur != NULL)
     {
-        if (is_label_in_symbol_list(cur->cell->label) == 0)
+        if (cur->cell->label_type == LABEL_TYPE_ENTRY && is_label_in_symbol_list(cur->cell->label) == 0)
         {
             printf("ERROR: Entry %s is not a label\n", cur->cell->label);
             has_found_error = 1;
+            return 1;
         }
         cur = cur->next;
     }
+    return 0;
 }
 void fix_symbols_table()
 {
