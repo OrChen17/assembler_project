@@ -73,6 +73,8 @@ void free_symbols_table()
     {
         to_free = symbols_start->next;
         free(symbols_start);
+        symbol_list_start = NULL;
+        symbol_list_end = NULL;
         if (to_free != NULL)
         {
             while (to_free->next != NULL)

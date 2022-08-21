@@ -112,6 +112,9 @@ void free_code_list()
             }
         }
     }
+    start = NULL;
+    end = NULL;
+    IC = 0;
 }
 
 void free_data_list()
@@ -133,6 +136,9 @@ void free_data_list()
             }
         }
     }
+    data_start = NULL;
+    data_end = NULL;
+    DC = 0;
 }
 
 void free_ent_ext_list()
@@ -154,4 +160,6 @@ void free_ent_ext_list()
             }
         }
     }
+    ent_ext_start = NULL;
+    ent_ext_end = NULL;
 }

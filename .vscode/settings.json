@@ -11,7 +11,9 @@
         "machine_code.h": "c",
         "*.tcc": "c",
         "typeindex": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "symbol_table.h": "c",
+        "label_fixer.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

@@ -8,7 +8,7 @@
 #include <symbol_table.h>
 #include <label_fixer.h>
 
-void create_object_file(char *file_name)
+void create_output_files(char *file_name)
 {
     FILE *output_file;
     FILE *extern_output_file;
@@ -22,9 +22,13 @@ void create_object_file(char *file_name)
     code_cell_node *instructions;
     data_cell_node *data;
     int i;
+    char* file_name_copy;
     int first_extern_symbol = 0;
     int first_entry_symbol = 0;
-    output_filename = strcat(file_name, ".ob");
+
+    file_name_copy = malloc(sizeof(char) * (strlen(file_name) + 1));
+    strcpy(file_name_copy, file_name);
+    output_filename = strcat(file_name_copy, ".ob");
     printf("\nMaking output file %s\n", output_filename);
     output_file = fopen(output_filename, "w");
     start_index = 100;
@@ -50,8 +54,8 @@ void create_object_file(char *file_name)
         {
             if (first_extern_symbol == 0) {
                 first_extern_symbol = 1;
-                file_name = strtok(file_name, ".");
-                extern_output_filename = strcat(file_name, ".ext");
+                file_name_copy = strtok(file_name_copy, ".");
+                extern_output_filename = strcat(file_name_copy, ".ext");
                 printf("\nMaking extern file %s\n", extern_output_filename);
                 extern_output_file = fopen(extern_output_filename, "w");
             }
@@ -61,8 +65,8 @@ void create_object_file(char *file_name)
         {
             if (first_entry_symbol == 0) {
                 first_entry_symbol = 1;
-                file_name = strtok(file_name, ".");
-                entry_output_filename = strcat(file_name, ".ent");
+                file_name_copy = strtok(file_name_copy, ".");
+                entry_output_filename = strcat(file_name_copy, ".ent");
                 printf("\nMaking entry file %s\n", entry_output_filename);
                 entry_output_file = fopen(entry_output_filename, "w");
             }
@@ -93,10 +97,4 @@ void create_object_file(char *file_name)
         data = data->next;
         i++;
     }
-}
-
-
-void create_output_files(char *file_name)
-{
-    create_object_file(file_name);
 }

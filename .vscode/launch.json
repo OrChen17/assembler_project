@@ -4,14 +4,36 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+        {
+            "name": "Run Error",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/assembler",
+            "args": [
+                "error4"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Make",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
         {
             "name": "Run assembler",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/assembler",
             "args": [
-                "example"
+                "work6"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
