@@ -81,19 +81,24 @@ char* unfold_single_macro(char * token)
     return content; 
 }
 
-void free_macros_table(macro_cell_node* macro_start)
+void free_macros_table()
 {
     macro_cell_node* to_free;
-    to_free = macro_start->next;
-    free(macro_start);
-    if (to_free != NULL)
+    if (macro_start == NULL)
     {
-        while (to_free->next != NULL)
+        return;
+    }
+    else
+    {
+        while (macro_start != NULL)
         {
+            to_free = macro_start;
+            macro_start = macro_start->next;
             free(to_free);
-            to_free = to_free->next;
         }
     }
+    macro_start = NULL;
+    new_cell = NULL;
 }
 
 void unfold_macros(char *full_filename_after_macros, FILE *input_file)
@@ -146,10 +151,5 @@ void unfold_macros(char *full_filename_after_macros, FILE *input_file)
             }
         }
     }
-    if (macro_start != NULL)
-    {
-        free_macros_table(macro_start);
-    }
     fclose(pre_assembled_file);
-    free(macro_cell);
 }

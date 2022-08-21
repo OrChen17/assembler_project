@@ -15,6 +15,15 @@ a special base-32 format */
 #include "machine_code.h"
 #include "symbol_table.h"
 
+void cleanup() {
+    free_symbols_table();
+    free_code_list();
+    free_data_list();
+    free_ent_ext_list();
+    free_macros_table();
+
+    has_found_error = 0;
+}
 
 int process_file(char *filename)
 /*Gets the name of the file without extension, unfolds the macros and writes the new content into a new file, 
@@ -35,20 +44,23 @@ and then runs the assembler on that new file. Eventually it creates the output f
     input_file = fopen(full_filename, "r");
     if (input_file == NULL) {
         printf("File %s was not found\n", full_filename);
-        exit(1);
+        cleanup();
+        return 1;
     }
     unfold_macros(full_filename_after_macros, input_file);
     pre_assembled_file = fopen(full_filename_after_macros, "r");
     if (pre_assembled_file == NULL) {
         printf("File %s was not found\n", full_filename_after_macros);
-        exit(1);
+        cleanup();
+        return 1;
     }
     
     assemble_file(pre_assembled_file); /*First round of the assemble process*/ 
     fix_labels(); /*Second round of the assemble process - fixing the symbols table and adding addresses where they are missing*/
     if (has_found_error) {
         printf("\nFound error, assembler failed\n");
-        exit(1);
+        cleanup();
+        return 1;
     }
 
     create_output_files(filename);
@@ -59,22 +71,17 @@ and then runs the assembler on that new file. Eventually it creates the output f
     fclose(input_file);
     fclose(pre_assembled_file);
 
-    free_symbols_table();
-    free_code_list();
-    free_data_list();
-    free_ent_ext_list();
-    
-    return 1;
+    cleanup();
+
+    return 0;
 }
-
-
 
 int main(int argc, char *argv[]) {
     /*the entrypoint, handles the command line arguments*/
     int i;
     if (argc == 1) {
         printf("No files detected, please specify file names\n");
-        exit(1);
+        return 1;
     }
     for (i = 1; i< argc; i++) {
         process_file(argv[i]);
