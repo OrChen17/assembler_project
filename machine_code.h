@@ -23,6 +23,12 @@ void add_data(DataCell *cell);
 /* adds the data cell to the data section */
 void add_ent_ext(EntryExternCell *cell);
 /* adds a label originated in a .entry or .extern guidance sentence into the ent_ext labels section */
+void free_code_list();
+/*Frees the code cell nodes in the code cells list*/
+void free_data_list();
+/*Frees the data cell nodes in the data cells list*/
+void free_ent_ext_list();
+/*Frees the EntExt cell nodes in the EntExt cells list*/
 
 code_cell_node* get_code_section();
 data_cell_node* get_data_section();

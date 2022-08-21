@@ -67,16 +67,19 @@ void free_symbols_table()
 {
     symbol_node* symbols_start;
     symbol_node* to_free;
-
+    
     symbols_start = get_symbol_list();
-    to_free = symbols_start->next;
-    free(symbols_start);
-    if (to_free != NULL)
+    if (symbols_start !=NULL)
     {
-        while (to_free->next != NULL)
+        to_free = symbols_start->next;
+        free(symbols_start);
+        if (to_free != NULL)
         {
-            free(to_free);
-            to_free = to_free->next;
+            while (to_free->next != NULL)
+            {
+                free(to_free);
+                to_free = to_free->next;
+            }
         }
     }
 }

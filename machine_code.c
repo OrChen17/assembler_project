@@ -92,3 +92,66 @@ entry_extern_cell_node* get_ent_ext_section() {
     entry_extern_cell_node* p = ent_ext_start;
     return p;
 }
+
+void free_code_list()
+{
+    code_cell_node* code_cell_start;
+    code_cell_node* to_free;
+    
+    code_cell_start = get_code_section();
+    if (code_cell_start !=NULL)
+    {
+        to_free = code_cell_start->next;
+        free(code_cell_start);
+        if (to_free != NULL)
+        {
+            while (to_free->next != NULL)
+            {
+                free(to_free);
+                to_free = to_free->next;
+            }
+        }
+    }
+}
+
+void free_data_list()
+{
+    data_cell_node* data_cell_start;
+    data_cell_node* to_free;
+    
+    data_cell_start = get_data_section();
+    if (data_cell_start !=NULL)
+    {
+        to_free = data_cell_start->next;
+        free(data_cell_start);
+        if (to_free != NULL)
+        {
+            while (to_free->next != NULL)
+            {
+                free(to_free);
+                to_free = to_free->next;
+            }
+        }
+    }
+}
+
+void free_ent_ext_list()
+{
+    entry_extern_cell_node* entry_extern_cell_start;
+    entry_extern_cell_node* to_free;
+    
+    entry_extern_cell_start = get_ent_ext_section();
+    if (entry_extern_cell_start !=NULL)
+    {
+        to_free = entry_extern_cell_start->next;
+        free(entry_extern_cell_start);
+        if (to_free != NULL)
+        {
+            while (to_free->next != NULL)
+            {
+                free(to_free);
+                to_free = to_free->next;
+            }
+        }
+    }
+}
