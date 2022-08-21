@@ -67,6 +67,7 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
                         printf("Found empty operand 1 with , \n");
                         /* ##CR: When getting here (with proper example) --> segfault */
                         has_found_error = 1;
+                        break;
                     }
                     else {
                         strcpy(instruction->operand_1, trim_whitespace(operand_1));
