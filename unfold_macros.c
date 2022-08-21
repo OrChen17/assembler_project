@@ -90,17 +90,18 @@ macro's content and write them into the right place in the new file*/
 void free_macros_table()
 {
     macro_cell_node* to_free;
-    if (macro_start == NULL)
-    {
+    if (macro_start == NULL) {
+        new_cell = NULL;
         return;
     }
-    else
+    to_free = macro_start->next;
+    free(macro_start);
+    if (to_free != NULL)
     {
-        while (macro_start != NULL)
+        while (to_free->next != NULL)
         {
-            to_free = macro_start;
-            macro_start = macro_start->next;
             free(to_free);
+            to_free = to_free->next;
         }
     }
     macro_start = NULL;
