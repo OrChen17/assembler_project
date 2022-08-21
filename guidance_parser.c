@@ -77,12 +77,11 @@ int parse_guidance(GuidingComponents *guidance) {
         We then add a null terminator that populates one more data cell.*/
         DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->line_label, guidance->label);
-        token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of an only "," input */
+        token = strtok(guidance->guidance_input, " \t,");
         validate_number_for_guidance(token);
         data_cell->data = atoi(token);
         add_data(data_cell);
         token = strtok(NULL, " \t\n,");
-        /* ##CR: I don't check for a series of commas */
         if (token == NULL)
         {
             printf("ERROR: struct guidance must have 2 inputs - 1 number and 1 string\n");
