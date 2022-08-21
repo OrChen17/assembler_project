@@ -68,16 +68,18 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
                         /* ##CR: When getting here (with proper example) --> segfault */
                         has_found_error = 1;
                     }
-                    strcpy(instruction->operand_1, trim_whitespace(operand_1));
+                    else {
+                        strcpy(instruction->operand_1, trim_whitespace(operand_1));
 
-                    strncpy(operand_2, token + i + 1, strlen(token) - i); /*adding a null terminator*/
-                    if (strlen(operand_2) == 0) {
-                        printf("Invalid empty operand\n");
-                        has_found_error = 1;
+                        strncpy(operand_2, token + i + 1, strlen(token) - i); /*adding a null terminator*/
+                        if (strlen(operand_2) == 0) {
+                            printf("Invalid empty operand\n");
+                            has_found_error = 1;
+                        }
+
+                        strcpy(instruction->operand_2, trim_whitespace(operand_2));
+                        return instruction;
                     }
-
-                    strcpy(instruction->operand_2, trim_whitespace(operand_2));
-                    return instruction;
                 }
             }
         if (strlen(trim_whitespace(token)) != 0) {
