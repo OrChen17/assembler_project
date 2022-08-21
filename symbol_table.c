@@ -62,3 +62,21 @@ int get_label_address(char label[31])
     }
     return -1;
 }
+
+void free_symbols_table()
+{
+    symbol_node* symbols_start;
+    symbol_node* to_free;
+
+    symbols_start = get_symbol_list();
+    to_free = symbols_start->next;
+    free(symbols_start);
+    if (to_free != NULL)
+    {
+        while (to_free->next != NULL)
+        {
+            free(to_free);
+            to_free = to_free->next;
+        }
+    }
+}

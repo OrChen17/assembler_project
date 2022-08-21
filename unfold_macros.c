@@ -90,8 +90,8 @@ void free_macros_table(macro_cell_node* macro_start)
     {
         while (to_free->next != NULL)
         {
-            to_free = to_free->next;
             free(to_free);
+            to_free = to_free->next;
         }
     }
 }
