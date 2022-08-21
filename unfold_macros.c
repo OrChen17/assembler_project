@@ -123,7 +123,7 @@ We assume that macros have no errors in them, as requeted in the excercise*/
     char *content;
     MacroCell *macro_cell = malloc(sizeof(MacroCell));
     
-    pre_assembled_file = fopen(full_filename_after_macros, "w+");
+    pre_assembled_file = fopen(full_filename_after_macros, "w");
     while (fgets(line, 83, input_file)) {
         strcpy(tokenized_line, line);
         token = strtok(tokenized_line, " \t\n");
