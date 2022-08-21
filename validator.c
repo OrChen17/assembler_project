@@ -269,18 +269,10 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
         has_found_error = 1;
     }
 }
-/* We don't have validation for opcode's name! */
-/* Validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
-/* A label can't be also a "reshuma", I would assume. Currently we allow that */
-/* When the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
-/* Operand which take 2 operand (add, lea) pass the run even with no operands */
-/* Consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
-/* Macros validation */
-/* guidance - no commas at end/beginning of row */
-/* Same label can't be used in both entry and extern buidance words */
-/* Do we make sure that Labels are <= 30 chars long? */
-/* Make sure labels are not defined more that once */
-/* entry and extern can't have the same label in the same file */
-/* For all mallocs - we need to cast I think? and free memory later... */
-/* free mallocs, including list frees! */
-/* Need to add validation that 1 comma atually does exist (space only should fail) */
+/* ##CR: validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
+/* ##CR: when the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
+/* ##CR: consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
+/* ##CR: macros validation */
+/* ##CR: in guidance (maybe also in instruction) - a comma at the end of the row should fail also with no spaces. Currently it passes */
+/* ##CR: extern inputs missing validation - check that the label does NOT appear in the symbols table */
+/* ##CR: make sure that Labels are <= 30 chars long */
