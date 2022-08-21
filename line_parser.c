@@ -1,4 +1,4 @@
-/* parses each line from its bare text to a "DataInstruction" / GuidingInstruction struct, 
+/* parses each line from its bare text to a "InstructionComponents" / GuidingInstruction struct, 
 which has the parsed sections of the line - label, operands, opcode etc. passes the instruction to the instruction parser */
 
 #include <stdlib.h>
@@ -11,11 +11,11 @@ which has the parsed sections of the line - label, operands, opcode etc. passes 
 #include <helper.h>
 #include <guidance_parser.h>
 
-DataInstruction* parse_data_instruction(char *instruction_to_parse) {
+InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
     int i;
     char* operand_1;
     char* operand_2;
-    DataInstruction *instruction = malloc(150);
+    InstructionComponents *instruction = malloc(150);
     char *token;
     strcpy(instruction->label, "");
     token = strtok(instruction_to_parse, " \t\n");
@@ -128,7 +128,7 @@ GuidingInstruction* parse_guiding_line_to_struct(char* guidance_to_parse) {
 }
 
 int parse_instruction_line(char *instruction_to_parse) {
-    DataInstruction *instruction = parse_data_instruction(instruction_to_parse);
+    InstructionComponents *instruction = parse_data_instruction(instruction_to_parse);
     /*
     printf("Label: %s|\n", instruction->label);
     printf("Opcode: %s|\n", instruction->opcode);

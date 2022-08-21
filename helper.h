@@ -68,7 +68,7 @@ typedef struct data_instruction {
     char opcode[10];
     char operand_1[40];
     char operand_2[40];
-} DataInstruction; /* Bad name! */
+} InstructionComponents;
 
 
 typedef struct guiding_instruction {

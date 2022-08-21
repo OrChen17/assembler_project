@@ -8,7 +8,7 @@ saves the code cell. */
 #include <validator.h>
 #include <symbol_table.h>
 
-int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
+int parse_opcode(HeaderCodeCell *cell, InstructionComponents *instruction) {
     if (strcmp(instruction->opcode, "add") == 0) {
         return OPCODE_ADD;
     }
@@ -64,7 +64,7 @@ int parse_opcode(HeaderCodeCell *cell, DataInstruction *instruction) {
     }
 }
 
-short int parse_addr_mode(HeaderCodeCell *cell, DataInstruction *instruction, char* operand) {
+short int parse_addr_mode(HeaderCodeCell *cell, InstructionComponents *instruction, char* operand) {
     if (strcmp(operand, "") == 0) {
         return ADDR_MODE_IMMEDIATE;
     }
@@ -155,7 +155,7 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
     }
 }
 
-int parse_instruction(DataInstruction *instruction) {
+int parse_instruction(InstructionComponents *instruction) {
     int i;
     CodeCell *cells;
     HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell)); /* CR - Need to free memory at some point */
