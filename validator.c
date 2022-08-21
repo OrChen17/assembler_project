@@ -272,7 +272,5 @@ void validate_opcode_operator_amount(int opcode, char *operator_1, char* operato
 /* ##CR: validation for "reshuma" is missing - "reshuma" can only have 2 fields after the "." sign - 1 or 2. Currently we accept others */
 /* ##CR: when the opcode is invalid we print an opcode error, but also a dest and address error. Doesn't make sense. */
 /* ##CR: consider a better error message when guidance is e.g. .string, - comma should be removed error instead of invalid opcode */
-/* ##CR: macros validation */
 /* ##CR: in guidance (maybe also in instruction) - a comma at the end of the row should fail also with no spaces. Currently it passes */
 /* ##CR: extern inputs missing validation - check that the label does NOT appear in the symbols table */
-/* ##CR: make sure that Labels are <= 30 chars long */

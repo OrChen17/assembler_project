@@ -1,5 +1,6 @@
 /* parses each line from its bare text to a "InstructionComponents" / GuidingComponents struct, 
-which has the parsed sections of the line - label, operands, opcode etc. passes the instruction to the instruction parser */
+which has the parsed sections of the line - label, operands, opcode etc. 
+It then passes the parsed instruction/guidanc to the instruction/guidance parser, accordingly*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,7 @@ which has the parsed sections of the line - label, operands, opcode etc. passes 
 #include <guidance_parser.h>
 
 InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
+    /*Creates an InstructionComponent from an instruction line*/
     int i;
     char* operand_1;
     char* operand_2;
@@ -20,10 +22,11 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
     strcpy(instruction->label, "");
     token = strtok(instruction_to_parse, " \t\n");
     if (token == NULL) {
-        strcpy(instruction->opcode, trim_whitespace(instruction_to_parse)); /* ##CR: if token is NULL already here, what's the point of this command?*/
+        strcpy(instruction->opcode, trim_whitespace(instruction_to_parse));
         return instruction;
     }
-    if (token[strlen(token) - 1] == ':') { /* ##CR: what if we have spaces between the label and the colon? */
+    /*Extracting the label, if it exists, and validating it*/
+    if (token[strlen(token) - 1] == ':') {
         char label[31];
         if (strlen(token) > 31)
         {
@@ -47,6 +50,7 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
         }
     else
     {
+            /*Extracting the instruction components - opcode and operands, and validating them */
             strcpy(instruction->opcode, trim_whitespace(token));
             token = strtok(NULL, "");
             if (token == NULL) {
@@ -66,7 +70,7 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
                     }
                     strcpy(instruction->operand_1, trim_whitespace(operand_1));
 
-                    strncpy(operand_2, token + i + 1, strlen(token) - i); /* add null terminator */
+                    strncpy(operand_2, token + i + 1, strlen(token) - i); /*adding a null terminator*/
                     if (strlen(operand_2) == 0) {
                         printf("Invalid empty operand\n");
                         has_found_error = 1;
@@ -76,7 +80,6 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
                     return instruction;
                 }
             }
-            /* ##CR: no "," */
         if (strlen(trim_whitespace(token)) != 0) {
             strcpy(instruction->operand_2, trim_whitespace(token));
         }
@@ -85,11 +88,13 @@ InstructionComponents* parse_data_instruction(char *instruction_to_parse) {
 }
 
 GuidingComponents* parse_guiding_line_to_struct(char* guidance_to_parse) {
+    /*Creates a GudingComponent from a guidance line*/
     char *token;
     GuidingComponents* guidance = malloc(250);
     strcpy(guidance->label, "");
     token = strtok(guidance_to_parse, " \t\n");
-    if (token[strlen(token) - 1] == ':') { /* ##CR: what if we have spaces between the label and the colon? */
+    /*Extracting the label, if it exists, and validating it*/
+    if (token[strlen(token) - 1] == ':') {
         char label[31];
         if (strlen(token) > 31)
         {
@@ -106,6 +111,7 @@ GuidingComponents* parse_guiding_line_to_struct(char* guidance_to_parse) {
         }
         token = strtok(NULL, " \t\n");
     }
+    /*Extracting the guidance components - guidance word and relevant inputs, and validating them */
     strcpy(guidance->guidance_word, trim_whitespace(token));
     validate_guidance_word(guidance->guidance_word);
     if (!(strcmp(guidance->guidance_word, ".entry") || !strcmp(guidance->guidance_word, ".extern"))
@@ -128,11 +134,13 @@ GuidingComponents* parse_guiding_line_to_struct(char* guidance_to_parse) {
 }
 
 int parse_instruction_line(char *instruction_to_parse) {
+    /*Parses an instruction lint into an InstructionComponent*/
     InstructionComponents *instruction = parse_data_instruction(instruction_to_parse);
     return parse_instruction(instruction);
 }
 
 int parse_guiding_line(char *guidance_to_parse) {
+    /*Parses a guiding line into a GuidanceInstruction*/
     GuidingComponents *guidance = parse_guiding_line_to_struct(guidance_to_parse);
     return parse_guidance(guidance);
 }

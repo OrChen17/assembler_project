@@ -1,5 +1,6 @@
-/*transforms the instruction object into the CodeCell, which can be translated into the byte-code of the line
-saves the code cell. */
+/*transforms the instruction object into a CodeCell, which can be translated into the byte-code of the line.
+It then adds them to the list of code cells*/
+
 #include <helper.h>
 #include <string.h>
 #include <stdio.h>
@@ -9,6 +10,7 @@ saves the code cell. */
 #include <symbol_table.h>
 
 int parse_opcode(HeaderCodeCell *cell, InstructionComponents *instruction) {
+    /*check which opcode the line has and returns the number of that opcode*/
     if (strcmp(instruction->opcode, "add") == 0) {
         return OPCODE_ADD;
     }
@@ -65,6 +67,7 @@ int parse_opcode(HeaderCodeCell *cell, InstructionComponents *instruction) {
 }
 
 short int parse_addr_mode(HeaderCodeCell *cell, InstructionComponents *instruction, char* operand) {
+    /*checks which is the address mode of a given input operand and returns its number*/
     if (strcmp(operand, "") == 0) {
         return ADDR_MODE_IMMEDIATE;
     }
@@ -93,8 +96,8 @@ short int parse_addr_mode(HeaderCodeCell *cell, InstructionComponents *instructi
 }
 
 void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int dest_addr_mode, CodeCell* cells) {
-    /*populates the address cells needed. if the cell isn't relevant, it will have 1NULL at its label needed, and later will be skipped
-    and not inserted into the instruction cells. */
+    /*populates the address cells needed. if the cell isn't relevant, it will have 1NULL at its address_needed, and later will be skipped
+    and not inserted into the instruction cells */
     char* label;
     char* num;
     if (strcmp(operand_1, "") != 0) {
@@ -156,6 +159,10 @@ void get_address_cell(char* operand_1, int src_addr_mode, char* operand_2, int d
 }
 
 int parse_instruction(InstructionComponents *instruction) {
+    /*Parses the given instrucion into a HeaderCodeCell and 0-4 CodeCells
+    The HeaderCodeCell is populated with the opcode, the addresses modes and the encoding_type
+    The other cells are populated with the relevant inputs/addressses, the encoding_type and with a
+    helper parameter - address_needed, that will be used in the 2nd round to add missing addresses */
     int i;
     CodeCell *cells;
     HeaderCodeCell *cell = malloc(sizeof(HeaderCodeCell));
@@ -181,7 +188,6 @@ int parse_instruction(InstructionComponents *instruction) {
 
     cell->source_address = parse_addr_mode(cell, instruction, instruction->operand_1);
     cell->dest_address = parse_addr_mode(cell, instruction, instruction->operand_2);
-    /*printf("Cell: opcode=%d source_address=%d dest_address=%d\n", cell->opcode, cell->source_address, cell->dest_address); */
     if (instruction->operand_2 != NULL) {
         validate_src_address_mode_for_opcode(cell->opcode, cell->source_address);
         validate_dest_address_mode_for_opcode(cell->opcode, cell->dest_address);
@@ -195,12 +201,13 @@ int parse_instruction(InstructionComponents *instruction) {
 
     cells = malloc(sizeof(CodeCell) * 4);
     for (i = 0; i < 4; i++) {
-        strcpy(cells[i].address_needed, "1NULL"); /* We populate here with 1NULL. Why do we need to do it again in get_address_cell? */
+        strcpy(cells[i].address_needed, "1NULL");
         cells[i].encoding_type = 0;
         cells[i].data = 0;
     }
     get_address_cell(instruction->operand_1, cell->source_address, instruction->operand_2, cell->dest_address, cells);
 
+    /*Now that the cells have all their contents, we can add them into the list*/
     for (i = 0; i < 4; i++) {
         if (strcmp(cells[i].address_needed, "1NULL") == 0) {
             continue;

@@ -1,5 +1,5 @@
-/*This file process each file line by line, checks which type of line it is, 
-and calls line_parser according to the type of file it is*/
+/*This file processes each file line by line, checks which type of line it is, 
+and calls line_parser accordingly*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <helper.h>
@@ -53,8 +53,7 @@ int is_guiding_line(char line[83]) {
 }
 
 int parse_line(char *line) {
-    /*checks which type of line it is. returns 0 if everything is ok, otherwise 1
-        parses the line if needed*/
+    /*checks which type of line it is and parses it with the relevant parser, when necessary*/
 
     if (is_empty_line(line)) {
         return 0;
@@ -71,7 +70,7 @@ int parse_line(char *line) {
 }
 
 int assemble_file(FILE *pre_assembled_file) { 
-    /*runs the assembler on the file*/
+    /*runs the assembler on the file, line by line*/
     char line[83];
     while (fgets(line, 83, pre_assembled_file)) {
         if (strlen(line) > 81) {

@@ -1,4 +1,6 @@
-/*parses the Guiding Instructions into DataCells, and adds them to the cells list. */
+/*transforms the Guiding object into a DataCell, which can be translated into the byte-code of the line.
+It then adds them to the list of data cells*/
+
 #include "helper.h"
 #include <string.h>
 #include <stdio.h>

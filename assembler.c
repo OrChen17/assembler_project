@@ -1,5 +1,9 @@
+/* This program imitates an assembler - it can receive any number of files that contain assembly code
+and assembles them (each separately) into machine language. It then converts the machine language into 
+a special base-32 format */
+
 /* This file is the first file in the processing chain.
- in charge of handling the input, calling the file_handler for each file and finally calling the output */
+ It is in charge of handling the input, calling the file_handler for each file and finally creating the output files */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
@@ -12,7 +16,8 @@
 
 
 int process_file(char *filename)
-/*Gets the name of the file without extension. runs the assembler on the file*/
+/*Gets the name of the file without extension, unfolds the macros and writes the new content into a new file, 
+and then runs the assembler on that new file. Eventually it creates the output files*/
 {
     char* full_filename;
     char* full_filename_after_macros;
@@ -38,8 +43,8 @@ int process_file(char *filename)
         exit(1);
     }
     
-    assemble_file(pre_assembled_file);   
-    fix_labels();   
+    assemble_file(pre_assembled_file); /*First round of the assemble process*/ 
+    fix_labels(); /*Second round of the assemble process - fixing the symbols table and adding addresses where they are missing*/
     if (has_found_error) {
         printf("\nFound error, assembler failed\n");
         exit(1);
@@ -56,7 +61,7 @@ int process_file(char *filename)
 
 
 int main(int argc, char *argv[]) {
-    /*the entrypoint, handles the arguments*/
+    /*the entrypoint, handles the command line arguments*/
     int i;
     if (argc == 1) {
         printf("No files detected, please specify file names\n");
