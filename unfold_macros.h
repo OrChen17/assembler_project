@@ -21,4 +21,4 @@ int not_in_macros_table(char* token);
 char* unfold_single_macro(char* token);
 /*When detecting a macro's name in the original input file, the code comes here in order to look for the
 macro's content and write them into the right place in the new file*/
-void free_macros_list(macro_cell_node* start);
+void free_macros_table();
