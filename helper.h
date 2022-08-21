@@ -74,7 +74,7 @@ typedef struct data_instruction {
 typedef struct guiding_instruction {
     char label[31];
     char guidance_word[8];
-    char guidance_input[200]; /* Probably should be dynamic */
+    char guidance_input[200];
 } GuidingComponents;
 
 typedef struct code_cell {
@@ -86,7 +86,6 @@ typedef struct code_cell {
 
 typedef struct guiding_cell {
     signed data:10;
-    char address_needed[31]; /* Can probably remove this field (make sure to remove also assignments to it) */
     char line_label[31];
 } DataCell;
 

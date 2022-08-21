@@ -33,13 +33,11 @@ int parse_guidance(GuidingComponents *guidance) {
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->line_label, guidance->label);
-        strcpy(data_cell->address_needed, "");
         validate_no_tracking_commas(guidance->guidance_input);
         token = strtok(guidance->guidance_input, " \t\n,");
         while (token != NULL)
         {
             validate_number_for_guidance(token);
-            strcpy(data_cell->address_needed, "");
             data_cell->data = atoi(token);
             add_data(data_cell);
             token = strtok(NULL, " \t\n,");
@@ -50,7 +48,6 @@ int parse_guidance(GuidingComponents *guidance) {
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->line_label, guidance->label);
-        strcpy(data_cell->address_needed, "");
         token = trim_whitespace(guidance->guidance_input);
         validate_guidance_string_input(token);
         for (i = 1; i < strlen(token) - 1; i++) /*token[0] and token [length-1] are the " char, therefore the loope range is as defined here */
@@ -58,10 +55,8 @@ int parse_guidance(GuidingComponents *guidance) {
             data_cell->data = token[i];
             add_data(data_cell);
             data_cell = malloc(sizeof(DataCell));
-            strcpy(data_cell->address_needed, "");
         }
         data_cell = malloc(sizeof(DataCell));
-        strcpy(data_cell->address_needed, "");
         data_cell->data = 0; /* Adding null terminator */
         add_data(data_cell);
     }
@@ -69,7 +64,6 @@ int parse_guidance(GuidingComponents *guidance) {
     {
         DataCell *data_cell = malloc(sizeof(DataCell));
         strcpy(data_cell->line_label, guidance->label);
-        strcpy(data_cell->address_needed, "");
         token = strtok(guidance->guidance_input, " \t,"); /* ##CR: we'll still have a problem in case of an only "," input */
         validate_number_for_guidance(token);
         data_cell->data = atoi(token);
@@ -87,12 +81,10 @@ int parse_guidance(GuidingComponents *guidance) {
             for (i = 1; i < strlen(token) - 1; i++) /* token[0] and token [length-1] are the " char */
             {
                 data_cell = malloc(sizeof(DataCell));
-                strcpy(data_cell->address_needed, "");
                 data_cell->data = token[i];
                 add_data(data_cell);
             }
             data_cell = malloc(sizeof(DataCell));
-            strcpy(data_cell->address_needed, "");
             data_cell->data = 0;
             add_data(data_cell);
         }
