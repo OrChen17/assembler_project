@@ -1,3 +1,7 @@
+/* In the second round of the assemble process the addresses in the symbols table are fixed (data lines are moved to the bottom).
+Then the machine code cells with missing addresses (the ones that had a label as one of their operands) are populated with the proper values
+It also verifies that entry and extern inputs were all valid labels (can only be done now, when the symbols table is full)*/
+
 #include <stdio.h>
 #include <string.h>
 #include "label_fixer.h"
@@ -11,6 +15,7 @@ void fix_labels() {
 }
 
 int check_all_entries_are_labels() {
+    /*Verify that all of the EntryExtern cells contents are indeed labels*/
     entry_extern_cell_node* cur = get_ent_ext_section();
     while (cur != NULL)
     {
@@ -26,6 +31,7 @@ int check_all_entries_are_labels() {
 }
 void fix_symbols_table()
 {
+    /*Moving data rows to the bottom*/
     symbol_node* symbols;
     symbols = get_symbol_list();
     while (symbols != NULL)
@@ -41,6 +47,7 @@ void fix_symbols_table()
 
 void add_missing_addresses_code()
 {
+    /*Adding addresses to code cells where missing*/
     code_cell_node* instructions;
     instructions = get_code_section();
     while (instructions != NULL)
@@ -57,7 +64,7 @@ void add_missing_addresses_code()
             else if (get_label_type(instructions->cell->address_needed) == LABEL_TYPE_EXTERN)
             {
                 instructions->cell->encoding_type = ENCODING_TYPE_E;
-                instructions->cell->data = 0; /* ##CR: make sure that for externs the address should be 0 */
+                instructions->cell->data = 0;
             }
             else
             {

@@ -12,6 +12,7 @@ int has_found_error = 0;
 
 CodeCell *header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell)
 {
+    /*Converts a header code cell (opcode + operands) into a regular code cell*/
     int data;
     CodeCell *code_cell = malloc(sizeof(CodeCell));
     code_cell->encoding_type = ENCODING_TYPE_A;
@@ -26,6 +27,7 @@ CodeCell *header_code_cell_to_code_cell(HeaderCodeCell *header_code_cell)
     return code_cell;
 }
 
+/*Defining the special base-32 format*/
 char b32[] = {
     '!',
     '@',
@@ -62,6 +64,7 @@ char b32[] = {
 };
 
 char *code_cell_to_b32(CodeCell *code_cell)
+/*Converting machine code cells into the base-32 format*/
 {
     char *base32 = malloc(sizeof(char) * 2);
     TenBit *data = malloc(sizeof(TenBit));
@@ -75,6 +78,7 @@ char *code_cell_to_b32(CodeCell *code_cell)
 
 
 char* int_to_base_32(int data) {
+    /*Converting numbers into the base-32 format*/
     TenBit *data_tenbit = malloc(sizeof(TenBit));
     char *base32 = malloc(sizeof(char) * 2);
     data_tenbit->x = data;

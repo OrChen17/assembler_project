@@ -1,7 +1,13 @@
+/* Defines values and data structures to be used throughout the whole code */
+
 #ifndef HELPER
 #define HELPER
 
+/* A flag that is turned on if the run finds at least one error.
+Errors don't stop the run, but need to be declared, and output files should not be generated if there are erros.
+This flag, when ON, tells the program in the end of the run that an error should be declared and output files should be avoided*/
 int has_found_error;
+
 #define CELL_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c"
 #define CELL_TO_BINARY(opcode, s_addr, d_addr, enc_type)  \
   (opcode & 0x08 ? '1' : '0'), \
@@ -45,6 +51,7 @@ int has_found_error;
 #define LABEL_TYPE_ENTRY 0
 #define LABEL_TYPE_EXTERN 1
 
+/*Helper data structures (mostly lists components*/
 typedef struct macro {
     char name[20];
     char content[500];
@@ -93,7 +100,8 @@ typedef struct entry_extern_cell{
     char label[31];
     int label_type;
 } EntryExternCell;
-  
+
+/*Helper functions*/  
 char* machine_code_cell_to_string(struct machine_code_cell *cell);
 /*Translates Machine Code Cell to a string, for printing*/
 char *trim_whitespace(char *str);
